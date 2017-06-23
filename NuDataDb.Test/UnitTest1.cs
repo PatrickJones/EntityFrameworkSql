@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace NuDataDb.Test
 {
-    [TestClass]
+    //[TestClass]
     public class UnitTest1 : BaseUnitTest<AppSettings>
     {
         //List<AppSettings> FakeAppSettings = new List<AppSettings>();
@@ -39,7 +39,7 @@ namespace NuDataDb.Test
         //    ctx = nCtx;
         //}
 
-        [TestMethod]
+        //[TestMethod]
         public void TestMethod1()
         {
             string expected = FakeCollection.First().Name;

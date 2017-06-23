@@ -13,21 +13,28 @@ namespace NuDataDb.Test
     {
         protected NuMedicsGlobalContext testCtx;
         protected List<T> FakeCollection = new List<T>();
+        protected string DbName { get; set; }
 
         public BaseUnitTest()
         {
+            // Use the name of the type as the name of the EF in-memory database
+            DbName = typeof(T).Name;
             InitContext();
-            
+        }
+
+        public BaseUnitTest(string dbName)
+        {
+            DbName = dbName;
+            InitContext();
         }
 
         protected abstract void SetContextData();
 
         private void InitContext()
         {
-            // Use the name of the type as the name of the EF in-memory database
-            var dbName = typeof(T).Name;
+            
             // Set configuration to use in-memory database
-            var builder = new DbContextOptionsBuilder<NuMedicsGlobalContext>().UseInMemoryDatabase(dbName);
+            var builder = new DbContextOptionsBuilder<NuMedicsGlobalContext>().UseInMemoryDatabase(DbName);
             
             testCtx = new NuMedicsGlobalContext(builder.Options);
             SetContextData();
