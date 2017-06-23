@@ -36,14 +36,6 @@ namespace NuDataDb.Test
         }
 
         [TestMethod]
-        public void GetAllApplications()
-        {
-            var set = repo.Get();
-
-            Assert.AreEqual(FakeCollection.Count, set.Count());
-        }
-
-        [TestMethod]
         public void GetSingleApplication()
         {
             var fakeApp = FakeCollection.First();
@@ -53,45 +45,14 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.ApplicationName, single.ApplicationName);
         }
 
-        [TestMethod]
-        public void InsertApplication()
+        public void GetSingleApplicationIdNotExist()
         {
+            var fakeId = 333;
+            var single = repo.GetSingle(fakeId);
 
-            var currentCnt = testCtx.Applications.Count();
-
-            var newFaker = new Faker<Applications>()
-                .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())
-                .RuleFor(r => r.Description, f => f.Lorem.Sentence(5))
-                .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid())
-                .RuleFor(r => r.ApplicationName, f => f.Lorem.Word())
-                .RuleFor(r => r.BannerEnable, f => f.Random.Bool())
-                .RuleFor(r => r.SupportEmail, f => f.Internet.ExampleEmail());
-
-            var fk = newFaker.Generate();
-
-            repo.Insert(fk);
-            repo.Save();
-
-            Assert.IsTrue(testCtx.Applications.Count() == ++currentCnt);
-
-            var entity = testCtx.Applications.First(f => f.ApplicationId == fk.ApplicationId);
-            Assert.AreEqual(fk.ApplicationId, entity.ApplicationId);
-            Assert.AreEqual(fk.ApplicationName, entity.ApplicationName);
+            Assert.IsNull(single);
         }
 
-        [TestMethod]
-        public void UpdateApplication()
-        {
-            var fk = FakeCollection.First();
-            fk.ApplicationName = "Mighty Lion";
-
-            repo.Update(fk);
-            repo.Save();
-
-            var entity = testCtx.Applications.First(f => f.ApplicationName == "Mighty Lion");
-            Assert.AreEqual(fk.ApplicationId, entity.ApplicationId);
-            Assert.AreEqual(fk.ApplicationName, entity.ApplicationName);
-        }
 
         [TestMethod]
         public void DeleteApplication()
@@ -104,5 +65,17 @@ namespace NuDataDb.Test
 
             Assert.IsTrue(testCtx.Applications.Count() == --currentCnt);
         }
+
+        public void DeleteApplicationIdNotExist()
+        {
+            var currentCnt = testCtx.AppSettings.Count();
+
+            var fakeId = Guid.NewGuid();
+            repo.Delete(fakeId);
+            repo.Save();
+
+            Assert.IsTrue(testCtx.AppSettings.Count() == currentCnt);
+        }
+
     }
 }
