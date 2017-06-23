@@ -11,9 +11,9 @@ using System.Collections.Generic;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class UnitTest1 : BaseUnitTest
+    public class UnitTest1 : BaseUnitTest<AppSettings>
     {
-        List<AppSettings> FakeAppSettings = new List<AppSettings>();
+        //List<AppSettings> FakeAppSettings = new List<AppSettings>();
         //NuMedicsGlobalContext ctx;
 
         //public UnitTest1()
@@ -42,7 +42,7 @@ namespace NuDataDb.Test
         [TestMethod]
         public void TestMethod1()
         {
-            string expected = FakeAppSettings.First().Name;
+            string expected = FakeCollection.First().Name;
             var repo = new AppSettingsRepo(testCtx);
             var app = repo.Get().First();
 
@@ -52,14 +52,14 @@ namespace NuDataDb.Test
         protected override void SetContextData()
         {
             var b = new Faker<AppSettings>()
-                .RuleFor(r => r.ApplicationId, Guid.NewGuid())
+                .RuleFor(r => r.AppSettingId, f => f.UniqueIndex)
                 .RuleFor(r => r.Description, f => f.Lorem.Sentence(5))
-                .RuleFor(r => r.LastUpdatedByUser, Guid.NewGuid())
+                .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid())
                 .RuleFor(r => r.Name, f => f.Lorem.Word())
                 .RuleFor(r => r.Value, f => f.Lorem.Word());
 
             var bs = b.Generate(3).OrderBy(o => o.Name).ThenBy(o => o.Value).ToList();
-            FakeAppSettings.AddRange(bs);
+            FakeCollection.AddRange(bs);
 
             //var apps = Enumerable.Range(1, 3).Select(s => new AppSettings
             //{

@@ -9,9 +9,10 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public abstract class BaseUnitTest
+    public abstract class BaseUnitTest<T> where T : class
     {
         protected NuMedicsGlobalContext testCtx;
+        protected List<T> FakeCollection = new List<T>();
 
         public BaseUnitTest()
         {
@@ -23,7 +24,11 @@ namespace NuDataDb.Test
 
         private void InitContext()
         {
-            var builder = new DbContextOptionsBuilder<NuMedicsGlobalContext>().UseInMemoryDatabase();
+            // Use the name of the type as the name of the EF in-memory database
+            var dbName = typeof(T).Name;
+            // Set configuration to use in-memory database
+            var builder = new DbContextOptionsBuilder<NuMedicsGlobalContext>().UseInMemoryDatabase(dbName);
+            
             testCtx = new NuMedicsGlobalContext(builder.Options);
             SetContextData();
         }
