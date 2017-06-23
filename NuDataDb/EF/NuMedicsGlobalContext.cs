@@ -82,6 +82,7 @@ namespace NuDataDb.EF
         private bool UseDefaultBuilder { get; set; } = true;
 
         public NuMedicsGlobalContext(DbContextOptions<NuMedicsGlobalContext> options) : base(options) { UseDefaultBuilder = false; }
+        public NuMedicsGlobalContext() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
