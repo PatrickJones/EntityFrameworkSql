@@ -12,8 +12,8 @@ namespace NuDataDb.Test
     [TestClass]
     public class UserPhotosnRepoTest : BaseUnitTest<UserPhotos>
     {
-        Int64 itrtr64 = 0;
-        int itrtr32 = 0;
+        //Int64 itrtr64 = 0;
+        //int itrtr32 = 0;
 
         protected UserPhotosRepo repo;
 

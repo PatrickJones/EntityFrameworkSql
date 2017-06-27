@@ -12,7 +12,7 @@ namespace NuDataDb.Test
     [TestClass]
     public class DeviceDatanRepoTest : BaseUnitTest<DeviceData>
     {
-        Int64 itrtr64 = 0;
+        //Int64 itrtr64 = 0;
         int itrtr32 = 0;
 
         protected DeviceDataRepo repo;

@@ -12,7 +12,7 @@ namespace NuDataDb.Test
     [TestClass]
     public class NutritionReadingsnRepoTest : BaseUnitTest<NutritionReadings>
     {
-        Int64 itrtr64 = 0;
+        //Int64 itrtr64 = 0;
         int itrtr32 = 0;
 
         protected NutritionReadingsRepo repo;

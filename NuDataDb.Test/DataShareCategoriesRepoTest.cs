@@ -12,7 +12,7 @@ namespace NuDataDb.Test
     [TestClass]
     public class DataShareCategoriesnRepoTest : BaseUnitTest<DataShareCategories>
     {
-        Int64 itrtr64 = 0;
+        //Int64 itrtr64 = 0;
         int itrtr32 = 0;
 
         protected DataShareCategoriesRepo repo;

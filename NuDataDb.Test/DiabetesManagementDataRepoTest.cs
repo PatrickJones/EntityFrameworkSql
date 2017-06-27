@@ -12,7 +12,7 @@ namespace NuDataDb.Test
     [TestClass]
     public class DiabetesManagementDataRepoTest : BaseUnitTest<DiabetesManagementData>
     {
-        Int64 itrtr64 = 0;
+        //Int64 itrtr64 = 0;
         int itrtr32 = 0;
 
         protected DiabetesManagementDataRepo repo;

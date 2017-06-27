@@ -12,8 +12,8 @@ namespace NuDataDb.Test
     [TestClass]
     public class CliniciansnRepoTest : BaseUnitTest<Clinicians>
     {
-        Int64 itrtr64 = 0;
-        int itrtr32 = 0;
+        //Int64 itrtr64 = 0;
+        //int itrtr32 = 0;
 
         protected CliniciansRepo repo;
 

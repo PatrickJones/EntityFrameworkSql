@@ -13,7 +13,7 @@ namespace NuDataDb.Test
     public class BloodGlucoseReadingsnRepoTest : BaseUnitTest<BloodGlucoseReadings>
     {
         Int64 itrtr64 = 0;
-        int itrtr32 = 0;
+        //int itrtr32 = 0;
 
         protected BloodGlucoseReadingsRepo repo;
 
