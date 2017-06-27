@@ -27,7 +27,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.AgreementDate, f => new DateTime(f.Random.Long()))
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid());
 
-            var bs = b.Generate(3).OrderBy(o => o.AgreementId).(o  o).ToList();
+            var bs = b.Generate(3).OrderBy(o => o.AgreementId).ToList();
             FakeCollection.AddRange(bs);
 
 

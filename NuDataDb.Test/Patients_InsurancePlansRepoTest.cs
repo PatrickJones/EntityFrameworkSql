@@ -25,7 +25,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.PlanId, f => f.Random.Int());
 
-            var bs = b.Generate(3).OrderBy(o => o.UserId).ThenBy(o => o.SupportEmail).ToList();
+            var bs = b.Generate(3).OrderBy(o => o.UserId).ToList();
             FakeCollection.AddRange(bs);
 
 
