@@ -16,7 +16,6 @@ namespace NuDataDb.Test
 
         public BaseRepoGuidTest() : base("GuidTest")
         {
-
         }
 
         protected override void SetContextData()

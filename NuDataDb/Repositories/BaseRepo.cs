@@ -22,6 +22,11 @@ namespace NuDataDb.Repositories
             throw new NotImplementedException();
         }
 
+        public virtual void Delete(Int64 id)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual void Delete(Guid id)
         {
             throw new NotImplementedException();
@@ -39,6 +44,11 @@ namespace NuDataDb.Repositories
         }
 
         public virtual T GetSingle(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual T GetSingle(Int64 id)
         {
             throw new NotImplementedException();
         }
