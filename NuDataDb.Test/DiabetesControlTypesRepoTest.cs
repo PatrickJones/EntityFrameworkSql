@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class DiabetesControlTypesnRepoTest : BaseUnitTest<DiabetesControlTypes>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected DiabetesControlTypesRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new DiabetesControlTypesRepo(testCtx);
 
             var b = new Faker<DiabetesControlTypes>()
-                .RuleFor(r => r.TypeId, f => itrtr32++)
                 .RuleFor(r => r.ControlName, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.IsEnabled, f => f.Random.Bool())
                 .RuleFor(r => r.DmdataId, f => f.Random.Int())
@@ -31,7 +27,6 @@ namespace NuDataDb.Test
 
             var bs = b.Generate(3).OrderBy(o => o.TypeId).ToList();
             FakeCollection.AddRange(bs);
-
 
             testCtx.DiabetesControlTypes.AddRange(bs);
             int added = testCtx.SaveChanges();
@@ -77,7 +72,7 @@ namespace NuDataDb.Test
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 6895;
             repo.Delete(fakeId);
             repo.Save();
 

@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class DeviceSettingsnRepoTest : BaseUnitTest<DeviceSettings>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected DeviceSettingsRepo repo;
 
         protected override void SetContextData()
@@ -22,12 +19,12 @@ namespace NuDataDb.Test
             repo = new DeviceSettingsRepo(testCtx);
 
             var b = new Faker<DeviceSettings>()
-                .RuleFor(r => r.SettingId, f => itrtr32++)
                 .RuleFor(r => r.Name, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.Value, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
-                .RuleFor(r => r.DateSet, f => new DateTime(f.Random.Long()));
+                .RuleFor(r => r.DateSet, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.SettingId).ToList();
             FakeCollection.AddRange(bs);
@@ -35,7 +32,6 @@ namespace NuDataDb.Test
 
             testCtx.DeviceSettings.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -52,6 +48,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.DateSet, single.DateSet);
         }
 
+        [TestMethod]
         public void GetSingleSettingIdNotExist()
         {
             var fakeId = 333;
@@ -73,11 +70,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.DeviceSettings.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteSettingIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 475;
             repo.Delete(fakeId);
             repo.Save();
 

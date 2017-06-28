@@ -13,7 +13,7 @@ namespace NuDataDb.Test
     public class BasalProgramTimeSlotsnRepoTest : BaseUnitTest<BasalProgramTimeSlots>
     {
         //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
+        //int itrtr32 = 0;
 
         protected BasalProgramTimeSlotsRepo repo;
 
@@ -22,7 +22,7 @@ namespace NuDataDb.Test
             repo = new BasalProgramTimeSlotsRepo(testCtx);
 
             var b = new Faker<BasalProgramTimeSlots>()
-                .RuleFor(r => r.BasalSlotId, f => itrtr32++)
+                //.RuleFor(r => r.BasalSlotId, f => itrtr32++)
                 .RuleFor(r => r.BasalValue, f => f.Random.Float())
                 .RuleFor(r => r.StartTime, f => DateTime.Now - new DateTime(2017, 3, 5))
                 .RuleFor(r => r.StopTime, f => DateTime.Now - new DateTime(2017, 5, 3))
@@ -32,10 +32,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.BasalSlotId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.BasalProgramTimeSlots.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -48,6 +46,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.BasalValue, single.BasalValue);
         }
 
+        [TestMethod]
         public void GetSingleBasalSlotIdNotExist()
         {
             var fakeId = 333;
@@ -55,7 +54,6 @@ namespace NuDataDb.Test
 
             Assert.IsNull(single);
         }
-
 
         [TestMethod]
         public void DeleteBasalProgramTimeSlots()
@@ -69,11 +67,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.BasalProgramTimeSlots.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteBasalSlotIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 246;
             repo.Delete(fakeId);
             repo.Save();
 

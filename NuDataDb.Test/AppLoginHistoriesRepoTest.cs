@@ -12,7 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class AppLoginHistoriesnRepoTest : BaseUnitTest<AppLoginHistories>
     {
-        //Int64 itrtr64 = 0;
         int itrtr32 = 0;
 
         protected AppLogHistoriesRepo repo;
@@ -32,7 +31,6 @@ namespace NuDataDb.Test
 
             testCtx.AppLoginHistories.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -45,6 +43,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.LoginDate, single.LoginDate);
         }
 
+        [TestMethod]
         public void GetSingleHistoryIdNotExist()
         {
             var fakeId = 333;
@@ -65,6 +64,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.AppLoginHistories.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteHistoryIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

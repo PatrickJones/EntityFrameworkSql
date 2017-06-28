@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class InsulinMethodsnRepoTest : BaseUnitTest<InsulinMethods>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected InsulinMethodsRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new InsulinMethodsRepo(testCtx);
 
             var b = new Faker<InsulinMethods>()
-                .RuleFor(r => r.InsulinMethodId, f => itrtr32++)
                 .RuleFor(r => r.Method, f => f.Lorem.Letter(150));
 
             var bs = b.Generate(3).OrderBy(o => o.InsulinMethodId).ToList();
@@ -44,6 +40,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Method, single.Method);
         }
 
+        [TestMethod]
         public void GetSingleInsulinMethodIdNotExist()
         {
             var fakeId = 333;
@@ -65,11 +62,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.InsulinMethods.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteInsulinMethodIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 628;
             repo.Delete(fakeId);
             repo.Save();
 

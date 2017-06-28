@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class CGMRemindersnRepoTest : BaseUnitTest<Cgmreminders>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected CGMRemindersRepo repo;
 
         protected override void SetContextData()
@@ -22,12 +19,12 @@ namespace NuDataDb.Test
             repo = new CGMRemindersRepo(testCtx);
 
             var b = new Faker<Cgmreminders>()
-                .RuleFor(r => r.ReminderId, f => itrtr32++)
                 .RuleFor(r => r.Type, f => f.Lorem.Word())
                 .RuleFor(r => r.Enabled, f => f.Random.Bool())
                 .RuleFor(r => r.Time, f => f.Lorem.Word())
                 .RuleFor(r => r.PumpKeyId, f => f.Random.Uuid())
-                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long()));
+                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.ReminderId).ToList();
             FakeCollection.AddRange(bs);
@@ -47,6 +44,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Type, single.Type);
         }
 
+        [TestMethod]
         public void GetSingleReminderIdNotExist()
         {
             var fakeId = 333;
@@ -68,11 +66,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Cgmreminders.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteReminderIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 348258;
             repo.Delete(fakeId);
             repo.Save();
 

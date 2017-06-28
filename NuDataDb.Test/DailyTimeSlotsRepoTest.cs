@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class DailyTimeSlotsnRepoTest : BaseUnitTest<DailyTimeSlots>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected DailyTimeSlotsRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new DailyTimeSlotsRepo(testCtx);
 
             var b = new Faker<DailyTimeSlots>()
-                .RuleFor(r => r.TimeSlotId, f => itrtr32++)
                 .RuleFor(r => r.TimeSlotBoundary, f => new TimeSpan(f.Random.Long()))
                 .RuleFor(r => r.CareSettingsId, f => f.Random.Int())
                 .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid());
@@ -46,6 +42,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.TimeSlotBoundary, single.TimeSlotBoundary);
         }
 
+        [TestMethod]
         public void GetSingleTimeSlotIdNotExist()
         {
             var fakeId = 333;
@@ -67,11 +64,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.DailyTimeSlots.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteTimeSlotIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 3754;
             repo.Delete(fakeId);
             repo.Save();
 

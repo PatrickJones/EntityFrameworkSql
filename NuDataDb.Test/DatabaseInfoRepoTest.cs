@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class DatabaseInfonRepoTest : BaseUnitTest<DatabaseInfo>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected DatabaseInfoRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new DatabaseInfoRepo(testCtx);
 
             var b = new Faker<DatabaseInfo>()
-                .RuleFor(r => r.Id, f => itrtr32++)
                 .RuleFor(r => r.SiteId, f => f.Random.Int());
 
             var bs = b.Generate(3).OrderBy(o => o.Id).ToList();
@@ -67,7 +63,7 @@ namespace NuDataDb.Test
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 34612;
             repo.Delete(fakeId);
             repo.Save();
 

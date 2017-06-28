@@ -25,7 +25,7 @@ namespace NuDataDb.Test
             repo = new AppSettingsRepo(testCtx);
 
             var b = new Faker<AppSettings>()
-                .RuleFor(r => r.AppSettingId, f => f.UniqueIndex)
+                //.RuleFor(r => r.AppSettingId, f => f.UniqueIndex)
                 .RuleFor(r => r.Description, f => f.Lorem.Sentence(5))
                 .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid())
                 .RuleFor(r => r.Name, f => f.Lorem.Word())
@@ -34,10 +34,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.Name).ThenBy(o => o.Value).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.AppSettings.AddRange(bs);
             int added = testCtx.SaveChanges();
-
         }
 
 

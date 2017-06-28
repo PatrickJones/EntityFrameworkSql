@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class UserAuthenticationsnRepoTest : BaseUnitTest<UserAuthentications>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected UserAuthenticationsRepo repo;
 
         protected override void SetContextData()
@@ -22,14 +19,15 @@ namespace NuDataDb.Test
             repo = new UserAuthenticationsRepo(testCtx);
 
             var b = new Faker<UserAuthentications>()
-                .RuleFor(r => r.AuthenticationId, f => itrtr32++)
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.Username, f => f.Lorem.Letter(250))
                 .RuleFor(r => r.Password, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.PasswordFailureCount, f => f.Random.Int())
-                .RuleFor(r => r.LastActivityDate, f => new DateTime(f.Random.Long()))
-                .RuleFor(r => r.LastLockOutDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.LastActivityDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
+                .RuleFor(r => r.LastLockOutDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.IsApproved, f => f.Random.Bool())
                 .RuleFor(r => r.IsLockedOut, f => f.Random.Bool())
                 .RuleFor(r => r.IsTempPassword, f => f.Random.Bool())
@@ -66,6 +64,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.LastUpdatedByUser, single.LastUpdatedByUser);
         }
 
+        [TestMethod]
         public void GetSingleAuthenticationIdNotExist()
         {
             var fakeId = 333;
@@ -87,11 +86,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.UserAuthentications.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteAuthenticationIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 4329;
             repo.Delete(fakeId);
             repo.Save();
 

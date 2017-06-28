@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class ChecksnRepoTest : BaseUnitTest<Checks>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected ChecksRepo repo;
 
         protected override void SetContextData()
@@ -22,11 +19,11 @@ namespace NuDataDb.Test
             repo = new ChecksRepo(testCtx);
 
             var b = new Faker<Checks>()
-                .RuleFor(r => r.CheckId, f => itrtr32++)
                 .RuleFor(r => r.CheckStatus, f => f.Random.Int())
                 .RuleFor(r => r.CheckNumber, f => f.Lorem.Word())
                 .RuleFor(r => r.CheckCode, f => f.Random.Long())
-                .RuleFor(r => r.CheckDateRecieved, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.CheckDateRecieved, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.CheckAmount, f => f.Random.Decimal());
 
             var bs = b.Generate(3).OrderBy(o => o.CheckId).ToList();
@@ -48,6 +45,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CheckNumber, single.CheckNumber);
         }
 
+        [TestMethod]
         public void GetSingleCheckIdNotExist()
         {
             var fakeId = 333;
@@ -69,11 +67,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Checks.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteCheckIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 6925;
             repo.Delete(fakeId);
             repo.Save();
 

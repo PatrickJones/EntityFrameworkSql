@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PaymentMethodnRepoTest : BaseUnitTest<PaymentMethod>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected PaymentMethodRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new PaymentMethodRepo(testCtx);
 
             var b = new Faker<PaymentMethod>()
-                .RuleFor(r => r.MethodId, f => itrtr32++)
                 .RuleFor(r => r.MethodName, f => f.Lorem.Letter(50));
 
             var bs = b.Generate(3).OrderBy(o => o.MethodId).ToList();
@@ -44,6 +40,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.MethodName, single.MethodName);
         }
 
+        [TestMethod]
         public void GetSingleMethodIdNotExist()
         {
             var fakeId = 333;
@@ -65,11 +62,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.PaymentMethod.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteMethodIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 258;
             repo.Delete(fakeId);
             repo.Save();
 

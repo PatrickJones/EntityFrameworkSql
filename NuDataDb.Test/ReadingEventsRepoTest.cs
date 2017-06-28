@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class ReadingEventsnRepoTest : BaseUnitTest<ReadingEvents>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected ReadingEventsRepo repo;
 
         protected override void SetContextData()
@@ -22,13 +19,16 @@ namespace NuDataDb.Test
             repo = new ReadingEventsRepo(testCtx);
 
             var b = new Faker<ReadingEvents>()
-                .RuleFor(r => r.Eventid, f => itrtr32++)
                 .RuleFor(r => r.EventType, f => f.Random.Int())
                 .RuleFor(r => r.EventValue, f => f.Lorem.Letter(150))
-                .RuleFor(r => r.EventTime, f => new DateTime(f.Random.Long()))
-                .RuleFor(r => r.StartTime, f => new DateTime(f.Random.Long()))
-                .RuleFor(r => r.ResumeTime, f => new DateTime(f.Random.Long()))
-                .RuleFor(r => r.StopTime, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.EventTime, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
+                .RuleFor(r => r.StartTime, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
+                .RuleFor(r => r.ResumeTime, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
+                .RuleFor(r => r.StopTime, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid());
 
@@ -58,6 +58,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.UserId, single.UserId);
         }
 
+        [TestMethod]
         public void GetSingleEventidNotExist()
         {
             var fakeId = 333;
@@ -79,11 +80,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.ReadingEvents.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteEventidNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 647;
             repo.Delete(fakeId);
             repo.Save();
 

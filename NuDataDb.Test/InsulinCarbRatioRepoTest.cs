@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class InsulinCarbRationRepoTest : BaseUnitTest<InsulinCarbRatio>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected InsulinCarbRatioRepo repo;
 
         protected override void SetContextData()
@@ -22,9 +19,9 @@ namespace NuDataDb.Test
             repo = new InsulinCarbRatioRepo(testCtx);
 
             var b = new Faker<InsulinCarbRatio>()
-                .RuleFor(r => r.RatioId, f => itrtr32++)
                 .RuleFor(r => r.Icratio, f => f.Random.Int())
-                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long()));
+                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.RatioId).ToList();
             FakeCollection.AddRange(bs);
@@ -46,6 +43,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Date, single.Date);
         }
 
+        [TestMethod]
         public void GetSingleRatioIdNotExist()
         {
             var fakeId = 333;
@@ -66,11 +64,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.InsulinCarbRatio.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteRatioIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 654;
             repo.Delete(fakeId);
             repo.Save();
 

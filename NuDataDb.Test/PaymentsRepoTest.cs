@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PaymentsnRepoTest : BaseUnitTest<Payments>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected PaymentsRepo repo;
 
         protected override void SetContextData()
@@ -22,18 +19,16 @@ namespace NuDataDb.Test
             repo = new PaymentsRepo(testCtx);
 
             var b = new Faker<Payments>()
-                .RuleFor(r => r.PaymentId, f => itrtr32++)
                 .RuleFor(r => r.PaymentMethod, f => f.Random.Int())
                 .RuleFor(r => r.PaymentApproved, f => f.Random.Bool())
-                .RuleFor(r => r.ApprovalDate, f => new DateTime(f.Random.Long()));
+                .RuleFor(r => r.ApprovalDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.PaymentId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.Payments.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -48,6 +43,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.ApprovalDate, single.ApprovalDate);
         }
 
+        [TestMethod]
         public void GetSinglePaymentIdNotExist()
         {
             var fakeId = 333;
@@ -69,11 +65,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Payments.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeletePaymentIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 579;
             repo.Delete(fakeId);
             repo.Save();
 

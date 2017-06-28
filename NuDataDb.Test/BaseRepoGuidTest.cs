@@ -57,9 +57,10 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.ApplicationName, single.ApplicationName);
         }
 
+        [TestMethod]
         public void GetSingleTypeIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
@@ -68,7 +69,6 @@ namespace NuDataDb.Test
         [TestMethod]
         public void InsertType()
         {
-
             var currentCnt = testCtx.Applications.Count();
 
             var newFaker = new Faker<Applications>()
@@ -117,6 +117,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Applications.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteIntTypeIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

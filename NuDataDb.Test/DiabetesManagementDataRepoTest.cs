@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class DiabetesManagementDataRepoTest : BaseUnitTest<DiabetesManagementData>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected DiabetesManagementDataRepo repo;
 
         protected override void SetContextData()
@@ -22,12 +19,12 @@ namespace NuDataDb.Test
             repo = new DiabetesManagementDataRepo(testCtx);
 
             var b = new Faker<DiabetesManagementData>()
-                .RuleFor(r => r.DmdataId, f => itrtr32++)
                 .RuleFor(r => r.LowBglevel, f => f.Random.Int())
                 .RuleFor(r => r.HighBglevel, f => f.Random.Int())
                 .RuleFor(r => r.PremealTarget, f => f.Random.Int())
                 .RuleFor(r => r.PostmealTarget, f => f.Random.Int())
-                .RuleFor(r => r.ModifiedDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.ModifiedDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.ModifiedUserId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid());
 
@@ -55,6 +52,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.UserId, single.UserId);
         }
 
+        [TestMethod]
         public void GetSingleDMDataIdNotExist()
         {
             var fakeId = 333;
@@ -76,11 +74,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.DiabetesManagementData.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteDMDataIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 3275;
             repo.Delete(fakeId);
             repo.Save();
 

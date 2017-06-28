@@ -17,7 +17,22 @@ namespace NuDataDb.Repositories
             return ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
         }
 
+        public override BloodGlucoseReadings GetSingle(int id)
+        {
+            return ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
+        }
+
         public override void Delete(Int64 id)
+        {
+            var del = ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
+            if (del != null)
+            {
+                ctx.Remove(del);
+                Save();
+            }
+        }
+
+        public override void Delete(int id)
         {
             var del = ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
             if (del != null)

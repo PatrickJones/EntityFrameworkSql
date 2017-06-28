@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class NutritionReadingsnRepoTest : BaseUnitTest<NutritionReadings>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected NutritionReadingsRepo repo;
 
         protected override void SetContextData()
@@ -22,12 +19,12 @@ namespace NuDataDb.Test
             repo = new NutritionReadingsRepo(testCtx);
 
             var b = new Faker<NutritionReadings>()
-                .RuleFor(r => r.ReadingId, f => itrtr32++)
                 .RuleFor(r => r.Carbohydrates, f => f.Random.Float())
                 .RuleFor(r => r.Calories, f => f.Random.Float())
                 .RuleFor(r => r.Protien, f => f.Random.Float())
                 .RuleFor(r => r.Fat, f => f.Random.Float())
-                .RuleFor(r => r.ReadingDateTime, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.ReadingDateTime, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid());
 
@@ -56,6 +53,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.UserId, single.UserId);
         }
 
+        [TestMethod]
         public void GetSingleReadingIdNotExist()
         {
             var fakeId = 333;
@@ -77,11 +75,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.NutritionReadings.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteReadingIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 469;
             repo.Delete(fakeId);
             repo.Save();
 

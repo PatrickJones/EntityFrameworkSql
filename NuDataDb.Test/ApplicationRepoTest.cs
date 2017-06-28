@@ -29,10 +29,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.ApplicationName).ThenBy(o => o.SupportEmail).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.Applications.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -45,14 +43,14 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.ApplicationName, single.ApplicationName);
         }
 
+        [TestMethod]
         public void GetSingleApplicationIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
         }
-
 
         [TestMethod]
         public void DeleteApplication()
@@ -66,6 +64,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Applications.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteApplicationIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

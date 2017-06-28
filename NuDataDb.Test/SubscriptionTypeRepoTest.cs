@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class SubscriptionTypenRepoTest : BaseUnitTest<SubscriptionType>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected SubscriptionTypeRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new SubscriptionTypeRepo(testCtx);
 
             var b = new Faker<SubscriptionType>()
-                .RuleFor(r => r.SubscriptionTypeId, f => itrtr32++)
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())
                 .RuleFor(r => r.SubscriptionLengthDays, f => f.Random.Int())
                 .RuleFor(r => r.Price, f => f.Random.Decimal());
@@ -30,10 +26,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.SubscriptionTypeId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.SubscriptionType.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -48,6 +42,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Price, single.Price);
         }
 
+        [TestMethod]
         public void GetSingleSubscriptionTypeIdNotExist()
         {
             var fakeId = 333;
@@ -69,11 +64,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.SubscriptionType.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteSubscriptionTypeIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 169;
             repo.Delete(fakeId);
             repo.Save();
 

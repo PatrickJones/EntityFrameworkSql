@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class UserPhotosnRepoTest : BaseUnitTest<UserPhotos>
     {
-        //Int64 itrtr64 = 0;
-        //int itrtr32 = 0;
-
         protected UserPhotosRepo repo;
 
         protected override void SetContextData()
@@ -28,10 +25,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.UserId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.UserPhotos.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -44,9 +39,10 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Photo, single.Photo);
         }
 
+        [TestMethod]
         public void GetSingleUserIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
@@ -65,6 +61,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.UserPhotos.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteUserIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

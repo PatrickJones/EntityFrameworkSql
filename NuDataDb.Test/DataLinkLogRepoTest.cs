@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class DataLinkLognRepoTest : BaseUnitTest<DataLinkLog>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected DataLinkLogRepo repo;
 
         protected override void SetContextData()
@@ -22,10 +19,10 @@ namespace NuDataDb.Test
             repo = new DataLinkLogRepo(testCtx);
 
             var b = new Faker<DataLinkLog>()
-                .RuleFor(r => r.LinkId, f => itrtr32++)
                 .RuleFor(r => r.InstitutionId, f => f.Random.Uuid())
                 .RuleFor(r => r.PatientId, f => f.Random.Uuid())
-                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.LinkingAction, f => f.Random.Bool());
 
             var bs = b.Generate(3).OrderBy(o => o.LinkId).ToList();
@@ -49,6 +46,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.LinkingAction, single.LinkingAction);
         }
 
+        [TestMethod]
         public void GetSingleLinkIdNotExist()
         {
             var fakeId = 333;
@@ -70,11 +68,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.DataLinkLog.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteLinkIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 6488;
             repo.Delete(fakeId);
             repo.Save();
 

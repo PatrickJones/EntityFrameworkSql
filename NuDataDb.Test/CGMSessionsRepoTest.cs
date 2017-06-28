@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class CGMSessionsnRepoTest : BaseUnitTest<Cgmsessions>
     {
-        //Int64 itrtr64 = 0;
-        //int itrtr32 = 0;
-
         protected CGMSessionsRepo repo;
 
         protected override void SetContextData()
@@ -23,10 +20,12 @@ namespace NuDataDb.Test
 
             var b = new Faker<Cgmsessions>()
                 .RuleFor(r => r.Cgmid, f => f.Random.Uuid())
-                .RuleFor(r => r.SessionDateTime, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.SessionDateTime, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.TimeInSeconds, f => f.Random.Int())
                 .RuleFor(r => r.IsActive, f => f.Random.Bool())
-                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long()));
+                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.Cgmid).ToList();
             FakeCollection.AddRange(bs);
@@ -47,9 +46,10 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.SessionDateTime, single.SessionDateTime);
         }
 
+        [TestMethod]
         public void GetSingleCGMIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
@@ -68,6 +68,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Cgmsessions.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteCGMIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

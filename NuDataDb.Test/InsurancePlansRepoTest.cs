@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class InsurancePlansnRepoTest : BaseUnitTest<InsurancePlans>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected InsurancePlansRepo repo;
 
         protected override void SetContextData()
@@ -22,11 +19,12 @@ namespace NuDataDb.Test
             repo = new InsurancePlansRepo(testCtx);
 
             var b = new Faker<InsurancePlans>()
-                .RuleFor(r => r.PlanId, f => itrtr32++)
                 .RuleFor(r => r.CoPay, f => f.Random.Decimal())
                 .RuleFor(r => r.IsActive, f => f.Random.Bool())
-                .RuleFor(r => r.InActiveDate, f => new DateTime(f.Random.Long()))
-                .RuleFor(r => r.EffectiveDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.InActiveDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
+                .RuleFor(r => r.EffectiveDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.PlanName, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid());
@@ -34,10 +32,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.PlanId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.InsurancePlans.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -56,6 +52,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.LastUpdatedByUser, single.LastUpdatedByUser);
         }
 
+        [TestMethod]
         public void GetSinglePlanIdNotExist()
         {
             var fakeId = 333;
@@ -77,11 +74,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.InsurancePlans.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeletePlanIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 584;
             repo.Delete(fakeId);
             repo.Save();
 

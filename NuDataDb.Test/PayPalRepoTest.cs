@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PayPalnRepoTest : BaseUnitTest<PayPal>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected PayPalRepo repo;
 
         protected override void SetContextData()
@@ -22,9 +19,9 @@ namespace NuDataDb.Test
             repo = new PayPalRepo(testCtx);
 
             var b = new Faker<PayPal>()
-                .RuleFor(r => r.PayPalId, f => itrtr32++)
                 .RuleFor(r => r.TxnId, f => f.Lorem.Letter(50))
-                .RuleFor(r => r.PaymentDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.PaymentDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.McGross, f => f.Random.Decimal())
                 .RuleFor(r => r.McFee, f => f.Random.Decimal())
                 .RuleFor(r => r.PayPalPostVars, f => f.Lorem.Letter(2000))
@@ -34,10 +31,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.PayPalId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.PayPal.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -56,6 +51,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.PaymentId, single.PaymentId);
         }
 
+        [TestMethod]
         public void GetSinglePayPalIdNotExist()
         {
             var fakeId = 333;
@@ -77,11 +73,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.PayPal.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeletePayPalIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 1379;
             repo.Delete(fakeId);
             repo.Save();
 

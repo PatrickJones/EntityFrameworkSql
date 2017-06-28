@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class UserTypesnRepoTest : BaseUnitTest<UserTypes>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected UserTypesRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new UserTypesRepo(testCtx);
 
             var b = new Faker<UserTypes>()
-                .RuleFor(r => r.TypeId, f => itrtr32++)
                 .RuleFor(r => r.TypeName, f => f.Lorem.Letter(50));
 
             var bs = b.Generate(3).OrderBy(o => o.TypeId).ToList();
@@ -31,7 +27,6 @@ namespace NuDataDb.Test
 
             testCtx.UserTypes.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -44,6 +39,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.TypeName, single.TypeName);
         }
 
+        [TestMethod]
         public void GetSingleTypeIdNotExist()
         {
             var fakeId = 333;
@@ -65,11 +61,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.UserTypes.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteTypeIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 6942;
             repo.Delete(fakeId);
             repo.Save();
 

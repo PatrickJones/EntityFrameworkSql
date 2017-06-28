@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class BloodGlucoseReadingsnRepoTest : BaseUnitTest<BloodGlucoseReadings>
     {
-        Int64 itrtr64 = 0;
-        //int itrtr32 = 0;
-
         protected BloodGlucoseReadingsRepo repo;
 
         protected override void SetContextData()
@@ -22,16 +19,15 @@ namespace NuDataDb.Test
             repo = new BloodGlucoseReadingsRepo(testCtx);
 
             var b = new Faker<BloodGlucoseReadings>()
-                .RuleFor(r => r.ReadingId, f => itrtr64++)
                 .RuleFor(r => r.ReadingDateTime, f => DateTime.Now)
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.Active, f => f.Random.Bool())
                 .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid());
 
             var bs = b.Generate(3).OrderBy(o => o.ReadingId).ToList();
+            testCtx.BloodGlucoseReadings.AddRange(bs);
             FakeCollection.AddRange(bs);
 
-            testCtx.BloodGlucoseReadings.AddRange(bs);
             int added = testCtx.SaveChanges();
         }
 
@@ -45,6 +41,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.ReadingDateTime, single.ReadingDateTime);
         }
 
+        [TestMethod]
         public void GetSingleReadingIdNotExist()
         {
             var fakeId = 333;
@@ -70,7 +67,7 @@ namespace NuDataDb.Test
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr64;
+            var fakeId = 319;
             repo.Delete(fakeId);
             repo.Save();
 

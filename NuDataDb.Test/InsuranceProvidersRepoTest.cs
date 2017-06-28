@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class InsuranceProvidersnRepoTest : BaseUnitTest<InsuranceProviders>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected InsuranceProvidersRepo repo;
 
         protected override void SetContextData()
@@ -22,16 +19,13 @@ namespace NuDataDb.Test
             repo = new InsuranceProvidersRepo(testCtx);
 
             var b = new Faker<InsuranceProviders>()
-                .RuleFor(r => r.CompanyId, f => itrtr32++)
                 .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid());
 
             var bs = b.Generate(3).OrderBy(o => o.CompanyId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.InsuranceProviders.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -44,6 +38,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.LastUpdatedByUser, single.LastUpdatedByUser);
         }
 
+        [TestMethod]
         public void GetSingleCompanyIdNotExist()
         {
             var fakeId = 333;
@@ -65,11 +60,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.InsuranceProviders.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteCompanyIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 749;
             repo.Delete(fakeId);
             repo.Save();
 

@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class AppSettingsnRepoTest : BaseUnitTest<AppSettings>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected AppSettingsRepo repo;
 
         protected override void SetContextData()
@@ -22,17 +19,16 @@ namespace NuDataDb.Test
             repo = new AppSettingsRepo(testCtx);
 
             var b = new Faker<AppSettings>()
-                .RuleFor(r => r.AppSettingId, f => itrtr32++)
                 .RuleFor(r => r.Name, f => f.Lorem.Word())
                 .RuleFor(r => r.Value, f => f.Lorem.Word())
-                .RuleFor(r => r.Description, f => f.Lorem.Paragraph());
+                .RuleFor(r => r.Description, f => f.Lorem.Paragraph())
+                .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())
+                .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid());
 
             var bs = b.Generate(3).OrderBy(o => o.AppSettingId).ThenBy(o => o.Name).ToList();
-            FakeCollection.AddRange(bs);
-
             testCtx.AppSettings.AddRange(bs);
+            FakeCollection.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -45,6 +41,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Name, single.Name);
         }
 
+        [TestMethod]
         public void GetSingleAppSettingIdNotExist()
         {
             var fakeId = 333;
@@ -66,11 +63,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.AppSettings.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteAppSettingIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 56;
             repo.Delete(fakeId);
             repo.Save();
 

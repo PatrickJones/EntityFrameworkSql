@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class BGTargetsnRepoTest : BaseUnitTest<Bgtargets>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected BGTargetsRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new BGTargetsRepo(testCtx);
 
             var b = new Faker<Bgtargets>()
-                .RuleFor(r => r.TargetId, f => itrtr32++)
                 .RuleFor(r => r.TargetBg, f => f.Random.Int())
                 .RuleFor(r => r.TargetBgcorrect, f => f.Random.Int())
                 .RuleFor(r => r.Date, f => DateTime.Now);
@@ -30,10 +26,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.TargetId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.Bgtargets.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -46,6 +40,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.TargetBg, single.TargetBg);
         }
 
+        [TestMethod]
         public void GetSingleTargetIdNotExist()
         {
             var fakeId = 333;
@@ -66,11 +61,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Bgtargets.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteTargetIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 1246;
             repo.Delete(fakeId);
             repo.Save();
 

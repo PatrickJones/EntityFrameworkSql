@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class Patients_InsurancePlansnRepoTest : BaseUnitTest<PatientsInsurancePlans>
     {
-        //Int64 itrtr64 = 0;
-        //int itrtr32 = 0;
-
         protected PatientsInsurancePlansRepo repo;
 
         protected override void SetContextData()
@@ -44,9 +41,10 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.PlanId, single.PlanId);
         }
 
+        [TestMethod]
         public void GetSingleUserIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
@@ -65,6 +63,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.PatientsInsurancePlans.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteUserIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

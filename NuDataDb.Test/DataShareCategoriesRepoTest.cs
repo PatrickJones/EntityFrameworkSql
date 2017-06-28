@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class DataShareCategoriesnRepoTest : BaseUnitTest<DataShareCategories>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected DataShareCategoriesRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new DataShareCategoriesRepo(testCtx);
 
             var b = new Faker<DataShareCategories>()
-                .RuleFor(r => r.CategoryId, f => itrtr32++)
                 .RuleFor(r => r.CategoryName, f => f.Lorem.Letter(150));
 
             var bs = b.Generate(3).OrderBy(o => o.CategoryId).ToList();
@@ -43,6 +39,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CategoryName, single.CategoryName);
         }
 
+        [TestMethod]
         public void GetSingleCategoryIdNotExist()
         {
             var fakeId = 333;
@@ -50,7 +47,6 @@ namespace NuDataDb.Test
 
             Assert.IsNull(single);
         }
-
 
         [TestMethod]
         public void DeleteDataShareCategories()
@@ -64,11 +60,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.DataShareCategories.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteCategoryIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 4684;
             repo.Delete(fakeId);
             repo.Save();
 

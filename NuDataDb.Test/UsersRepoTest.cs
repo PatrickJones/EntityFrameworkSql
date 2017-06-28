@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class UsersnRepoTest : BaseUnitTest<Users>
     {
-        //Int64 itrtr64 = 0;
-        //int itrtr32 = 0;
-
         protected UsersRepo repo;
 
         protected override void SetContextData()
@@ -24,7 +21,8 @@ namespace NuDataDb.Test
             var b = new Faker<Users>()
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserType, f => f.Random.Int())
-                .RuleFor(r => r.CreationDate, f => new DateTime(f.Random.Long()));
+                .RuleFor(r => r.CreationDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.UserId).ToList();
             FakeCollection.AddRange(bs);
@@ -46,14 +44,14 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CreationDate, single.CreationDate);
         }
 
+        [TestMethod]
         public void GetSingleUserIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
         }
-
 
         [TestMethod]
         public void DeleteUsers()
@@ -67,6 +65,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Users.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteUserIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

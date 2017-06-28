@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PhysiologicalReadingsnRepoTest : BaseUnitTest<PhysiologicalReadings>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected PhysiologicalReadingsRepo repo;
 
         protected override void SetContextData()
@@ -22,8 +19,8 @@ namespace NuDataDb.Test
             repo = new PhysiologicalReadingsRepo(testCtx);
 
             var b = new Faker<PhysiologicalReadings>()
-                .RuleFor(r => r.ReadingId, f => itrtr32++)
-                .RuleFor(r => r.Time, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.Time, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.Weight, f => f.Random.Int())
                 //.RuleFor(r => r.Height, f => f.Random.Int())
                 .RuleFor(r => r.Hunger, f => f.Random.Int())
@@ -60,6 +57,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.UserId, single.UserId);
         }
 
+        [TestMethod]
         public void GetSingleReadingIdNotExist()
         {
             var fakeId = 333;
@@ -81,11 +79,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.PhysiologicalReadings.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteReadingIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 657;
             repo.Delete(fakeId);
             repo.Save();
 

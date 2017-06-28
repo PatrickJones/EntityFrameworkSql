@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class ReadingEventTypesnRepoTest : BaseUnitTest<ReadingEventTypes>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected ReadingEventTypesRepo repo;
 
         protected override void SetContextData()
@@ -22,16 +19,13 @@ namespace NuDataDb.Test
             repo = new ReadingEventTypesRepo(testCtx);
 
             var b = new Faker<ReadingEventTypes>()
-                .RuleFor(r => r.EventId, f => itrtr32++)
                 .RuleFor(r => r.EventName, f => f.Lorem.Letter(150));
 
             var bs = b.Generate(3).OrderBy(o => o.EventId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.ReadingEventTypes.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -44,6 +38,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.EventName, single.EventName);
         }
 
+        [TestMethod]
         public void GetSingleEventIdNotExist()
         {
             var fakeId = 333;
@@ -65,11 +60,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.ReadingEventTypes.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteEventIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 137;
             repo.Delete(fakeId);
             repo.Save();
 

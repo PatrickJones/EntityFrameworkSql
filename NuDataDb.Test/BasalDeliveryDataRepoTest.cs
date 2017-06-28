@@ -13,7 +13,7 @@ namespace NuDataDb.Test
     public class BasalDeliveryDatanRepoTest : BaseUnitTest<BasalDeliveryData>
     {
         //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
+        //int itrtr32 = 0;
 
         protected BasalDeliveryDataRepo repo;
 
@@ -22,16 +22,15 @@ namespace NuDataDb.Test
             repo = new BasalDeliveryDataRepo(testCtx);
 
             var b = new Faker<BasalDeliveryData>()
-                .RuleFor(r => r.DataId, f => itrtr32++)
+                //.RuleFor(r => r.DataId, f => itrtr32++)
                 .RuleFor(r => r.Name, f => f.Lorem.Random.AlphaNumeric(150))
                 .RuleFor(r => r.Value, f => f.Lorem.Random.AlphaNumeric(150))
                 .RuleFor(r => r.BasalDeliveryId, f => f.Lorem.Random.Int())
                 .RuleFor(r => r.Date, f => DateTime.Now);
 
             var bs = b.Generate(3).OrderBy(o => o.DataId).ToList();
-            FakeCollection.AddRange(bs);
-
             testCtx.BasalDeliveryData.AddRange(bs);
+            FakeCollection.AddRange(bs);
             int added = testCtx.SaveChanges();
         }
 
@@ -45,6 +44,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Name, single.Name);
         }
 
+        [TestMethod]
         public void GetSingleDataIdNotExist()
         {
             var fakeId = 333;
@@ -66,11 +66,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.BasalDeliveryData.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteDataIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 4578;
             repo.Delete(fakeId);
             repo.Save();
 

@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class TotalDailyInsulinDeliveriesnRepoTest : BaseUnitTest<TotalDailyInsulinDeliveries>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected TotalDailyInsulinDeliveriesRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new TotalDailyInsulinDeliveriesRepo(testCtx);
 
             var b = new Faker<TotalDailyInsulinDeliveries>()
-                .RuleFor(r => r.DeliveryId, f => itrtr32++)
                 .RuleFor(r => r.TotalDelivered, f => f.Random.Float())
                 .RuleFor(r => r.BasalDelivered, f => f.Random.Float())
                 .RuleFor(r => r.TempActivated, f => f.Random.Bool())
@@ -30,7 +26,8 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.BolusDelivered, f => f.Random.Float())
                 .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
-                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long()));
+                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.DeliveryId).ToList();
             FakeCollection.AddRange(bs);
@@ -58,6 +55,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Date, single.Date);
         }
 
+        [TestMethod]
         public void GetSingleDeliveryIdNotExist()
         {
             var fakeId = 333;
@@ -79,11 +77,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.TotalDailyInsulinDeliveries.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteDeliveryIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 1348;
             repo.Delete(fakeId);
             repo.Save();
 

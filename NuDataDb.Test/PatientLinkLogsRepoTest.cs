@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PatientLinkLogsnRepoTest : BaseUnitTest<PatientLinkLogs>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected PatientLinkLogsRepo repo;
 
         protected override void SetContextData()
@@ -22,20 +19,19 @@ namespace NuDataDb.Test
             repo = new PatientLinkLogsRepo(testCtx);
 
             var b = new Faker<PatientLinkLogs>()
-                .RuleFor(r => r.LinkId, f => itrtr32++)
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.InstitutionId, f => f.Random.Uuid())
-                .RuleFor(r => r.LinkCreationDate, f => new DateTime(f.Random.Long()))
-                .RuleFor(r => r.LinkSeverDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.LinkCreationDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
+                .RuleFor(r => r.LinkSeverDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.HasFreeDownload, f => f.Random.Bool());
 
             var bs = b.Generate(3).OrderBy(o => o.LinkId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.PatientLinkLogs.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -52,6 +48,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.HasFreeDownload, single.HasFreeDownload);
         }
 
+        [TestMethod]
         public void GetSingleLinkIdNotExist()
         {
             var fakeId = 333;
@@ -73,11 +70,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.PatientLinkLogs.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteLinkIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 264;
             repo.Delete(fakeId);
             repo.Save();
 

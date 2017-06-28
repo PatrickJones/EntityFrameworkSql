@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class ReadingHeadersnRepoTest : BaseUnitTest<ReadingHeaders>
     {
-        //Int64 itrtr64 = 0;
-        //int itrtr32 = 0;
-
         protected ReadingHeadersRepo repo;
 
         protected override void SetContextData()
@@ -23,10 +20,13 @@ namespace NuDataDb.Test
 
             var b = new Faker<ReadingHeaders>()
                 .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid())
-                .RuleFor(r => r.ServerDateTime, f => new DateTime(f.Random.Long()))
-                .RuleFor(r => r.MeterDateTime, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.ServerDateTime, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
+                .RuleFor(r => r.MeterDateTime, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.Readings, f => f.Random.Int())
-                .RuleFor(r => r.ReviewedOn, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.ReviewedOn, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.IsCgmdata, f => f.Random.Bool())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid());
@@ -56,9 +56,10 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.ReadingKeyId, single.ReadingKeyId);
         }
 
+        [TestMethod]
         public void GetSingleReadingKeyIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
@@ -77,6 +78,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.ReadingHeaders.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteReadingKeyIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

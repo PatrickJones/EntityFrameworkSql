@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PumpsnRepoTest : BaseUnitTest<Pumps>
     {
-        //Int64 itrtr64 = 0;
-        //int itrtr32 = 0;
-
         protected PumpsRepo repo;
 
         protected override void SetContextData()
@@ -24,10 +21,12 @@ namespace NuDataDb.Test
             var b = new Faker<Pumps>()
                 .RuleFor(r => r.PumpKeyId, f => f.Random.Uuid())
                 .RuleFor(r => r.PumpName, f => f.Lorem.Letter(50))
-                .RuleFor(r => r.PumpStartDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.PumpStartDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.ActiveProgramId, f => f.Random.Int())
                 .RuleFor(r => r.Cannula, f => f.Random.Float())
-                .RuleFor(r => r.ReplacementDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.ReplacementDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.PumpKeyId, f => f.Random.Uuid());
 
@@ -56,9 +55,10 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.PumpKeyId, single.PumpKeyId);
         }
 
+        [TestMethod]
         public void GetSinglePumpKeyIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
@@ -77,6 +77,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Pumps.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeletePumpKeyIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

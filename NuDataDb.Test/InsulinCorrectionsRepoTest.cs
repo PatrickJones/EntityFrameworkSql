@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class InsulinCorrectionsnRepoTest : BaseUnitTest<InsulinCorrections>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected InsulinCorrectionsRepo repo;
 
         protected override void SetContextData()
@@ -22,9 +19,9 @@ namespace NuDataDb.Test
             repo = new InsulinCorrectionsRepo(testCtx);
 
             var b = new Faker<InsulinCorrections>()
-                .RuleFor(r => r.CorrectionId, f => itrtr32++)
                 .RuleFor(r => r.InsulinCorrectionValue, f => f.Random.Int())
-                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.InsulinCorrectionAbove, f => f.Random.Int());
 
             var bs = b.Generate(3).OrderBy(o => o.CorrectionId).ToList();
@@ -33,7 +30,6 @@ namespace NuDataDb.Test
 
             testCtx.InsulinCorrections.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -48,6 +44,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.InsulinCorrectionAbove, single.InsulinCorrectionAbove);
         }
 
+        [TestMethod]
         public void GetSingleCorrectionIdNotExist()
         {
             var fakeId = 333;
@@ -69,11 +66,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.InsulinCorrections.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteCorrectionIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 974;
             repo.Delete(fakeId);
             repo.Save();
 

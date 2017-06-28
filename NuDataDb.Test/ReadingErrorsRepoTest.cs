@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class ReadingErrorsnRepoTest : BaseUnitTest<ReadingErrors>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected ReadingErrorsRepo repo;
 
         protected override void SetContextData()
@@ -22,8 +19,8 @@ namespace NuDataDb.Test
             repo = new ReadingErrorsRepo(testCtx);
 
             var b = new Faker<ReadingErrors>()
-                .RuleFor(r => r.ErrorId, f => itrtr32++)
-                .RuleFor(r => r.Time, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.Time, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.ErrorName, f => f.Lorem.Letter(50))
                 .RuleFor(r => r.IsActive, f => f.Random.Bool())
                 .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid())
@@ -32,10 +29,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.ErrorId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.ReadingErrors.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -52,6 +47,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.UserId, single.UserId);
         }
 
+        [TestMethod]
         public void GetSingleErrorIdNotExist()
         {
             var fakeId = 333;
@@ -73,11 +69,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.ReadingErrors.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteErrorIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 567;
             repo.Delete(fakeId);
             repo.Save();
 

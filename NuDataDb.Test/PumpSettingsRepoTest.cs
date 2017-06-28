@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PumpSettingsnRepoTest : BaseUnitTest<PumpSettings>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected PumpSettingsRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new PumpSettingsRepo(testCtx);
 
             var b = new Faker<PumpSettings>()
-                .RuleFor(r => r.SettingId, f => itrtr32++)
                 .RuleFor(r => r.SettingName, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.SettingValue, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.PumpKeyId, f => f.Random.Uuid());
@@ -48,6 +44,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.PumpKeyId, single.PumpKeyId);
         }
 
+        [TestMethod]
         public void GetSingleSettingIdNotExist()
         {
             var fakeId = 333;
@@ -69,11 +66,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.PumpSettings.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteSettingIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 246;
             repo.Delete(fakeId);
             repo.Save();
 

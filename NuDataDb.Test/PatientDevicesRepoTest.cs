@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PatientDevicesnRepoTest : BaseUnitTest<PatientDevices>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected PatientDevicesRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new PatientDevicesRepo(testCtx);
 
             var b = new Faker<PatientDevices>()
-                .RuleFor(r => r.DeviceId, f => itrtr32++)
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.MeterIndex, f => f.Random.Int())
                 .RuleFor(r => r.Manufacturer, f => f.Lorem.Letter(150));
@@ -48,6 +44,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Manufacturer, single.Manufacturer);
         }
 
+        [TestMethod]
         public void GetSingleDeviceIdNotExist()
         {
             var fakeId = 333;
@@ -69,11 +66,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.PatientDevices.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteDeviceIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 259;
             repo.Delete(fakeId);
             repo.Save();
 

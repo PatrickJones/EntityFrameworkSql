@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class CorrectionFactorsnRepoTest : BaseUnitTest<CorrectionFactors>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected CorrectionFactorsRepo repo;
 
         protected override void SetContextData()
@@ -22,9 +19,9 @@ namespace NuDataDb.Test
             repo = new CorrectionFactorsRepo(testCtx);
 
             var b = new Faker<CorrectionFactors>()
-                .RuleFor(r => r.FactorId, f => itrtr32++)
                 .RuleFor(r => r.CorrectionFactorValue, f => f.Random.Int())
-                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long()));
+                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.FactorId).ToList();
             FakeCollection.AddRange(bs);
@@ -45,6 +42,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CorrectionFactorValue, single.CorrectionFactorValue);
         }
 
+        [TestMethod]
         public void GetSingleFactorIdNotExist()
         {
             var fakeId = 333;
@@ -66,11 +64,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.CorrectionFactors.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteFactorIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 64879;
             repo.Delete(fakeId);
             repo.Save();
 

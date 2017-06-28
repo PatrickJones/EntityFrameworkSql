@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PatientPhoneNumbersnRepoTest : BaseUnitTest<PatientPhoneNumbers>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected PatientPhoneNumbersRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new PatientPhoneNumbersRepo(testCtx);
 
             var b = new Faker<PatientPhoneNumbers>()
-                .RuleFor(r => r.PhoneId, f => itrtr32++)
                 .RuleFor(r => r.Number, f => f.Lorem.Letter(50))
                 .RuleFor(r => r.Type, f => f.Random.Int())
                 .RuleFor(r => r.IsPrimary, f => f.Random.Bool())
@@ -33,10 +29,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.PhoneId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.PatientPhoneNumbers.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -54,6 +48,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.LastUpdatedByUser, single.LastUpdatedByUser);
         }
 
+        [TestMethod]
         public void GetSinglePhoneIdNotExist()
         {
             var fakeId = 333;
@@ -75,11 +70,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.PatientPhoneNumbers.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeletePhoneIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 2564;
             repo.Delete(fakeId);
             repo.Save();
 

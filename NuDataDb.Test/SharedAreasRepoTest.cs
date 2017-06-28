@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class SharedAreasnRepoTest : BaseUnitTest<SharedAreas>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected SharedAreasRepo repo;
 
         protected override void SetContextData()
@@ -22,17 +19,14 @@ namespace NuDataDb.Test
             repo = new SharedAreasRepo(testCtx);
 
             var b = new Faker<SharedAreas>()
-                .RuleFor(r => r.ShareId, f => itrtr32++)
                 .RuleFor(r => r.SharedCategoryId, f => f.Random.Int())
                 .RuleFor(r => r.RequestId, f => f.Random.Int());
 
             var bs = b.Generate(3).OrderBy(o => o.ShareId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.SharedAreas.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -46,6 +40,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.RequestId, single.RequestId);
         }
 
+        [TestMethod]
         public void GetSingleShareIdNotExist()
         {
             var fakeId = 333;
@@ -67,11 +62,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.SharedAreas.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteShareIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 5897;
             repo.Delete(fakeId);
             repo.Save();
 

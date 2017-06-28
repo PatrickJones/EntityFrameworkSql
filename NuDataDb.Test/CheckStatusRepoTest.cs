@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class CheckStatusnRepoTest : BaseUnitTest<CheckStatus>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected CheckStatusRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new CheckStatusRepo(testCtx);
 
             var b = new Faker<CheckStatus>()
-                .RuleFor(r => r.StatusId, f => itrtr32++)
                 .RuleFor(r => r.Status, f => f.Lorem.Letter(50));
 
             var bs = b.Generate(3).OrderBy(o => o.StatusId).ToList();
@@ -42,6 +38,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Status, single.Status);
         }
 
+        [TestMethod]
         public void GetSingleStatusIdNotExist()
         {
             var fakeId = 333;
@@ -62,11 +59,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.CheckStatus.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteStatusIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 87946;
             repo.Delete(fakeId);
             repo.Save();
 

@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class PatientsnRepoTest : BaseUnitTest<Patients>
     {
-        //Int64 itrtr64 = 0;
-        //int itrtr32 = 0;
-
         protected PatientsRepo repo;
 
         protected override void SetContextData()
@@ -26,7 +23,8 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.Firstname, f => f.Lorem.Letter(80))
                 .RuleFor(r => r.Lastname, f => f.Lorem.Letter(80))
                 .RuleFor(r => r.Gender, f => f.Random.Int())
-                .RuleFor(r => r.DateofBirth, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.DateofBirth, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.PlanId, f => f.Random.Int())
                 .RuleFor(r => r.Email, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.InstitutionId, f => f.Random.Uuid())
@@ -35,10 +33,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.UserId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.Patients.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -58,14 +54,14 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.LastUpdatedByUser, single.LastUpdatedByUser);
         }
 
+        [TestMethod]
         public void GetSingleUserIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
         }
-
 
         [TestMethod]
         public void DeletePatients()
@@ -79,6 +75,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Patients.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteUserIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

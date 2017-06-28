@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class BolusCarbsnRepoTest : BaseUnitTest<BolusCarbs>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected BolusCarbsRepo repo;
 
         protected override void SetContextData()
@@ -22,13 +19,11 @@ namespace NuDataDb.Test
             repo = new BolusCarbsRepo(testCtx);
 
             var b = new Faker<BolusCarbs>()
-                .RuleFor(r => r.CarbId, f => itrtr32++)
                 .RuleFor(r => r.CarbValue, f => f.Random.Int())
                 .RuleFor(r => r.Date, f => DateTime.Now);
 
             var bs = b.Generate(3).OrderBy(o => o.CarbId).ToList();
             FakeCollection.AddRange(bs);
-
 
             testCtx.BolusCarbs.AddRange(bs);
             int added = testCtx.SaveChanges();
@@ -45,6 +40,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CarbValue, single.CarbValue);
         }
 
+        [TestMethod]
         public void GetSingleCarbIdNotExist()
         {
             var fakeId = 333;
@@ -66,11 +62,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.BolusCarbs.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteCarbIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 512;
             repo.Delete(fakeId);
             repo.Save();
 

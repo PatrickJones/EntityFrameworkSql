@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class DeviceDatanRepoTest : BaseUnitTest<DeviceData>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected DeviceDataRepo repo;
 
         protected override void SetContextData()
@@ -22,9 +19,9 @@ namespace NuDataDb.Test
             repo = new DeviceDataRepo(testCtx);
 
             var b = new Faker<DeviceData>()
-                .RuleFor(r => r.DataSetId, f => itrtr32++)
                 .RuleFor(r => r.DataSet, f => f.Lorem.Word())
-                .RuleFor(r => r.LastUpdate, f => new DateTime(f.Random.Long()));
+                .RuleFor(r => r.LastUpdate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.DataSetId).ToList();
             FakeCollection.AddRange(bs);
@@ -46,6 +43,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.LastUpdate, single.LastUpdate);
         }
 
+        [TestMethod]
         public void GetSingleDataSetIdNotExist()
         {
             var fakeId = 333;
@@ -67,11 +65,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.DeviceData.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteDataSetIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 276;
             repo.Delete(fakeId);
             repo.Save();
 

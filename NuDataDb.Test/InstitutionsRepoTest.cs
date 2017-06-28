@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class InstitutionsnRepoTest : BaseUnitTest<Institutions>
     {
-        //Int64 itrtr64 = 0;
-        //int itrtr32 = 0;
-
         protected InstitutionsRepo repo;
 
         protected override void SetContextData()
@@ -52,9 +49,10 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.LastUpdatedByUser, single.LastUpdatedByUser);
         }
 
+        [TestMethod]
         public void GetSingleInstitutionIdNotExist()
         {
-            var fakeId = 333;
+            var fakeId = Guid.NewGuid();
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
@@ -73,6 +71,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Institutions.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteInstitutionIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();

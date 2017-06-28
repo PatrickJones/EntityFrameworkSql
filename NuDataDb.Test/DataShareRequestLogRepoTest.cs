@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class DataShareRequestLognRepoTest : BaseUnitTest<DataShareRequestLog>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected DataShareRequestLogRepo repo;
 
         protected override void SetContextData()
@@ -22,15 +19,15 @@ namespace NuDataDb.Test
             repo = new DataShareRequestLogRepo(testCtx);
 
             var b = new Faker<DataShareRequestLog>()
-                .RuleFor(r => r.RequestId, f => itrtr32++)
-                .RuleFor(r => r.RequestDate, f => new DateTime(f.Random.Long()))
-                .RuleFor(r => r.LastUpdate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.RequestDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
+                .RuleFor(r => r.LastUpdate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())
                 .RuleFor(r => r.PatientId, f => f.Random.Uuid());
 
             var bs = b.Generate(3).OrderBy(o => o.RequestId).ToList();
             FakeCollection.AddRange(bs);
-
 
             testCtx.DataShareRequestLog.AddRange(bs);
             int added = testCtx.SaveChanges();
@@ -50,6 +47,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.PatientId, single.PatientId);
         }
 
+        [TestMethod]
         public void GetSingleRequestIdNotExist()
         {
             var fakeId = 333;
@@ -71,11 +69,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.DataShareRequestLog.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteRequestIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 1643;
             repo.Delete(fakeId);
             repo.Save();
 

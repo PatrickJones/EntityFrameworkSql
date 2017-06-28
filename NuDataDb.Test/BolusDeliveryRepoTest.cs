@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class BolusDeliverynRepoTest : BaseUnitTest<BolusDelivery>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected BolusDeliveryRepo repo;
 
         protected override void SetContextData()
@@ -22,7 +19,6 @@ namespace NuDataDb.Test
             repo = new BolusDeliveryRepo(testCtx);
 
             var b = new Faker<BolusDelivery>()
-                .RuleFor(r => r.BolusDeliveryId, f => itrtr32++)
                 .RuleFor(r => r.StartDateTime, f => DateTime.Now)
                 .RuleFor(r => r.AmountDelivered, f => f.Random.Double())
                 .RuleFor(r => r.AmountSuggested, f => f.Random.Double())
@@ -35,7 +31,6 @@ namespace NuDataDb.Test
 
             testCtx.BolusDelivery.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -48,6 +43,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.AmountDelivered, single.AmountDelivered);
         }
 
+        [TestMethod]
         public void GetSingleBolusDeliveryIdNotExist()
         {
             var fakeId = 333;
@@ -69,11 +65,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.BolusDelivery.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteBolusDeliveryIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 7946;
             repo.Delete(fakeId);
             repo.Save();
 

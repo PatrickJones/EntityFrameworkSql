@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class EndUserLicenseAgreementsnRepoTest : BaseUnitTest<EndUserLicenseAgreements>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected EndUserLicenseAgreementsRepo repo;
 
         protected override void SetContextData()
@@ -22,9 +19,9 @@ namespace NuDataDb.Test
             repo = new EndUserLicenseAgreementsRepo(testCtx);
 
             var b = new Faker<EndUserLicenseAgreements>()
-                .RuleFor(r => r.AgreementId, f => itrtr32++)
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
-                .RuleFor(r => r.AgreementDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.AgreementDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid());
 
             var bs = b.Generate(3).OrderBy(o => o.AgreementId).ToList();
@@ -48,6 +45,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.ApplicationId, single.ApplicationId);
         }
 
+        [TestMethod]
         public void GetSingleAgreementIdNotExist()
         {
             var fakeId = 333;
@@ -69,11 +67,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.EndUserLicenseAgreements.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteAgreementIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 350;
             repo.Delete(fakeId);
             repo.Save();
 

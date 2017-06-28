@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class SubscriptionsnRepoTest : BaseUnitTest<Subscriptions>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected SubscriptionsRepo repo;
 
         protected override void SetContextData()
@@ -22,23 +19,22 @@ namespace NuDataDb.Test
             repo = new SubscriptionsRepo(testCtx);
 
             var b = new Faker<Subscriptions>()
-                .RuleFor(r => r.SubscriptionId, f => itrtr32++)
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserType, f => f.Random.Int())
                 .RuleFor(r => r.SubscriptionType, f => f.Random.Int())
-                .RuleFor(r => r.SubscriptionDate, f => new DateTime(f.Random.Long()))
-                .RuleFor(r => r.ExpirationDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.SubscriptionDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
+                .RuleFor(r => r.ExpirationDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.IsTrial, f => f.Random.Bool())
                 .RuleFor(r => r.InstitutionId, f => f.Random.Uuid());
 
             var bs = b.Generate(3).OrderBy(o => o.SubscriptionId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.Subscriptions.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -58,6 +54,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.InstitutionId, single.InstitutionId);
         }
 
+        [TestMethod]
         public void GetSingleSubscriptionIdNotExist()
         {
             var fakeId = 333;
@@ -79,11 +76,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.Subscriptions.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteSubscriptionIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 3498;
             repo.Delete(fakeId);
             repo.Save();
 

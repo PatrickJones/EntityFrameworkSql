@@ -12,9 +12,6 @@ namespace NuDataDb.Test
     [TestClass]
     public class TensReadingsnRepoTest : BaseUnitTest<TensReadings>
     {
-        //Int64 itrtr64 = 0;
-        int itrtr32 = 0;
-
         protected TensReadingsRepo repo;
 
         protected override void SetContextData()
@@ -22,8 +19,8 @@ namespace NuDataDb.Test
             repo = new TensReadingsRepo(testCtx);
 
             var b = new Faker<TensReadings>()
-                .RuleFor(r => r.ReadingId, f => itrtr32++)
-                .RuleFor(r => r.ReadingDate, f => new DateTime(f.Random.Long()))
+                .RuleFor(r => r.ReadingDate, f => new DateTime(f.Random.Long(
+                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.TherapyType, f => f.Random.Int())
                 .RuleFor(r => r.DurationScheduled, f => f.Random.Int())
                 .RuleFor(r => r.DurationCompleted, f => f.Random.Int())
@@ -34,10 +31,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.ReadingId).ToList();
             FakeCollection.AddRange(bs);
 
-
             testCtx.TensReadings.AddRange(bs);
             int added = testCtx.SaveChanges();
-            
         }
 
         [TestMethod]
@@ -56,6 +51,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.UserId, single.UserId);
         }
 
+        [TestMethod]
         public void GetSingleReadingIdNotExist()
         {
             var fakeId = 333;
@@ -77,11 +73,12 @@ namespace NuDataDb.Test
             Assert.IsTrue(testCtx.TensReadings.Count() == --currentCnt);
         }
 
+        [TestMethod]
         public void DeleteReadingIdNotExist()
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = itrtr32;
+            var fakeId = 319;
             repo.Delete(fakeId);
             repo.Save();
 
