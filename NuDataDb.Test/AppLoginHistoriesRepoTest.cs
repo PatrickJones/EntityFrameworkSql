@@ -5,6 +5,7 @@ using NuDataDb.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace NuDataDb.Test
@@ -18,6 +19,7 @@ namespace NuDataDb.Test
 
         protected override void SetContextData()
         {
+            itrtr32 = FakeCollection.OrderBy(o => o.HistoryId).Select(s => s.HistoryId).LastOrDefault();
             repo = new AppLogHistoriesRepo(testCtx);
 
             var b = new Faker<AppLoginHistories>()
@@ -27,9 +29,20 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid());
 
             var bs = b.Generate(3).OrderBy(o => o.HistoryId).ToList();
-            FakeCollection.AddRange(bs);
+            foreach (var item in bs)
+            {
+                if (!FakeCollection.Any(a => a.HistoryId == item.HistoryId))
+                {
+                    FakeCollection.Add(item);
+                    
+                }
 
-            testCtx.AppLoginHistories.AddRange(bs);
+                if (!testCtx.AppLoginHistories.Any(a => a.HistoryId == item.HistoryId))
+                {
+                    testCtx.AppLoginHistories.Add(item);
+                }
+            }
+            
             int added = testCtx.SaveChanges();
         }
 
