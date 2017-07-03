@@ -150,7 +150,7 @@ namespace NuDataDb.EF
 
                 entity.HasOne(d => d.Appication)
                     .WithMany(p => p.AppUserSettings)
-                    .HasForeignKey(d => d.AppicationId)
+                    .HasForeignKey(d => d.ApplicationId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_AppUserSettings_Applications");
             });
