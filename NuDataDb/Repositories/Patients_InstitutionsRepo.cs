@@ -26,5 +26,15 @@ namespace NuDataDb.Repositories
                 Save();
             }
         }
+
+        public void Delete(Guid userId, Guid institutionId)
+        {
+            var del = ctx.PatientsInstitutions.FirstOrDefault(f => f.UserId == userId && f.InstitutionId == institutionId);
+            if (del != null)
+            {
+                ctx.Remove(del);
+                Save();
+            }
+        }
     }
 }
