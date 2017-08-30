@@ -22,7 +22,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.Type, f => f.Lorem.Word())
                 .RuleFor(r => r.Enabled, f => f.Random.Bool())
                 .RuleFor(r => r.Time, f => f.Lorem.Word())
-                .RuleFor(r => r.PumpKeyId, f => f.Random.Uuid())
+                .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid())
                 .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
                     DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 

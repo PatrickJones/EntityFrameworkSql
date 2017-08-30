@@ -12,6 +12,7 @@ namespace NuDataDb.EF
         public Guid UserId { get; set; }
         public bool Active { get; set; }
         public Guid ReadingKeyId { get; set; }
+        public bool IsCgmdata { get; set; }
 
         public virtual ReadingHeaders ReadingKey { get; set; }
     }

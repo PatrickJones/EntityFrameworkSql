@@ -1,8 +1,8 @@
-using NuDataDb.EF;
+﻿using NuDataDb.EF;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Text;
 
 namespace NuDataDb.Repositories
 {
@@ -14,12 +14,12 @@ namespace NuDataDb.Repositories
 
         public override SharedAreas GetSingle(int id)
         {
-            return ctx.SharedAreas.FirstOrDefault(f => f.ShareId == id);
+            return ctx.SharedAreas.FirstOrDefault(f => f.DataShareCategoryId == id);
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.SharedAreas.FirstOrDefault(f => f.ShareId == id);
+            var del = ctx.SharedAreas.FirstOrDefault(f => f.DataShareCategoryId == id);
             if (del != null)
             {
                 ctx.Remove(del);

@@ -26,7 +26,6 @@ namespace NuDataDb.EF
         public int LegacySiteId { get; set; }
         public int Licenses { get; set; }
         public Guid LastUpdatedByUser { get; set; }
-        public string ContactPhoneNumber { get; set; }
 
         public virtual ICollection<Clinicians> Clinicians { get; set; }
         public virtual ICollection<PatientsInstitutions> PatientsInstitutions { get; set; }

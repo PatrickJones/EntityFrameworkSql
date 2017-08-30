@@ -9,6 +9,6 @@ namespace NuDataDb.EF
         public int CorrectionFactorValue { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual BolusDelivery Factor { get; set; }
+        public virtual BolusDeliveries Factor { get; set; }
     }
 }

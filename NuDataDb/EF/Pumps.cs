@@ -7,7 +7,6 @@ namespace NuDataDb.EF
     {
         public Pumps()
         {
-            Cgmreminders = new HashSet<Cgmreminders>();
             PumpPrograms = new HashSet<PumpPrograms>();
             PumpSettings = new HashSet<PumpSettings>();
         }
@@ -23,8 +22,6 @@ namespace NuDataDb.EF
         public Guid UserId { get; set; }
         public Guid PumpKeyId { get; set; }
 
-        public virtual ICollection<Cgmreminders> Cgmreminders { get; set; }
-        public virtual Cgmsessions Cgmsessions { get; set; }
         public virtual ICollection<PumpPrograms> PumpPrograms { get; set; }
         public virtual ICollection<PumpSettings> PumpSettings { get; set; }
         public virtual ReadingHeaders PumpKey { get; set; }

@@ -23,7 +23,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.Value, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.ReadingKeyId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
-                .RuleFor(r => r.DateSet, f => new DateTime(f.Random.Long(
+                .RuleFor(r => r.ReadingDate, f => new DateTime(f.Random.Long(
                     DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
             var bs = b.Generate(3).OrderBy(o => o.SettingId).ToList();
@@ -45,7 +45,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.Value, single.Value);
             Assert.AreEqual(fakeApp.ReadingKeyId, single.ReadingKeyId);
             Assert.AreEqual(fakeApp.UserId, single.UserId);
-            Assert.AreEqual(fakeApp.DateSet, single.DateSet);
+            Assert.AreEqual(fakeApp.ReadingDate, single.ReadingDate);
         }
 
         [TestMethod]

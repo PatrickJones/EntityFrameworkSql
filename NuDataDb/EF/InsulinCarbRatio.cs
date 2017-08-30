@@ -9,6 +9,6 @@ namespace NuDataDb.EF
         public int Icratio { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual BolusDelivery Ratio { get; set; }
+        public virtual BolusDeliveries Ratio { get; set; }
     }
 }

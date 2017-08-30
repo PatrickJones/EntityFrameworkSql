@@ -10,6 +10,6 @@ namespace NuDataDb.EF
         public int TargetBgcorrect { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual BolusDelivery Target { get; set; }
+        public virtual BolusDeliveries Target { get; set; }
     }
 }

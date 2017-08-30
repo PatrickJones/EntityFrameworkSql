@@ -19,10 +19,10 @@ namespace NuDataDb.Test
             repo = new SharedAreasRepo(testCtx);
 
             var b = new Faker<SharedAreas>()
-                .RuleFor(r => r.SharedCategoryId, f => f.Random.Int())
+                .RuleFor(r => r.DataShareCategoryId, f => f.Random.Int())
                 .RuleFor(r => r.RequestId, f => f.Random.Int());
 
-            var bs = b.Generate(3).OrderBy(o => o.ShareId).ToList();
+            var bs = b.Generate(3).OrderBy(o => o.DataShareCategoryId).ToList();
             FakeCollection.AddRange(bs);
 
             testCtx.SharedAreas.AddRange(bs);
@@ -33,10 +33,9 @@ namespace NuDataDb.Test
         public void GetSingleSharedAreas()
         {
             var fakeApp = FakeCollection.First();
-            var single = repo.GetSingle(fakeApp.ShareId);
+            var single = repo.GetSingle(fakeApp.DataShareCategoryId);
 
-            Assert.AreEqual(fakeApp.ShareId, single.ShareId);
-            Assert.AreEqual(fakeApp.SharedCategoryId, single.SharedCategoryId);
+            Assert.AreEqual(fakeApp.DataShareCategoryId, single.DataShareCategoryId);
             Assert.AreEqual(fakeApp.RequestId, single.RequestId);
         }
 
@@ -56,7 +55,7 @@ namespace NuDataDb.Test
             var currentCnt = testCtx.SharedAreas.Count();
 
             var entity = testCtx.SharedAreas.First();
-            repo.Delete(entity.ShareId);
+            repo.Delete(entity.DataShareCategoryId);
             repo.Save();
 
             Assert.IsTrue(testCtx.SharedAreas.Count() == --currentCnt);

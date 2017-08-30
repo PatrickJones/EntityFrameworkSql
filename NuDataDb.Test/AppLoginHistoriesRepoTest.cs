@@ -15,12 +15,12 @@ namespace NuDataDb.Test
     {
         int itrtr32 = 0;
 
-        protected AppLogHistoriesRepo repo;
+        protected AppLoginHistoriesRepo repo;
 
         protected override void SetContextData()
         {
             itrtr32 = FakeCollection.OrderBy(o => o.HistoryId).Select(s => s.HistoryId).LastOrDefault();
-            repo = new AppLogHistoriesRepo(testCtx);
+            repo = new AppLoginHistoriesRepo(testCtx);
 
             var b = new Faker<AppLoginHistories>()
                 .RuleFor(r => r.HistoryId, f => itrtr32++)

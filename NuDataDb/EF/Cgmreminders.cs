@@ -9,9 +9,9 @@ namespace NuDataDb.EF
         public string Type { get; set; }
         public bool Enabled { get; set; }
         public string Time { get; set; }
-        public Guid PumpKeyId { get; set; }
+        public Guid ReadingKeyId { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual Pumps PumpKey { get; set; }
+        public virtual ReadingHeaders ReadingKey { get; set; }
     }
 }

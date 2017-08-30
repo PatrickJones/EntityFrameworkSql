@@ -12,7 +12,7 @@ namespace NuDataDb.Test
     [TestClass]
     public class BaseRepoGuidTest : BaseUnitTest<Applications>
     {
-        protected ApplicationRepo repo;
+        protected ApplicationsRepo repo;
 
         public BaseRepoGuidTest() : base("GuidTest")
         {
@@ -20,7 +20,7 @@ namespace NuDataDb.Test
 
         protected override void SetContextData()
         {
-            repo = new ApplicationRepo(testCtx);
+            repo = new ApplicationsRepo(testCtx);
 
             var b = new Faker<Applications>()
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())

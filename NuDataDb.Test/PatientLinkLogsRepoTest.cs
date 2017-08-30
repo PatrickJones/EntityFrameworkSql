@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class PatientLinkLogsnRepoTest : BaseUnitTest<PatientLinkLogs>
+    public class PatientLinkLogsnRepoTest : BaseUnitTest<PatientInstitutionLinkHistory>
     {
         protected PatientLinkLogsRepo repo;
 
@@ -18,16 +18,14 @@ namespace NuDataDb.Test
         {
             repo = new PatientLinkLogsRepo(testCtx);
 
-            var b = new Faker<PatientLinkLogs>()
-                .RuleFor(r => r.UserId, f => f.Random.Uuid())
+            var b = new Faker<PatientInstitutionLinkHistory>()
+                .RuleFor(r => r.PatientId, f => f.Random.Uuid())
                 .RuleFor(r => r.InstitutionId, f => f.Random.Uuid())
-                .RuleFor(r => r.LinkCreationDate, f => new DateTime(f.Random.Long(
+                .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
                     DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
-                .RuleFor(r => r.LinkSeverDate, f => new DateTime(f.Random.Long(
-                    DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
-                .RuleFor(r => r.HasFreeDownload, f => f.Random.Bool());
+                .RuleFor(r => r.LinkStatus, f => f.Random.Int(1,2));
 
-            var bs = b.Generate(3).OrderBy(o => o.LinkId).ToList();
+            var bs = b.Generate(3).OrderBy(o => o.PatientId).ToList();
             FakeCollection.AddRange(bs);
 
             testCtx.PatientLinkLogs.AddRange(bs);
@@ -38,14 +36,12 @@ namespace NuDataDb.Test
         public void GetSinglePatientLinkLogs()
         {
             var fakeApp = FakeCollection.First();
-            var single = repo.GetSingle(fakeApp.LinkId);
+            var single = repo.GetSingle(fakeApp.PatientId);
 
-            Assert.AreEqual(fakeApp.LinkId, single.LinkId);
-            Assert.AreEqual(fakeApp.UserId, single.UserId);
+            Assert.AreEqual(fakeApp.PatientId, single.PatientId);
             Assert.AreEqual(fakeApp.InstitutionId, single.InstitutionId);
-            Assert.AreEqual(fakeApp.LinkCreationDate, single.LinkCreationDate);
-            Assert.AreEqual(fakeApp.LinkSeverDate, single.LinkSeverDate);
-            Assert.AreEqual(fakeApp.HasFreeDownload, single.HasFreeDownload);
+            Assert.AreEqual(fakeApp.Date, single.Date);
+            Assert.AreEqual(fakeApp.LinkStatus, single.LinkStatus);
         }
 
         [TestMethod]
@@ -64,7 +60,7 @@ namespace NuDataDb.Test
             var currentCnt = testCtx.PatientLinkLogs.Count();
 
             var entity = testCtx.PatientLinkLogs.First();
-            repo.Delete(entity.LinkId);
+            repo.Delete(entity.PatientId);
             repo.Save();
 
             Assert.IsTrue(testCtx.PatientLinkLogs.Count() == --currentCnt);

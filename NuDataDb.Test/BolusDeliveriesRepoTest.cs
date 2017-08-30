@@ -10,15 +10,15 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class BolusDeliverynRepoTest : BaseUnitTest<BolusDelivery>
+    public class BolusDeliverynRepoTest : BaseUnitTest<BolusDeliveries>
     {
-        protected BolusDeliveryRepo repo;
+        protected BolusDeliveriesRepo repo;
 
         protected override void SetContextData()
         {
-            repo = new BolusDeliveryRepo(testCtx);
+            repo = new BolusDeliveriesRepo(testCtx);
 
-            var b = new Faker<BolusDelivery>()
+            var b = new Faker<BolusDeliveries>()
                 .RuleFor(r => r.StartDateTime, f => DateTime.Now)
                 .RuleFor(r => r.AmountDelivered, f => f.Random.Double())
                 .RuleFor(r => r.AmountSuggested, f => f.Random.Double())
@@ -29,7 +29,7 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.BolusDeliveryId).ToList();
             FakeCollection.AddRange(bs);
 
-            testCtx.BolusDelivery.AddRange(bs);
+            testCtx.BolusDeliveries.AddRange(bs);
             int added = testCtx.SaveChanges();
         }
 
@@ -56,13 +56,13 @@ namespace NuDataDb.Test
         [TestMethod]
         public void DeleteBolusDelivery()
         {
-            var currentCnt = testCtx.BolusDelivery.Count();
+            var currentCnt = testCtx.BolusDeliveries.Count();
 
-            var entity = testCtx.BolusDelivery.First();
+            var entity = testCtx.BolusDeliveries.First();
             repo.Delete(entity.BolusDeliveryId);
             repo.Save();
 
-            Assert.IsTrue(testCtx.BolusDelivery.Count() == --currentCnt);
+            Assert.IsTrue(testCtx.BolusDeliveries.Count() == --currentCnt);
         }
 
         [TestMethod]

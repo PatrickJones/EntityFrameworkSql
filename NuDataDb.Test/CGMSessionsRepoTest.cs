@@ -19,7 +19,7 @@ namespace NuDataDb.Test
             repo = new CGMSessionsRepo(testCtx);
 
             var b = new Faker<Cgmsessions>()
-                .RuleFor(r => r.Cgmid, f => f.Random.Uuid())
+                .RuleFor(r => r.CgmsessionId, f => f.Random.Long())
                 .RuleFor(r => r.SessionDateTime, f => new DateTime(f.Random.Long(
                     DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.TimeInSeconds, f => f.Random.Int())
@@ -27,7 +27,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
                     DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
-            var bs = b.Generate(3).OrderBy(o => o.Cgmid).ToList();
+            var bs = b.Generate(3).OrderBy(o => o.CgmsessionId).ToList();
             FakeCollection.AddRange(bs);
 
 
@@ -40,9 +40,9 @@ namespace NuDataDb.Test
         public void GetSingleCGMSessions()
         {
             var fakeApp = FakeCollection.First();
-            var single = repo.GetSingle(fakeApp.Cgmid);
+            var single = repo.GetSingle(fakeApp.CgmsessionId);
 
-            Assert.AreEqual(fakeApp.Cgmid, single.Cgmid);
+            Assert.AreEqual(fakeApp.CgmsessionId, single.CgmsessionId);
             Assert.AreEqual(fakeApp.SessionDateTime, single.SessionDateTime);
         }
 
@@ -62,7 +62,7 @@ namespace NuDataDb.Test
             var currentCnt = testCtx.Cgmsessions.Count();
 
             var entity = testCtx.Cgmsessions.First();
-            repo.Delete(entity.Cgmid);
+            repo.Delete(entity.CgmsessionId);
             repo.Save();
 
             Assert.IsTrue(testCtx.Cgmsessions.Count() == --currentCnt);

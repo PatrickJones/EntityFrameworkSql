@@ -12,14 +12,14 @@ namespace NuDataDb.Repositories
         {
         }
 
-        public override Cgmsessions GetSingle(Guid id)
+        public override Cgmsessions GetSingle(long id)
         {
-            return ctx.Cgmsessions.FirstOrDefault(f => f.Cgmid == id);
+            return ctx.Cgmsessions.FirstOrDefault(f => f.CgmsessionId == id);
         }
 
-        public override void Delete(Guid id)
+        public override void Delete(long id)
         {
-            var del = ctx.Cgmsessions.FirstOrDefault(f => f.Cgmid == id);
+            var del = ctx.Cgmsessions.FirstOrDefault(f => f.CgmsessionId == id);
             if (del != null)
             {
                 ctx.Remove(del);

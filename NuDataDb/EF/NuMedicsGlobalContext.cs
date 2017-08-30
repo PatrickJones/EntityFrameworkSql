@@ -16,7 +16,7 @@ namespace NuDataDb.EF
         public virtual DbSet<Bgtargets> Bgtargets { get; set; }
         public virtual DbSet<BloodGlucoseReadings> BloodGlucoseReadings { get; set; }
         public virtual DbSet<BolusCarbs> BolusCarbs { get; set; }
-        public virtual DbSet<BolusDelivery> BolusDelivery { get; set; }
+        public virtual DbSet<BolusDeliveries> BolusDeliveries { get; set; }
         public virtual DbSet<BolusDeliveryData> BolusDeliveryData { get; set; }
         public virtual DbSet<BolusProgramTimeSlots> BolusProgramTimeSlots { get; set; }
         public virtual DbSet<CareSettings> CareSettings { get; set; }
@@ -27,7 +27,6 @@ namespace NuDataDb.EF
         public virtual DbSet<Clinicians> Clinicians { get; set; }
         public virtual DbSet<CorrectionFactors> CorrectionFactors { get; set; }
         public virtual DbSet<DailyTimeSlots> DailyTimeSlots { get; set; }
-        public virtual DbSet<DataLinkLog> DataLinkLog { get; set; }
         public virtual DbSet<DataShareCategories> DataShareCategories { get; set; }
         public virtual DbSet<DataShareRequestLog> DataShareRequestLog { get; set; }
         public virtual DbSet<DatabaseInfo> DatabaseInfo { get; set; }
@@ -35,7 +34,6 @@ namespace NuDataDb.EF
         public virtual DbSet<DeviceSettings> DeviceSettings { get; set; }
         public virtual DbSet<DiabetesControlTypes> DiabetesControlTypes { get; set; }
         public virtual DbSet<DiabetesManagementData> DiabetesManagementData { get; set; }
-        public virtual DbSet<DiabetesManagementTypes> DiabetesManagementTypes { get; set; }
         public virtual DbSet<EndUserLicenseAgreements> EndUserLicenseAgreements { get; set; }
         public virtual DbSet<Institutions> Institutions { get; set; }
         public virtual DbSet<InsulinBrands> InsulinBrands { get; set; }
@@ -47,12 +45,15 @@ namespace NuDataDb.EF
         public virtual DbSet<InsuranceContacts> InsuranceContacts { get; set; }
         public virtual DbSet<InsurancePlans> InsurancePlans { get; set; }
         public virtual DbSet<InsuranceProviders> InsuranceProviders { get; set; }
+        public virtual DbSet<LinkTypes> LinkTypes { get; set; }
         public virtual DbSet<NutritionReadings> NutritionReadings { get; set; }
         public virtual DbSet<PasswordHistories> PasswordHistories { get; set; }
         public virtual DbSet<PatientAddresses> PatientAddresses { get; set; }
         public virtual DbSet<PatientDevices> PatientDevices { get; set; }
-        public virtual DbSet<PatientLinkLogs> PatientLinkLogs { get; set; }
+        public virtual DbSet<PatientInstitutionLinkHistory> PatientLinkLogs { get; set; }
+        public virtual DbSet<PatientMedications> PatientMedications { get; set; }
         public virtual DbSet<PatientPhoneNumbers> PatientPhoneNumbers { get; set; }
+        public virtual DbSet<PatientPhotos> PatientPhotos { get; set; }
         public virtual DbSet<Patients> Patients { get; set; }
         public virtual DbSet<PatientsInstitutions> PatientsInstitutions { get; set; }
         public virtual DbSet<PatientsInsurancePlans> PatientsInsurancePlans { get; set; }
@@ -78,39 +79,27 @@ namespace NuDataDb.EF
         public virtual DbSet<UserTypes> UserTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
+        // Unable to generate entity type for table 'dbo.PatientInstitutionLinkHistory'. Please see the warning messages.
+        // Unable to generate entity type for table 'dbo.SharedAreas'. Please see the warning messages.
+        // Unable to generate entity type for table 'dbo.EndUserLicenseAgreements'. Please see the warning messages.
+        // Unable to generate entity type for table 'dbo.AppLoginHistories'. Please see the warning messages.
+        // Unable to generate entity type for table 'dbo.PasswordHistories'. Please see the warning messages.
+
         // can only have a single option per instance.
         private bool UseDefaultBuilder { get; set; } = true;
 
         public NuMedicsGlobalContext(DbContextOptions<NuMedicsGlobalContext> options) : base(options) { UseDefaultBuilder = false; }
         public NuMedicsGlobalContext() { }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (UseDefaultBuilder)
-            {
-                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(@"Server=STAGESERVER\SQLDEV2014;Database=NuMedicsGlobal;User=nuweb;Password=P@ssw0rd;Trusted_Connection=True;MultipleActiveResultSets=true");
-            }
+            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            optionsBuilder.UseSqlServer(@"Server=STAGESERVER\SQLDEV2014;Database=NuMedicsGlobal;User=nuweb;Password=P@ssw0rd;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppLoginHistories>(entity =>
-            {
-                entity.HasKey(e => e.HistoryId)
-                    .HasName("PK_AppLoginHistories");
-
-                entity.Property(e => e.HistoryId).ValueGeneratedNever();
-
-                entity.Property(e => e.LoginDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.AppLoginHistories)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_AppLoginHistories_Applications");
-            });
-
             modelBuilder.Entity<AppSettings>(entity =>
             {
                 entity.HasKey(e => e.AppSettingId)
@@ -150,7 +139,7 @@ namespace NuDataDb.EF
 
                 entity.HasOne(d => d.Appication)
                     .WithMany(p => p.AppUserSettings)
-                    .HasForeignKey(d => d.ApplicationId)
+                    .HasForeignKey(d => d.AppicationId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_AppUserSettings_Applications");
             });
@@ -190,9 +179,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.BasalDeliveryId)
                     .HasName("PK_BasalDeliveries");
 
-                entity.HasIndex(e => e.StartDateTime)
-                    .HasName("IX_BasalDeliveries");
-
                 entity.Property(e => e.Duration)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -210,9 +196,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.DataId)
                     .HasName("PK_BasalDeliveryData");
-
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_Date");
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
@@ -238,9 +221,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.BasalSlotId)
                     .HasName("PK_InsuletBasalTimeSlots");
 
-                entity.HasIndex(e => e.DateSet)
-                    .HasName("IX_DateSet");
-
                 entity.Property(e => e.DateSet).HasColumnType("datetime");
 
                 entity.Property(e => e.StartTime).HasColumnType("time(2)");
@@ -259,9 +239,6 @@ namespace NuDataDb.EF
                     .HasName("PK_BGTargets");
 
                 entity.ToTable("BGTargets");
-
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_BGTargets");
 
                 entity.Property(e => e.TargetId).ValueGeneratedNever();
 
@@ -283,10 +260,11 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.ReadingId)
                     .HasName("PK_MeterReadings");
 
-                entity.HasIndex(e => e.ReadingDateTime)
-                    .HasName("IX_ReadingDate");
-
                 entity.Property(e => e.Active).HasDefaultValueSql("0");
+
+                entity.Property(e => e.IsCgmdata)
+                    .HasColumnName("IsCGMData")
+                    .HasDefaultValueSql("0");
 
                 entity.Property(e => e.ReadingDateTime).HasColumnType("datetime");
 
@@ -306,9 +284,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.CarbId)
                     .HasName("PK_BolusCarbs");
 
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_Date");
-
                 entity.Property(e => e.CarbId).ValueGeneratedNever();
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
@@ -320,10 +295,10 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_BolusCarbs_BolusDelivery");
             });
 
-            modelBuilder.Entity<BolusDelivery>(entity =>
+            modelBuilder.Entity<BolusDeliveries>(entity =>
             {
-                entity.HasIndex(e => e.StartDateTime)
-                    .HasName("IX_StartDate");
+                entity.HasKey(e => e.BolusDeliveryId)
+                    .HasName("PK_BolusDelivery");
 
                 entity.Property(e => e.AmountDelivered).HasDefaultValueSql("0");
 
@@ -340,7 +315,7 @@ namespace NuDataDb.EF
                 entity.Property(e => e.Type).HasMaxLength(50);
 
                 entity.HasOne(d => d.ReadingKey)
-                    .WithMany(p => p.BolusDelivery)
+                    .WithMany(p => p.BolusDeliveries)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_BolusDelivery_ReadingHeaders1");
@@ -350,12 +325,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.DataId)
                     .HasName("PK_BolusDeliveryData");
-
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_DeliveryDate");
-
-                entity.HasIndex(e => new { e.Date, e.Name })
-                    .HasName("IX_Name");
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
@@ -379,9 +348,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.BolusSlotId)
                     .HasName("PK_BolusProgramTimeSlots");
-
-                entity.HasIndex(e => e.DateSet)
-                    .HasName("IX_DateSet");
 
                 entity.Property(e => e.DateSet).HasColumnType("datetime");
 
@@ -417,9 +383,6 @@ namespace NuDataDb.EF
 
                 entity.ToTable("CGMReminders");
 
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_ReadingDate");
-
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
                 entity.Property(e => e.Enabled).HasDefaultValueSql("0");
@@ -432,26 +395,21 @@ namespace NuDataDb.EF
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.HasOne(d => d.PumpKey)
+                entity.HasOne(d => d.ReadingKey)
                     .WithMany(p => p.Cgmreminders)
-                    .HasForeignKey(d => d.PumpKeyId)
+                    .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_CGMReminders_Pumps1");
+                    .HasConstraintName("FK_CGMReminders_ReadingHeaders");
             });
 
             modelBuilder.Entity<Cgmsessions>(entity =>
             {
-                entity.HasKey(e => e.Cgmid)
-                    .HasName("PK_CGMSessions");
+                entity.HasKey(e => e.CgmsessionId)
+                    .HasName("PK_CGMSessions_1");
 
                 entity.ToTable("CGMSessions");
 
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_Date");
-
-                entity.Property(e => e.Cgmid)
-                    .HasColumnName("CGMId")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.CgmsessionId).HasColumnName("CGMSessionId");
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
@@ -461,11 +419,11 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.TimeInSeconds).HasDefaultValueSql("0");
 
-                entity.HasOne(d => d.Cgm)
-                    .WithOne(p => p.Cgmsessions)
-                    .HasForeignKey<Cgmsessions>(d => d.Cgmid)
+                entity.HasOne(d => d.ReadingKey)
+                    .WithMany(p => p.Cgmsessions)
+                    .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_CGMSessions_Pumps");
+                    .HasConstraintName("FK_CGMSessions_ReadingHeaders");
             });
 
             modelBuilder.Entity<CheckStatus>(entity =>
@@ -482,9 +440,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.CheckId)
                     .HasName("PK_Checks");
-
-                entity.HasIndex(e => e.CheckDateRecieved)
-                    .HasName("CheckDateRecieved");
 
                 entity.Property(e => e.CheckId).ValueGeneratedNever();
 
@@ -538,9 +493,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.FactorId)
                     .HasName("PK_CorrectionFactors");
 
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_Date");
-
                 entity.Property(e => e.FactorId).ValueGeneratedNever();
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
@@ -570,14 +522,6 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_DailyTimeSlots_CareSettings");
             });
 
-            modelBuilder.Entity<DataLinkLog>(entity =>
-            {
-                entity.HasKey(e => e.LinkId)
-                    .HasName("PK_DataLinkLog");
-
-                entity.Property(e => e.Date).HasColumnType("datetime");
-            });
-
             modelBuilder.Entity<DataShareCategories>(entity =>
             {
                 entity.HasKey(e => e.CategoryId)
@@ -603,9 +547,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.DataSetId)
                     .HasName("PK_DeviceData");
 
-                entity.HasIndex(e => e.LastUpdate)
-                    .HasName("IX_LastUpdate");
-
                 entity.Property(e => e.DataSetId).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.DataSet)
@@ -626,16 +567,13 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.SettingId)
                     .HasName("PK_DeviceSettings");
 
-                entity.HasIndex(e => new { e.DateSet, e.Name })
-                    .HasName("IX_Name");
-
-                entity.Property(e => e.DateSet).HasColumnType("datetime");
-
                 entity.Property(e => e.Description).HasMaxLength(250);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(150);
+
+                entity.Property(e => e.ReadingDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Value)
                     .IsRequired()
@@ -673,9 +611,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.DmdataId)
                     .HasName("PK_DiabetesManagementData");
 
-                entity.HasIndex(e => new { e.UserId, e.ModifiedDate })
-                    .HasName("IX_UserId");
-
                 entity.Property(e => e.DmdataId)
                     .HasColumnName("DMDataId")
                     .ValueGeneratedNever();
@@ -701,30 +636,6 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_DiabetesManagementData_PatientDevices");
             });
 
-            modelBuilder.Entity<DiabetesManagementTypes>(entity =>
-            {
-                entity.HasKey(e => e.TypeId)
-                    .HasName("PK_DiabetesManagementTypes");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(150);
-            });
-
-            modelBuilder.Entity<EndUserLicenseAgreements>(entity =>
-            {
-                entity.HasKey(e => e.AgreementId)
-                    .HasName("PK_EndUserLicenseAgreements");
-
-                entity.Property(e => e.AgreementDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.EndUserLicenseAgreements)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_EndUserLicenseAgreements_Applications");
-            });
-
             modelBuilder.Entity<Institutions>(entity =>
             {
                 entity.HasKey(e => e.InstitutionId)
@@ -739,8 +650,6 @@ namespace NuDataDb.EF
                 entity.Property(e => e.ContactFirstname).HasMaxLength(150);
 
                 entity.Property(e => e.ContactLastname).HasMaxLength(150);
-
-                entity.Property(e => e.ContactPhoneNumber).HasMaxLength(50);
 
                 entity.Property(e => e.Country).HasMaxLength(250);
 
@@ -776,9 +685,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.RatioId)
                     .HasName("PK_InsulinCarbRatio");
 
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_ReadingDate");
-
                 entity.Property(e => e.RatioId).ValueGeneratedNever();
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
@@ -796,9 +702,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.CorrectionId)
                     .HasName("PK_InsulinCorrections");
-
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_DateSet");
 
                 entity.Property(e => e.CorrectionId).ValueGeneratedNever();
 
@@ -931,7 +834,19 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.InActiveDate).HasColumnType("datetime");
 
+                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+
                 entity.Property(e => e.Name).HasMaxLength(250);
+            });
+
+            modelBuilder.Entity<LinkTypes>(entity =>
+            {
+                entity.HasKey(e => e.TypeId)
+                    .HasName("PK_DiabetesManagementTypes");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(150);
             });
 
             modelBuilder.Entity<NutritionReadings>(entity =>
@@ -939,12 +854,11 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.ReadingId)
                     .HasName("PK_NutritionReadings");
 
-                entity.HasIndex(e => e.ReadingDateTime)
-                    .HasName("IX_ReadingDate");
-
                 entity.Property(e => e.Calories).HasDefaultValueSql("0");
 
                 entity.Property(e => e.Carbohydrates).HasDefaultValueSql("0");
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
 
                 entity.Property(e => e.Fat).HasDefaultValueSql("0");
 
@@ -957,24 +871,6 @@ namespace NuDataDb.EF
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_NutritionReadings_ReadingHeaders1");
-            });
-
-            modelBuilder.Entity<PasswordHistories>(entity =>
-            {
-                entity.HasKey(e => e.HistoryId)
-                    .HasName("PK_PasswordHistories");
-
-                entity.Property(e => e.LastDateUsed).HasColumnType("datetime");
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(150);
-
-                entity.HasOne(d => d.Authentication)
-                    .WithMany(p => p.PasswordHistories)
-                    .HasForeignKey(d => d.AuthenticationId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_PasswordHistories_UserAuthentications");
             });
 
             modelBuilder.Entity<PatientAddresses>(entity =>
@@ -1019,20 +915,15 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.DeviceId)
                     .HasName("PK_PatientDevices");
 
-                entity.HasIndex(e => e.DeviceModel)
-                    .HasName("IX_DeviceModel");
-
-                entity.HasIndex(e => new { e.DeviceModel, e.MeterIndex })
-                    .HasName("IX_MeterIndex");
-
-                entity.HasIndex(e => new { e.DeviceModel, e.SerialNumber })
-                    .HasName("IX_SerialNumber");
-
                 entity.Property(e => e.DeviceModel).HasMaxLength(80);
 
                 entity.Property(e => e.DeviceName).HasMaxLength(80);
 
                 entity.Property(e => e.HardwareVersion).HasMaxLength(50);
+
+                entity.Property(e => e.IsCgmdata)
+                    .HasColumnName("IsCGMData")
+                    .HasDefaultValueSql("0");
 
                 entity.Property(e => e.Manufacturer).HasMaxLength(150);
 
@@ -1048,16 +939,27 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_PatientDevices_Patients");
             });
 
-            modelBuilder.Entity<PatientLinkLogs>(entity =>
+            modelBuilder.Entity<PatientInstitutionLinkHistory>(entity =>
             {
-                entity.HasKey(e => e.LinkId)
-                    .HasName("PK_PatientLinkLogs");
+                entity.Property(e => e.Date).HasColumnType("datetime");
+            });
 
-                entity.Property(e => e.HasFreeDownload).HasDefaultValueSql("0");
+            modelBuilder.Entity<PatientMedications>(entity =>
+            {
+                entity.HasKey(e => e.PatientMedicationId)
+                    .HasName("PK_PatientMedications");
 
-                entity.Property(e => e.LinkCreationDate).HasColumnType("datetime");
+                entity.Property(e => e.LastUpdated).HasColumnType("date");
 
-                entity.Property(e => e.LinkSeverDate).HasColumnType("datetime");
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.PatientMedications)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_PatientMedications_Patients");
             });
 
             modelBuilder.Entity<PatientPhoneNumbers>(entity =>
@@ -1081,19 +983,29 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_PatientPhoneNumbers_Patients");
             });
 
+            modelBuilder.Entity<PatientPhotos>(entity =>
+            {
+                entity.HasKey(e => e.PhotoId)
+                    .HasName("PK_PatientPhotos");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(80);
+
+                entity.Property(e => e.Photo)
+                    .IsRequired()
+                    .HasColumnType("image");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.PatientPhotos)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_PatientPhotos_Patients");
+            });
+
             modelBuilder.Entity<Patients>(entity =>
             {
                 entity.HasKey(e => e.UserId)
                     .HasName("PK_Patients");
-
-                entity.HasIndex(e => e.DateofBirth)
-                    .HasName("IX_DateOfBirth");
-
-                entity.HasIndex(e => e.Firstname)
-                    .HasName("IX_Firstname");
-
-                entity.HasIndex(e => e.Lastname)
-                    .HasName("IX_Lastname");
 
                 entity.Property(e => e.UserId).ValueGeneratedNever();
 
@@ -1166,9 +1078,6 @@ namespace NuDataDb.EF
 
             modelBuilder.Entity<PayPal>(entity =>
             {
-                entity.HasIndex(e => e.PaymentDate)
-                    .HasName("IX_PaymentDate");
-
                 entity.Property(e => e.PayPalId).ValueGeneratedNever();
 
                 entity.Property(e => e.McFee)
@@ -1235,17 +1144,7 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.PaymentId)
                     .HasName("PK_Payments");
 
-                entity.HasIndex(e => e.ApprovalDate)
-                    .HasName("IX_ApprovalDate");
-
-                entity.HasIndex(e => new { e.ApprovalDate, e.PaymentMethod })
-                    .HasName("IX_PaymentMethod");
-
                 entity.Property(e => e.PaymentId).ValueGeneratedNever();
-
-                entity.Property(e => e.ApprovalDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(1)-(1))-(1800");
 
                 entity.HasOne(d => d.Payment)
                     .WithOne(p => p.Payments)
@@ -1258,9 +1157,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.ReadingId)
                     .HasName("PK_PhysiologicalReadings");
-
-                entity.HasIndex(e => e.Time)
-                    .HasName("IX_ReadingTime");
 
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
@@ -1275,9 +1171,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.PumpProgramId)
                     .HasName("PK_InsuletPumpPrograms");
-
-                entity.HasIndex(e => new { e.CreationDate, e.ProgramName })
-                    .HasName("IX_ProgramName");
 
                 entity.Property(e => e.CreationDate).HasColumnType("datetime");
 
@@ -1303,9 +1196,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.SettingId)
                     .HasName("PK_PumpSettings");
 
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_Date");
-
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
                 entity.Property(e => e.Description).HasMaxLength(150);
@@ -1329,12 +1219,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.PumpKeyId)
                     .HasName("PK_InsuletPump");
-
-                entity.HasIndex(e => new { e.PumpStartDate, e.PumpName })
-                    .HasName("IX_PumpName");
-
-                entity.HasIndex(e => new { e.PumpStartDate, e.UserId })
-                    .HasName("IX_PumpUser");
 
                 entity.Property(e => e.PumpKeyId).ValueGeneratedNever();
 
@@ -1366,12 +1250,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.ErrorId)
                     .HasName("PK_ReadingErrors");
 
-                entity.HasIndex(e => e.Time)
-                    .HasName("IX_ErrorTime");
-
-                entity.HasIndex(e => new { e.Time, e.ErrorName })
-                    .HasName("IX_ErrorName");
-
                 entity.Property(e => e.ErrorName)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -1402,12 +1280,6 @@ namespace NuDataDb.EF
                 entity.HasKey(e => e.Eventid)
                     .HasName("PK_ReadingEvents");
 
-                entity.HasIndex(e => new { e.EventTime, e.EventType })
-                    .HasName("IX_EventType");
-
-                entity.HasIndex(e => new { e.EventTime, e.EventValue })
-                    .HasName("IX_EventValue");
-
                 entity.Property(e => e.EventTime).HasColumnType("datetime");
 
                 entity.Property(e => e.EventValue)
@@ -1431,9 +1303,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.ReadingKeyId)
                     .HasName("PK_ReadingHeaders");
-
-                entity.HasIndex(e => e.MeterDateTime)
-                    .HasName("IX_MeterDate");
 
                 entity.Property(e => e.ReadingKeyId).ValueGeneratedNever();
 
@@ -1467,9 +1336,6 @@ namespace NuDataDb.EF
 
             modelBuilder.Entity<SharedAreas>(entity =>
             {
-                entity.HasKey(e => e.ShareId)
-                    .HasName("PK_SharedAreas");
-
                 entity.HasOne(d => d.Request)
                     .WithMany(p => p.SharedAreas)
                     .HasForeignKey(d => d.RequestId)
@@ -1490,9 +1356,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.SubscriptionId)
                     .HasName("PK_Subscriptions");
-
-                entity.HasIndex(e => e.ExpirationDate)
-                    .HasName("IX_Subscriptions");
 
                 entity.Property(e => e.ExpirationDate).HasColumnType("datetime");
 
@@ -1517,9 +1380,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.ReadingId)
                     .HasName("PK_TensReadings");
-
-                entity.HasIndex(e => e.ReadingDate)
-                    .HasName("IX_ReadingDate");
 
                 entity.Property(e => e.ReadingDate).HasColumnType("datetime");
 
@@ -1546,9 +1406,6 @@ namespace NuDataDb.EF
             {
                 entity.HasKey(e => e.DeliveryId)
                     .HasName("PK_TotalDailyDelivery");
-
-                entity.HasIndex(e => e.Date)
-                    .HasName("IX_ReadingDate");
 
                 entity.Property(e => e.BasalDelivered).HasDefaultValueSql("0");
 
@@ -1603,18 +1460,6 @@ namespace NuDataDb.EF
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_UserAuthentications_Users");
-            });
-
-            modelBuilder.Entity<UserPhotos>(entity =>
-            {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK_UserPhotos");
-
-                entity.Property(e => e.UserId).ValueGeneratedNever();
-
-                entity.Property(e => e.Photo)
-                    .IsRequired()
-                    .HasColumnType("image");
             });
 
             modelBuilder.Entity<UserTypes>(entity =>

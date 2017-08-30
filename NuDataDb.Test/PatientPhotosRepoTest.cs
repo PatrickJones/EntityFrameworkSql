@@ -10,22 +10,22 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class UserPhotosnRepoTest : BaseUnitTest<UserPhotos>
+    public class UserPhotosnRepoTest : BaseUnitTest<PatientPhotos>
     {
-        protected UserPhotosRepo repo;
+        protected PatientPhotosRepo repo;
 
         protected override void SetContextData()
         {
-            repo = new UserPhotosRepo(testCtx);
+            repo = new PatientPhotosRepo(testCtx);
 
-            var b = new Faker<UserPhotos>()
+            var b = new Faker<PatientPhotos>()
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.Photo, f => f.Random.Bytes(5));
 
             var bs = b.Generate(3).OrderBy(o => o.UserId).ToList();
             FakeCollection.AddRange(bs);
 
-            testCtx.UserPhotos.AddRange(bs);
+            testCtx.PatientPhotos.AddRange(bs);
             int added = testCtx.SaveChanges();
         }
 
@@ -52,13 +52,13 @@ namespace NuDataDb.Test
         [TestMethod]
         public void DeleteUserPhotos()
         {
-            var currentCnt = testCtx.UserPhotos.Count();
+            var currentCnt = testCtx.PatientPhotos.Count();
 
-            var entity = testCtx.UserPhotos.First();
+            var entity = testCtx.PatientPhotos.First();
             repo.Delete(entity.UserId);
             repo.Save();
 
-            Assert.IsTrue(testCtx.UserPhotos.Count() == --currentCnt);
+            Assert.IsTrue(testCtx.PatientPhotos.Count() == --currentCnt);
         }
 
         [TestMethod]

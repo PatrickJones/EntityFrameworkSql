@@ -6,25 +6,13 @@ using System.Linq;
 
 namespace NuDataDb.Repositories
 {
-    public class PatientLinkLogsRepo : BaseRepo<PatientLinkLogs>
+    public class PatientLinkLogsRepo : BaseRepo<PatientInstitutionLinkHistory>
     {
         public PatientLinkLogsRepo(NuMedicsGlobalContext dbContext) : base(dbContext)
         {
         }
 
-        public override PatientLinkLogs GetSingle(int id)
-        {
-            return ctx.PatientLinkLogs.FirstOrDefault(f => f.LinkId == id);
-        }
+        // Cannot get single or delete
 
-        public override void Delete(int id)
-        {
-            var del = ctx.PatientLinkLogs.FirstOrDefault(f => f.LinkId == id);
-            if (del != null)
-            {
-                ctx.Remove(del);
-                Save();
-            }
-        }
     }
 }

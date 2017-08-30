@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace NuDataDb.EF
 {
-    public partial class BolusDelivery
+    public partial class BolusDeliveries
     {
-        public BolusDelivery()
+        public BolusDeliveries()
         {
             BolusDeliveryData = new HashSet<BolusDeliveryData>();
         }

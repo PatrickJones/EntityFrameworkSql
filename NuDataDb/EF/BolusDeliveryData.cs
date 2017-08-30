@@ -12,6 +12,6 @@ namespace NuDataDb.EF
         public string Description { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual BolusDelivery BolusDelivery { get; set; }
+        public virtual BolusDeliveries BolusDelivery { get; set; }
     }
 }

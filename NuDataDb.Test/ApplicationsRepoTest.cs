@@ -12,11 +12,11 @@ namespace NuDataDb.Test
     [TestClass]
     public class ApplicationsnRepoTest : BaseUnitTest<Applications>
     {
-        protected ApplicationRepo repo;
+        protected ApplicationsRepo repo;
 
         protected override void SetContextData()
         {
-            repo = new ApplicationRepo(testCtx);
+            repo = new ApplicationsRepo(testCtx);
 
             var b = new Faker<Applications>()
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())

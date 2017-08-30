@@ -10,7 +10,9 @@ namespace NuDataDb.EF
             CareSettings = new HashSet<CareSettings>();
             PatientAddresses = new HashSet<PatientAddresses>();
             PatientDevices = new HashSet<PatientDevices>();
+            PatientMedications = new HashSet<PatientMedications>();
             PatientPhoneNumbers = new HashSet<PatientPhoneNumbers>();
+            PatientPhotos = new HashSet<PatientPhotos>();
             PatientsInstitutions = new HashSet<PatientsInstitutions>();
             PatientsInsurancePlans = new HashSet<PatientsInsurancePlans>();
             Subscriptions = new HashSet<Subscriptions>();
@@ -32,7 +34,9 @@ namespace NuDataDb.EF
         public virtual ICollection<CareSettings> CareSettings { get; set; }
         public virtual ICollection<PatientAddresses> PatientAddresses { get; set; }
         public virtual ICollection<PatientDevices> PatientDevices { get; set; }
+        public virtual ICollection<PatientMedications> PatientMedications { get; set; }
         public virtual ICollection<PatientPhoneNumbers> PatientPhoneNumbers { get; set; }
+        public virtual ICollection<PatientPhotos> PatientPhotos { get; set; }
         public virtual ICollection<PatientsInstitutions> PatientsInstitutions { get; set; }
         public virtual ICollection<PatientsInsurancePlans> PatientsInsurancePlans { get; set; }
         public virtual ICollection<Subscriptions> Subscriptions { get; set; }

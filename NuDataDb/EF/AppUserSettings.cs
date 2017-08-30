@@ -9,7 +9,7 @@ namespace NuDataDb.EF
         public string Name { get; set; }
         public string Value { get; set; }
         public string Description { get; set; }
-        public Guid ApplicationId { get; set; }
+        public Guid AppicationId { get; set; }
         public Guid UserId { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 

@@ -9,7 +9,9 @@ namespace NuDataDb.EF
         {
             BasalDeliveries = new HashSet<BasalDeliveries>();
             BloodGlucoseReadings = new HashSet<BloodGlucoseReadings>();
-            BolusDelivery = new HashSet<BolusDelivery>();
+            BolusDeliveries = new HashSet<BolusDeliveries>();
+            Cgmreminders = new HashSet<Cgmreminders>();
+            Cgmsessions = new HashSet<Cgmsessions>();
             DeviceSettings = new HashSet<DeviceSettings>();
             NutritionReadings = new HashSet<NutritionReadings>();
             PhysiologicalReadings = new HashSet<PhysiologicalReadings>();
@@ -32,7 +34,9 @@ namespace NuDataDb.EF
 
         public virtual ICollection<BasalDeliveries> BasalDeliveries { get; set; }
         public virtual ICollection<BloodGlucoseReadings> BloodGlucoseReadings { get; set; }
-        public virtual ICollection<BolusDelivery> BolusDelivery { get; set; }
+        public virtual ICollection<BolusDeliveries> BolusDeliveries { get; set; }
+        public virtual ICollection<Cgmreminders> Cgmreminders { get; set; }
+        public virtual ICollection<Cgmsessions> Cgmsessions { get; set; }
         public virtual ICollection<DeviceSettings> DeviceSettings { get; set; }
         public virtual ICollection<NutritionReadings> NutritionReadings { get; set; }
         public virtual ICollection<PhysiologicalReadings> PhysiologicalReadings { get; set; }
