@@ -23,7 +23,6 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.HyperglycemicLevel, f => f.Random.Int())
                 .RuleFor(r => r.HypoglycemicLevel, f => f.Random.Int())
                 .RuleFor(r => r.InsulinMethod, f => f.Random.Int())
-                .RuleFor(r => r.DiabetesManagementType, f => f.Random.Int())
                 .RuleFor(r => r.InsulinBrand, f => f.Random.Int())
                 .RuleFor(r => r.DateModified, f => new DateTime(f.Random.Long(
                     DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
