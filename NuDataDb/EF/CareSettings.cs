@@ -16,7 +16,7 @@ namespace NuDataDb.EF
         public int HyperglycemicLevel { get; set; }
         public int HypoglycemicLevel { get; set; }
         public int InsulinMethod { get; set; }
-        public int DiabetesManagementType { get; set; }
+        public string DiabetesManagementType { get; set; }
         public int InsulinBrand { get; set; }
         public DateTime DateModified { get; set; }
         public Guid LastUpdatedByUser { get; set; }

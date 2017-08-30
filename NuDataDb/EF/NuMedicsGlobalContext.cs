@@ -387,6 +387,8 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.HypoglycemicLevel).HasDefaultValueSql("0");
 
+                entity.Property(e => e.DiabetesManagementType).HasMaxLength(150);
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.CareSettings)
                     .HasForeignKey(d => d.UserId)
