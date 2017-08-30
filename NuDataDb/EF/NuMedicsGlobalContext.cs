@@ -50,7 +50,7 @@ namespace NuDataDb.EF
         public virtual DbSet<PasswordHistories> PasswordHistories { get; set; }
         public virtual DbSet<PatientAddresses> PatientAddresses { get; set; }
         public virtual DbSet<PatientDevices> PatientDevices { get; set; }
-        public virtual DbSet<PatientInstitutionLinkHistory> PatientLinkLogs { get; set; }
+        public virtual DbSet<PatientInstitutionLinkHistory> PatientInstitutionLinkHistory { get; set; }
         public virtual DbSet<PatientMedications> PatientMedications { get; set; }
         public virtual DbSet<PatientPhoneNumbers> PatientPhoneNumbers { get; set; }
         public virtual DbSet<PatientPhotos> PatientPhotos { get; set; }
@@ -75,7 +75,6 @@ namespace NuDataDb.EF
         public virtual DbSet<TherapyTypes> TherapyTypes { get; set; }
         public virtual DbSet<TotalDailyInsulinDeliveries> TotalDailyInsulinDeliveries { get; set; }
         public virtual DbSet<UserAuthentications> UserAuthentications { get; set; }
-        public virtual DbSet<UserPhotos> UserPhotos { get; set; }
         public virtual DbSet<UserTypes> UserTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
@@ -94,12 +93,31 @@ namespace NuDataDb.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseSqlServer(@"Server=STAGESERVER\SQLDEV2014;Database=NuMedicsGlobal;User=nuweb;Password=P@ssw0rd;Trusted_Connection=True;MultipleActiveResultSets=true");
+            if (UseDefaultBuilder)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer(@"Server=STAGESERVER\SQLDEV2014;Database=NuMedicsGlobal;User=nuweb;Password=P@ssw0rd;Trusted_Connection=True;MultipleActiveResultSets=true");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AppLoginHistories>(entity =>
+            {
+                entity.HasKey(e => e.HistoryId)
+                    .HasName("PK_AppLoginHistories");
+
+                entity.Property(e => e.HistoryId).ValueGeneratedNever();
+
+                entity.Property(e => e.LoginDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Application)
+                    .WithMany(p => p.AppLoginHistories)
+                    .HasForeignKey(d => d.ApplicationId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_AppLoginHistories_Applications");
+            });
+
             modelBuilder.Entity<AppSettings>(entity =>
             {
                 entity.HasKey(e => e.AppSettingId)
@@ -636,6 +654,20 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_DiabetesManagementData_PatientDevices");
             });
 
+            modelBuilder.Entity<EndUserLicenseAgreements>(entity =>
+            {
+                entity.HasKey(e => e.AgreementId)
+                    .HasName("PK_EndUserLicenseAgreements");
+
+                entity.Property(e => e.AgreementDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Application)
+                    .WithMany(p => p.EndUserLicenseAgreements)
+                    .HasForeignKey(d => d.ApplicationId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_EndUserLicenseAgreements_Applications");
+            });
+
             modelBuilder.Entity<Institutions>(entity =>
             {
                 entity.HasKey(e => e.InstitutionId)
@@ -873,6 +905,24 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_NutritionReadings_ReadingHeaders1");
             });
 
+            modelBuilder.Entity<PasswordHistories>(entity =>
+            {
+                entity.HasKey(e => e.HistoryId)
+                    .HasName("PK_PasswordHistories");
+
+                entity.Property(e => e.LastDateUsed).HasColumnType("datetime");
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
+                entity.HasOne(d => d.Authentication)
+                    .WithMany(p => p.PasswordHistories)
+                    .HasForeignKey(d => d.AuthenticationId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_PasswordHistories_UserAuthentications");
+            });
+
             modelBuilder.Entity<PatientAddresses>(entity =>
             {
                 entity.HasKey(e => e.AddressId)
@@ -941,6 +991,9 @@ namespace NuDataDb.EF
 
             modelBuilder.Entity<PatientInstitutionLinkHistory>(entity =>
             {
+                entity.HasKey(e => e.LinkId)
+                    .HasName("PK_PatientInstitutionLinkHistory");
+
                 entity.Property(e => e.Date).HasColumnType("datetime");
             });
 
@@ -1336,6 +1389,9 @@ namespace NuDataDb.EF
 
             modelBuilder.Entity<SharedAreas>(entity =>
             {
+                entity.HasKey(e => e.ShareId)
+                    .HasName("PK_SharedAreas");
+
                 entity.HasOne(d => d.Request)
                     .WithMany(p => p.SharedAreas)
                     .HasForeignKey(d => d.RequestId)

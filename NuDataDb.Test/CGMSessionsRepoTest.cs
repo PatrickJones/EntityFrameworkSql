@@ -49,7 +49,7 @@ namespace NuDataDb.Test
         [TestMethod]
         public void GetSingleCGMIdNotExist()
         {
-            var fakeId = Guid.NewGuid();
+            long fakeId = 9989898989;
             var single = repo.GetSingle(fakeId);
 
             Assert.IsNull(single);
@@ -71,13 +71,13 @@ namespace NuDataDb.Test
         [TestMethod]
         public void DeleteCGMIdNotExist()
         {
-            var currentCnt = testCtx.AppSettings.Count();
+            var currentCnt = testCtx.Cgmsessions.Count();
 
-            var fakeId = Guid.NewGuid();
+            long fakeId = 9999999;
             repo.Delete(fakeId);
             repo.Save();
 
-            Assert.IsTrue(testCtx.AppSettings.Count() == currentCnt);
+            Assert.IsTrue(testCtx.Cgmsessions.Count() == currentCnt);
         }
     }
 }

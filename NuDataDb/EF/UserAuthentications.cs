@@ -5,6 +5,11 @@ namespace NuDataDb.EF
 {
     public partial class UserAuthentications
     {
+        public UserAuthentications()
+        {
+            PasswordHistories = new HashSet<PasswordHistories>();
+        }
+
         public int AuthenticationId { get; set; }
         public Guid ApplicationId { get; set; }
         public Guid UserId { get; set; }
@@ -23,6 +28,7 @@ namespace NuDataDb.EF
         public string NotApprovedReason { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
+        public virtual ICollection<PasswordHistories> PasswordHistories { get; set; }
         public virtual Applications Application { get; set; }
         public virtual Users User { get; set; }
     }

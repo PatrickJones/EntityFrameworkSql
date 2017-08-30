@@ -6,6 +6,7 @@ namespace NuDataDb.EF
 {
     public partial class SharedAreas
     {
+        public int ShareId { get; set; }
         public int DataShareCategoryId { get; set; }
         public int RequestId { get; set; }
 

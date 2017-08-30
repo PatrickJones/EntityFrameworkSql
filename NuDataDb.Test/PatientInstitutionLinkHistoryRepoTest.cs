@@ -12,11 +12,11 @@ namespace NuDataDb.Test
     [TestClass]
     public class PatientInstitutionLinkHistoryRepoTest : BaseUnitTest<PatientInstitutionLinkHistory>
     {
-        protected PatientLinkLogsRepo repo;
+        protected PatientInstitutionLinkHistoryRepo repo;
 
         protected override void SetContextData()
         {
-            repo = new PatientLinkLogsRepo(testCtx);
+            repo = new PatientInstitutionLinkHistoryRepo(testCtx);
 
             var b = new Faker<PatientInstitutionLinkHistory>()
                 .RuleFor(r => r.InstitutionId, f => f.Random.Uuid())
@@ -28,7 +28,7 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.Date).ToList();
             FakeCollection.AddRange(bs);
 
-            testCtx.PatientLinkLogs.AddRange(bs);
+            testCtx.PatientInstitutionLinkHistory.AddRange(bs);
             int added = testCtx.SaveChanges();
             
         }
@@ -38,7 +38,7 @@ namespace NuDataDb.Test
         {
             var fakeApp = FakeCollection.First();
             //var single = repo.GetSingle(fakeApp.PatientId);
-            Assert.ThrowsException<NotSupportedException>(() => repo.GetSingle(fakeApp.PatientId));
+            Assert.ThrowsException<NotImplementedException>(() => repo.GetSingle(fakeApp.PatientId));
 
             //Assert.AreEqual(fakeApp.InstitutionId, single.InstitutionId);
             //Assert.AreEqual(fakeApp.PatientId, single.PatientId);
@@ -59,11 +59,11 @@ namespace NuDataDb.Test
         [TestMethod]
         public void DeleteDataLinkLog()
         {
-            var currentCnt = testCtx.PatientLinkLogs.Count();
+            var currentCnt = testCtx.PatientInstitutionLinkHistory.Count();
 
-            var entity = testCtx.PatientLinkLogs.First();
+            var entity = testCtx.PatientInstitutionLinkHistory.First();
 
-            Assert.ThrowsException<NotSupportedException>(() => repo.Delete(entity.PatientId));
+            Assert.ThrowsException<NotImplementedException>(() => repo.Delete(entity.PatientId));
             //repo.Delete(entity.PatientId);
             //repo.Save();
 
