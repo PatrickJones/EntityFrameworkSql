@@ -14,16 +14,31 @@ namespace NuDataDb.Repositories
 
         public override BolusDeliveries GetSingle(int id)
         {
-            return ctx.BolusDeliveries.FirstOrDefault(f => f.BolusDeliveryId == id);
+            try
+            {
+                return ctx.BolusDeliveries.FirstOrDefault(f => f.BolusDeliveryId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(BolusDeliveries)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.BolusDeliveries.FirstOrDefault(f => f.BolusDeliveryId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.BolusDeliveries.FirstOrDefault(f => f.BolusDeliveryId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(BolusDeliveries)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

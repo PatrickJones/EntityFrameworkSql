@@ -14,16 +14,32 @@ namespace NuDataDb.Repositories
 
         public override DeviceData GetSingle(int id)
         {
-            return ctx.DeviceData.FirstOrDefault(f => f.DataSetId == id);
+            try
+            {
+                return ctx.DeviceData.FirstOrDefault(f => f.DataSetId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(DeviceData)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.DeviceData.FirstOrDefault(f => f.DataSetId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.DeviceData.FirstOrDefault(f => f.DataSetId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception($"Error deleting {typeof(DeviceData)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

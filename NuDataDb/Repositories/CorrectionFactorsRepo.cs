@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override CorrectionFactors GetSingle(int id)
         {
-            return ctx.CorrectionFactors.FirstOrDefault(f => f.FactorId == id);
+            try
+            {
+                return ctx.CorrectionFactors.FirstOrDefault(f => f.FactorId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(CorrectionFactors)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.CorrectionFactors.FirstOrDefault(f => f.FactorId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.CorrectionFactors.FirstOrDefault(f => f.FactorId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(CorrectionFactors)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

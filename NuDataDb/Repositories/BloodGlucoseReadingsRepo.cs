@@ -14,31 +14,59 @@ namespace NuDataDb.Repositories
 
         public override BloodGlucoseReadings GetSingle(Int64 id)
         {
-            return ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
+            try
+            {
+                return ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(BloodGlucoseReadings)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override BloodGlucoseReadings GetSingle(int id)
         {
-            return ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
+            try
+            {
+                return ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(BloodGlucoseReadings)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(Int64 id)
         {
-            var del = ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(BloodGlucoseReadings)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.BloodGlucoseReadings.FirstOrDefault(f => f.ReadingId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(BloodGlucoseReadings)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

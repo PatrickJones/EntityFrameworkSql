@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override Checks GetSingle(int id)
         {
-            return ctx.Checks.FirstOrDefault(f => f.CheckId == id);
+            try
+            {
+                return ctx.Checks.FirstOrDefault(f => f.CheckId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(Checks)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.Checks.FirstOrDefault(f => f.CheckId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.Checks.FirstOrDefault(f => f.CheckId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(Checks)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

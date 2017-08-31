@@ -14,16 +14,32 @@ namespace NuDataDb.Repositories
 
         public override AppSettings GetSingle(int id)
         {
-            return ctx.AppSettings.FirstOrDefault(f => f.AppSettingId == id);
+            try
+            {
+                return ctx.AppSettings.FirstOrDefault(f => f.AppSettingId == id);
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(AppSettings)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.AppSettings.FirstOrDefault(f => f.AppSettingId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.AppSettings.FirstOrDefault(f => f.AppSettingId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(AppSettings)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
 

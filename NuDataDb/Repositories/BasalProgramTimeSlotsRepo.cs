@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override BasalProgramTimeSlots GetSingle(int id)
         {
-            return ctx.BasalProgramTimeSlots.FirstOrDefault(f => f.BasalSlotId == id);
+            try
+            {
+                return ctx.BasalProgramTimeSlots.FirstOrDefault(f => f.BasalSlotId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(BasalProgramTimeSlots)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.BasalProgramTimeSlots.FirstOrDefault(f => f.BasalSlotId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.BasalProgramTimeSlots.FirstOrDefault(f => f.BasalSlotId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(BasalProgramTimeSlots)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override EndUserLicenseAgreements GetSingle(int id)
         {
-            return ctx.EndUserLicenseAgreements.FirstOrDefault(f => f.AgreementId == id);
+            try
+            {
+                return ctx.EndUserLicenseAgreements.FirstOrDefault(f => f.AgreementId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(EndUserLicenseAgreements)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.EndUserLicenseAgreements.FirstOrDefault(f => f.AgreementId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.EndUserLicenseAgreements.FirstOrDefault(f => f.AgreementId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(EndUserLicenseAgreements)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override Clinicians GetSingle(Guid id)
         {
-            return ctx.Clinicians.FirstOrDefault(f => f.UserId == id);
+            try
+            {
+                return ctx.Clinicians.FirstOrDefault(f => f.UserId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(Clinicians)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(Guid id)
         {
-            var del = ctx.Clinicians.FirstOrDefault(f => f.UserId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.Clinicians.FirstOrDefault(f => f.UserId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(Clinicians)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

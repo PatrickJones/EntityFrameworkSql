@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override DataShareCategories GetSingle(int id)
         {
-            return ctx.DataShareCategories.FirstOrDefault(f => f.CategoryId == id);
+            try
+            {
+                return ctx.DataShareCategories.FirstOrDefault(f => f.CategoryId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(DataShareCategories)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.DataShareCategories.FirstOrDefault(f => f.CategoryId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.DataShareCategories.FirstOrDefault(f => f.CategoryId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(DataShareCategories)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

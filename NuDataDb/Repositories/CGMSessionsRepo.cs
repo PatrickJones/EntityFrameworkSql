@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override Cgmsessions GetSingle(long id)
         {
-            return ctx.Cgmsessions.FirstOrDefault(f => f.CgmsessionId == id);
+            try
+            {
+                return ctx.Cgmsessions.FirstOrDefault(f => f.CgmsessionId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(Cgmsessions)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(long id)
         {
-            var del = ctx.Cgmsessions.FirstOrDefault(f => f.CgmsessionId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.Cgmsessions.FirstOrDefault(f => f.CgmsessionId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(Cgmsessions)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

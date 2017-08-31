@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override BolusCarbs GetSingle(int id)
         {
-            return ctx.BolusCarbs.FirstOrDefault(f => f.CarbId == id);
+            try
+            {
+                return ctx.BolusCarbs.FirstOrDefault(f => f.CarbId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(BolusCarbs)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.BolusCarbs.FirstOrDefault(f => f.CarbId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.BolusCarbs.FirstOrDefault(f => f.CarbId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(BolusCarbs)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

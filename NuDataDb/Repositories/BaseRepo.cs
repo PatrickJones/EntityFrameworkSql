@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq;
 using NuDataDb.EF;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace NuDataDb.Repositories
 {
@@ -35,12 +36,27 @@ namespace NuDataDb.Repositories
 
         public virtual IEnumerable<T> Get()
         {
-            return ctx.Set<T>().AsEnumerable<T>();
+            try
+            {
+                return ctx.Set<T>().AsEnumerable<T>();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(T)} collection from database.", e);
+            }
         }
 
         public virtual IQueryable<T> GetAsQueryable()
         {
-            return ctx.Set<T>().AsQueryable<T>();
+            try
+            {
+                return ctx.Set<T>().AsQueryable<T>();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(T)} collection from database.", e);
+            }
+            
         }
 
         public virtual T GetSingle(int id)
@@ -60,27 +76,67 @@ namespace NuDataDb.Repositories
 
         public virtual void Insert(T entity)
         {
-            ctx.Add<T>(entity);
+            try
+            {
+                ctx.Add<T>(entity);
+            }
+            catch (Exception e)
+            {
+                var ser = JsonConvert.SerializeObject(entity);
+                throw new Exception($"Error adding {typeof(T)} entity to context. /n/r{ser}", e);
+            }
         }
 
         public async virtual Task InsertAsync(T entity)
         {
-            await ctx.AddAsync<T>(entity);
+            try
+            {
+                await ctx.AddAsync<T>(entity);
+            }
+            catch (Exception e)
+            {
+                var ser = JsonConvert.SerializeObject(entity);
+                throw new Exception($"Error adding {typeof(T)} entity to context. /n/r{ser}", e);
+            }
         }
 
         public virtual int Save()
         {
-            return ctx.SaveChanges();
+            try
+            {
+                return ctx.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error saving changes to database.", e);
+            }
         }
 
         public async virtual Task<int> SaveAsync()
         {
-            return await ctx.SaveChangesAsync();
+            try
+            {
+                return await ctx.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error saving changes to database.", e);
+            }
+            
         }
 
         public virtual void Update(T entity)
         {
-            ctx.Update<T>(entity);
+            try
+            {
+                ctx.Update<T>(entity);
+            }
+            catch (Exception e)
+            {
+                var ser = JsonConvert.SerializeObject(entity);
+                throw new Exception($"Error updating {typeof(T)} entity on context. /n/r{ser}", e);
+            }
+            
         }
 
         #region IDisposable Support

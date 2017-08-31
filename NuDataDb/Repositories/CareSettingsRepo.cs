@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override CareSettings GetSingle(int id)
         {
-            return ctx.CareSettings.FirstOrDefault(f => f.CareSettingsId == id);
+            try
+            {
+                return ctx.CareSettings.FirstOrDefault(f => f.CareSettingsId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(CareSettings)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.CareSettings.FirstOrDefault(f => f.CareSettingsId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.CareSettings.FirstOrDefault(f => f.CareSettingsId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(CareSettings)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }
