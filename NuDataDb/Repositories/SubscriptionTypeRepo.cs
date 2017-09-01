@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override SubscriptionType GetSingle(int id)
         {
-            return ctx.SubscriptionType.FirstOrDefault(f => f.SubscriptionTypeId == id);
+            try
+            {
+                return ctx.SubscriptionType.FirstOrDefault(f => f.SubscriptionTypeId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(SubscriptionType)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.SubscriptionType.FirstOrDefault(f => f.SubscriptionTypeId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.SubscriptionType.FirstOrDefault(f => f.SubscriptionTypeId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(SubscriptionType)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override UserTypes GetSingle(int id)
         {
-            return ctx.UserTypes.FirstOrDefault(f => f.TypeId == id);
+            try
+            {
+                return ctx.UserTypes.FirstOrDefault(f => f.TypeId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(UserTypes)} entity from database. /n/r Entity Id: {id}", e);;
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.UserTypes.FirstOrDefault(f => f.TypeId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.UserTypes.FirstOrDefault(f => f.TypeId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(UserTypes)} entity from database. /n/r Entity Id: {id}", e);;
             }
         }
     }

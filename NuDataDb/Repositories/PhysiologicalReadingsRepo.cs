@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override PhysiologicalReadings GetSingle(int id)
         {
-            return ctx.PhysiologicalReadings.FirstOrDefault(f => f.ReadingId == id);
+            try
+            {
+                return ctx.PhysiologicalReadings.FirstOrDefault(f => f.ReadingId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(PhysiologicalReadings)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.PhysiologicalReadings.FirstOrDefault(f => f.ReadingId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.PhysiologicalReadings.FirstOrDefault(f => f.ReadingId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(PhysiologicalReadings)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

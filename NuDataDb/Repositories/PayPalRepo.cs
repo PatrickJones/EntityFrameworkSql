@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override PayPal GetSingle(int id)
         {
-            return ctx.PayPal.FirstOrDefault(f => f.PayPalId == id);
+            try
+            {
+                return ctx.PayPal.FirstOrDefault(f => f.PayPalId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(PayPal)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.PayPal.FirstOrDefault(f => f.PayPalId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.PayPal.FirstOrDefault(f => f.PayPalId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(PayPal)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

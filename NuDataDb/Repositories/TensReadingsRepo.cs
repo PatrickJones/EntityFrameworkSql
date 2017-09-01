@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override TensReadings GetSingle(int id)
         {
-            return ctx.TensReadings.FirstOrDefault(f => f.ReadingId == id);
+            try
+            {
+                return ctx.TensReadings.FirstOrDefault(f => f.ReadingId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(TensReadings)} entity from database. /n/r Entity Id: {id}", e);throw;
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.TensReadings.FirstOrDefault(f => f.ReadingId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.TensReadings.FirstOrDefault(f => f.ReadingId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(TensReadings)} entity from database. /n/r Entity Id: {id}", e);;
             }
         }
     }

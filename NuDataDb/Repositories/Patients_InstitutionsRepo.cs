@@ -14,26 +14,47 @@ namespace NuDataDb.Repositories
 
         public override PatientsInstitutions GetSingle(Guid id)
         {
-            return ctx.PatientsInstitutions.FirstOrDefault(f => f.UserId == id);
+            try
+            {
+                return ctx.PatientsInstitutions.FirstOrDefault(f => f.UserId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(PatientsInstitutions)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(Guid id)
         {
-            var del = ctx.PatientsInstitutions.FirstOrDefault(f => f.UserId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.PatientsInstitutions.FirstOrDefault(f => f.UserId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(PatientsInstitutions)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
 
         public void Delete(Guid userId, Guid institutionId)
         {
-            var del = ctx.PatientsInstitutions.FirstOrDefault(f => f.UserId == userId && f.InstitutionId == institutionId);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.PatientsInstitutions.FirstOrDefault(f => f.UserId == userId && f.InstitutionId == institutionId);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(PatientsInstitutions)} entity from database using UserId and InstitutionId. /n/r Users Id: {userId} and Institution Id: {institutionId}", e);
             }
         }
     }

@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override InsulinTypes GetSingle(int id)
         {
-            return ctx.InsulinTypes.FirstOrDefault(f => f.InsulinTypeId == id);
+            try
+            {
+                return ctx.InsulinTypes.FirstOrDefault(f => f.InsulinTypeId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(InsulinTypes)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.InsulinTypes.FirstOrDefault(f => f.InsulinTypeId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.InsulinTypes.FirstOrDefault(f => f.InsulinTypeId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(InsulinTypes)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

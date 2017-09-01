@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override PasswordHistories GetSingle(int id)
         {
-            return ctx.PasswordHistories.FirstOrDefault(f => f.HistoryId == id);
+            try
+            {
+                return ctx.PasswordHistories.FirstOrDefault(f => f.HistoryId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(PasswordHistories)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.PasswordHistories.FirstOrDefault(f => f.HistoryId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.PasswordHistories.FirstOrDefault(f => f.HistoryId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(PasswordHistories)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

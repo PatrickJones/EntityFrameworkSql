@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override TherapyTypes GetSingle(int id)
         {
-            return ctx.TherapyTypes.FirstOrDefault(f => f.TypeId == id);
+            try
+            {
+                return ctx.TherapyTypes.FirstOrDefault(f => f.TypeId == id);
+            }
+            catch (Exception e) 
+            {
+                throw new Exception($"Error getting {typeof(TherapyTypes)} entity from database. /n/r Entity Id: {id}", e);;
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.TherapyTypes.FirstOrDefault(f => f.TypeId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.TherapyTypes.FirstOrDefault(f => f.TypeId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(TherapyTypes)} entity from database. /n/r Entity Id: {id}", e);;
             }
         }
     }

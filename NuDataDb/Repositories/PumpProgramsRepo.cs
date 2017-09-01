@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override PumpPrograms GetSingle(int id)
         {
-            return ctx.PumpPrograms.FirstOrDefault(f => f.PumpProgramId == id);
+            try
+            {
+                return ctx.PumpPrograms.FirstOrDefault(f => f.PumpProgramId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(PumpPrograms)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.PumpPrograms.FirstOrDefault(f => f.PumpProgramId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.PumpPrograms.FirstOrDefault(f => f.PumpProgramId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(PumpPrograms)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

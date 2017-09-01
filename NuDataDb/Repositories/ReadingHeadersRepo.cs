@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override ReadingHeaders GetSingle(Guid id)
         {
-            return ctx.ReadingHeaders.FirstOrDefault(f => f.ReadingKeyId == id);
+            try
+            {
+                return ctx.ReadingHeaders.FirstOrDefault(f => f.ReadingKeyId == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting {typeof(ReadingHeaders)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(Guid id)
         {
-            var del = ctx.ReadingHeaders.FirstOrDefault(f => f.ReadingKeyId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.ReadingHeaders.FirstOrDefault(f => f.ReadingKeyId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting {typeof(ReadingHeaders)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

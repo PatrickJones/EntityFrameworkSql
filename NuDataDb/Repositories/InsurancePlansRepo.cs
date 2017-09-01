@@ -14,16 +14,30 @@ namespace NuDataDb.Repositories
 
         public override InsurancePlans GetSingle(int id)
         {
-            return ctx.InsurancePlans.FirstOrDefault(f => f.PlanId == id);
+            try
+            {
+                return ctx.InsurancePlans.FirstOrDefault(f => f.PlanId == id);
+            }
+            catch (Exception e)
+            {
+                throw;throw new Exception($"Error getting {typeof(InsurancePlans)} entity from database. /n/r Entity Id: {id}", e);
+            }
         }
 
         public override void Delete(int id)
         {
-            var del = ctx.InsurancePlans.FirstOrDefault(f => f.PlanId == id);
-            if (del != null)
+            try
             {
-                ctx.Remove(del);
-                Save();
+                var del = ctx.InsurancePlans.FirstOrDefault(f => f.PlanId == id);
+                if (del != null)
+                {
+                    ctx.Remove(del);
+                    Save();
+                }
+            }
+            catch (Exception e)
+            {
+                throw;throw new Exception($"Error deleting {typeof(InsurancePlans)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }
