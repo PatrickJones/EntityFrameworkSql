@@ -34,7 +34,6 @@ namespace NuDataDb.Repositories
                     ctx.Remove(del);
                     Save();
                 }
-
             }
             catch (Exception e)
             {
