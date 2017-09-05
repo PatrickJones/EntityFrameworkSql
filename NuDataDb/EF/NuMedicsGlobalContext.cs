@@ -493,6 +493,10 @@ namespace NuDataDb.EF
                     .IsRequired()
                     .HasMaxLength(150);
 
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
                 entity.Property(e => e.StateLicenseNumber).HasMaxLength(150);
 
                 entity.HasOne(d => d.Institution)

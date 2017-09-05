@@ -11,6 +11,7 @@ namespace NuDataDb.EF
         public string StateLicenseNumber { get; set; }
         public Guid InstitutionId { get; set; }
         public Guid LastUpdatedByUser { get; set; }
+        public string Email { get; set; }
 
         public virtual Institutions Institution { get; set; }
         public virtual Users User { get; set; }
