@@ -80,9 +80,16 @@ namespace NuDataDb.EF
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<UserTypes> UserTypes { get; set; }
 
+        // can only have a single option per instance.
+        private bool UseDefaultBuilder { get; set; } = true;
+
+        public NuMedicsGlobalContext(DbContextOptions<NuMedicsGlobalContext> options) : base(options) { UseDefaultBuilder = false; }
+        public NuMedicsGlobalContext() { }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            if (UseDefaultBuilder)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(@"Server=STAGESERVER\SQLDEV2014;Database=NuMedicsGlobal;User=nuweb;Password=P@ssw0rd;Trusted_Connection=True;MultipleActiveResultSets=true");

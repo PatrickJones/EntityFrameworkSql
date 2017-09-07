@@ -21,7 +21,7 @@ namespace NuDataDb.Test
             var b = new Faker<Applications>()
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())
                 .RuleFor(r => r.Description, f => f.Lorem.Sentence(5))
-                .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid())
+                .RuleFor(r => r.LastUpdatedbyUser, f => f.Random.Uuid())
                 .RuleFor(r => r.ApplicationName, f => f.Lorem.Word())
                 .RuleFor(r => r.BannerEnable, f => f.Random.Bool())
                 .RuleFor(r => r.SupportEmail, f => f.Internet.ExampleEmail());

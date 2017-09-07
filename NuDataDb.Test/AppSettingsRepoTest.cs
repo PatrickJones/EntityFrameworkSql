@@ -23,7 +23,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.Value, f => f.Lorem.Word())
                 .RuleFor(r => r.Description, f => f.Lorem.Paragraph())
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid())
-                .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid());
+                .RuleFor(r => r.LastUpdatedbyUser, f => f.Random.Uuid());
 
             var bs = b.Generate(3).OrderBy(o => o.AppSettingId).ThenBy(o => o.Name).ToList();
             testCtx.AppSettings.AddRange(bs);
