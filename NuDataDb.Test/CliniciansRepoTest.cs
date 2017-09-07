@@ -23,6 +23,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.Firstname, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.Lastname, f => f.Lorem.Letter(150))
                 .RuleFor(r => r.InstitutionId, f => f.Random.Uuid())
+                .RuleFor(r => r.InstitutionAddressId, f => f.Random.Int(1,3))
                 .RuleFor(r => r.LastUpdatedByUser, f => f.Random.Uuid());
 
             var bs = b.Generate(3).OrderBy(o => o.UserId).ToList();
@@ -42,6 +43,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.UserId, single.UserId);
             Assert.AreEqual(fakeApp.Lastname, single.Lastname);
             Assert.AreEqual(fakeApp.Firstname, single.Firstname);
+            Assert.AreEqual(fakeApp.InstitutionAddressId, single.InstitutionAddressId);
         }
 
         [TestMethod]
