@@ -65,25 +65,25 @@ namespace NuDataDb.Test
         [TestMethod]
         public void DeleteInstitutionAddresses()
         {
-            var currentCnt = testCtx.PatientAddresses.Count();
+            var currentCnt = testCtx.InstitutionAddresses.Count();
 
-            var entity = testCtx.PatientAddresses.First();
+            var entity = testCtx.InstitutionAddresses.First();
             repo.Delete(entity.AddressId);
             repo.Save();
 
-            Assert.IsTrue(testCtx.PatientAddresses.Count() == --currentCnt);
+            Assert.IsTrue(testCtx.InstitutionAddresses.Count() == --currentCnt);
         }
 
         [TestMethod]
         public void DeleteAddressIdNotExist()
         {
-            var currentCnt = testCtx.AppSettings.Count();
+            var currentCnt = testCtx.InstitutionAddresses.Count();
 
             var fakeId = 842;
             repo.Delete(fakeId);
             repo.Save();
 
-            Assert.IsTrue(testCtx.AppSettings.Count() == currentCnt);
+            Assert.IsTrue(testCtx.InstitutionAddresses.Count() == currentCnt);
         }
     }
 }
