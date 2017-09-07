@@ -17,6 +17,6 @@ namespace NuDataDb.EF
         public Guid UserId { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
-        public virtual Patients User { get; set; }
+        public Patients User { get; set; }
     }
 }

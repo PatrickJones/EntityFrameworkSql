@@ -9,6 +9,6 @@ namespace NuDataDb.EF
         public int CarbValue { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual BolusDeliveries Carb { get; set; }
+        public BolusDeliveries Carb { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace NuDataDb.EF
         public int CareSettingsId { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
-        public virtual CareSettings CareSettings { get; set; }
+        public CareSettings CareSettings { get; set; }
     }
 }

@@ -16,6 +16,6 @@ namespace NuDataDb.EF
         public Guid ApplicationId { get; set; }
         public Guid PatientId { get; set; }
 
-        public virtual ICollection<SharedAreas> SharedAreas { get; set; }
+        public ICollection<SharedAreas> SharedAreas { get; set; }
     }
 }

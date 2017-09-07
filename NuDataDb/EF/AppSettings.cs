@@ -10,8 +10,8 @@ namespace NuDataDb.EF
         public string Value { get; set; }
         public string Description { get; set; }
         public Guid ApplicationId { get; set; }
-        public Guid LastUpdatedByUser { get; set; }
+        public Guid LastUpdatedbyUser { get; set; }
 
-        public virtual Applications Application { get; set; }
+        public Applications Application { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace NuDataDb.EF
         public int PumpProgramId { get; set; }
         public DateTime DateSet { get; set; }
 
-        public virtual PumpPrograms PumpProgram { get; set; }
+        public PumpPrograms PumpProgram { get; set; }
     }
 }

@@ -12,11 +12,11 @@ namespace NuDataDb.EF
         public int SubscriptionType { get; set; }
         public DateTime SubscriptionDate { get; set; }
         public DateTime ExpirationDate { get; set; }
-        public bool IsTrial { get; set; }
+        public bool? IsTrial { get; set; }
         public Guid InstitutionId { get; set; }
 
-        public virtual Payments Payments { get; set; }
-        public virtual Institutions Institution { get; set; }
-        public virtual Patients User { get; set; }
+        public Institutions Institution { get; set; }
+        public Patients User { get; set; }
+        public Payments Payments { get; set; }
     }
 }

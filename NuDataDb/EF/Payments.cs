@@ -10,8 +10,8 @@ namespace NuDataDb.EF
         public bool PaymentApproved { get; set; }
         public DateTime ApprovalDate { get; set; }
 
-        public virtual Checks Checks { get; set; }
-        public virtual PayPal PayPal { get; set; }
-        public virtual Subscriptions Payment { get; set; }
+        public Subscriptions Payment { get; set; }
+        public Checks Checks { get; set; }
+        public PayPal PayPal { get; set; }
     }
 }

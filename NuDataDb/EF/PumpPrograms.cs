@@ -16,12 +16,12 @@ namespace NuDataDb.EF
         public string Source { get; set; }
         public string ProgramName { get; set; }
         public int ProgramKey { get; set; }
-        public bool Valid { get; set; }
+        public bool? Valid { get; set; }
         public int NumOfSegments { get; set; }
         public Guid PumpKeyId { get; set; }
 
-        public virtual ICollection<BasalProgramTimeSlots> BasalProgramTimeSlots { get; set; }
-        public virtual ICollection<BolusProgramTimeSlots> BolusProgramTimeSlots { get; set; }
-        public virtual Pumps PumpKey { get; set; }
+        public Pumps PumpKey { get; set; }
+        public ICollection<BasalProgramTimeSlots> BasalProgramTimeSlots { get; set; }
+        public ICollection<BolusProgramTimeSlots> BolusProgramTimeSlots { get; set; }
     }
 }

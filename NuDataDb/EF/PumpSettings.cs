@@ -12,6 +12,6 @@ namespace NuDataDb.EF
         public Guid PumpKeyId { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual Pumps PumpKey { get; set; }
+        public Pumps PumpKey { get; set; }
     }
 }

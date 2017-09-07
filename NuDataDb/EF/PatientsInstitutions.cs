@@ -8,7 +8,7 @@ namespace NuDataDb.EF
         public Guid UserId { get; set; }
         public Guid InstitutionId { get; set; }
 
-        public virtual Institutions Institution { get; set; }
-        public virtual Patients User { get; set; }
+        public Institutions Institution { get; set; }
+        public Patients User { get; set; }
     }
 }

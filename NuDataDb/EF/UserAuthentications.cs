@@ -28,8 +28,8 @@ namespace NuDataDb.EF
         public string NotApprovedReason { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
-        public virtual ICollection<PasswordHistories> PasswordHistories { get; set; }
-        public virtual Applications Application { get; set; }
-        public virtual Users User { get; set; }
+        public Applications Application { get; set; }
+        public Users User { get; set; }
+        public ICollection<PasswordHistories> PasswordHistories { get; set; }
     }
 }

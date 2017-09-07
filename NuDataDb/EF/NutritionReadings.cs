@@ -15,6 +15,6 @@ namespace NuDataDb.EF
         public Guid UserId { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual ReadingHeaders ReadingKey { get; set; }
+        public ReadingHeaders ReadingKey { get; set; }
     }
 }

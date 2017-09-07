@@ -22,8 +22,8 @@ namespace NuDataDb.EF
         public Guid UserId { get; set; }
         public Guid PumpKeyId { get; set; }
 
-        public virtual ICollection<PumpPrograms> PumpPrograms { get; set; }
-        public virtual ICollection<PumpSettings> PumpSettings { get; set; }
-        public virtual ReadingHeaders PumpKey { get; set; }
+        public ReadingHeaders PumpKey { get; set; }
+        public ICollection<PumpPrograms> PumpPrograms { get; set; }
+        public ICollection<PumpSettings> PumpSettings { get; set; }
     }
 }

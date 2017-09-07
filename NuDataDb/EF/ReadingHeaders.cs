@@ -27,24 +27,24 @@ namespace NuDataDb.EF
         public int Readings { get; set; }
         public string SiteSource { get; set; }
         public DateTime ReviewedOn { get; set; }
-        public bool IsCgmdata { get; set; }
+        public bool? IsCgmdata { get; set; }
         public Guid UserId { get; set; }
         public string LegacyDownloadKeyId { get; set; }
         public Guid ReadingKeyId { get; set; }
 
-        public virtual ICollection<BasalDeliveries> BasalDeliveries { get; set; }
-        public virtual ICollection<BloodGlucoseReadings> BloodGlucoseReadings { get; set; }
-        public virtual ICollection<BolusDeliveries> BolusDeliveries { get; set; }
-        public virtual ICollection<Cgmreminders> Cgmreminders { get; set; }
-        public virtual ICollection<Cgmsessions> Cgmsessions { get; set; }
-        public virtual ICollection<DeviceSettings> DeviceSettings { get; set; }
-        public virtual ICollection<NutritionReadings> NutritionReadings { get; set; }
-        public virtual ICollection<PhysiologicalReadings> PhysiologicalReadings { get; set; }
-        public virtual Pumps Pumps { get; set; }
-        public virtual ICollection<ReadingErrors> ReadingErrors { get; set; }
-        public virtual ICollection<ReadingEvents> ReadingEvents { get; set; }
-        public virtual ICollection<TensReadings> TensReadings { get; set; }
-        public virtual ICollection<TotalDailyInsulinDeliveries> TotalDailyInsulinDeliveries { get; set; }
-        public virtual PatientDevices Device { get; set; }
+        public PatientDevices Device { get; set; }
+        public Pumps Pumps { get; set; }
+        public ICollection<BasalDeliveries> BasalDeliveries { get; set; }
+        public ICollection<BloodGlucoseReadings> BloodGlucoseReadings { get; set; }
+        public ICollection<BolusDeliveries> BolusDeliveries { get; set; }
+        public ICollection<Cgmreminders> Cgmreminders { get; set; }
+        public ICollection<Cgmsessions> Cgmsessions { get; set; }
+        public ICollection<DeviceSettings> DeviceSettings { get; set; }
+        public ICollection<NutritionReadings> NutritionReadings { get; set; }
+        public ICollection<PhysiologicalReadings> PhysiologicalReadings { get; set; }
+        public ICollection<ReadingErrors> ReadingErrors { get; set; }
+        public ICollection<ReadingEvents> ReadingEvents { get; set; }
+        public ICollection<TensReadings> TensReadings { get; set; }
+        public ICollection<TotalDailyInsulinDeliveries> TotalDailyInsulinDeliveries { get; set; }
     }
 }

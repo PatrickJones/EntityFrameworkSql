@@ -8,7 +8,7 @@ namespace NuDataDb.EF
         public Guid UserId { get; set; }
         public int PlanId { get; set; }
 
-        public virtual InsurancePlans Plan { get; set; }
-        public virtual Patients User { get; set; }
+        public InsurancePlans Plan { get; set; }
+        public Patients User { get; set; }
     }
 }

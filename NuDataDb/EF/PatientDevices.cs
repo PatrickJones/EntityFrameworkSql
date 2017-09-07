@@ -19,11 +19,11 @@ namespace NuDataDb.EF
         public string SerialNumber { get; set; }
         public string SoftwareVersion { get; set; }
         public string HardwareVersion { get; set; }
-        public bool IsCgmdata { get; set; }
+        public bool? IsCgmdata { get; set; }
 
-        public virtual DeviceData DeviceData { get; set; }
-        public virtual DiabetesManagementData DiabetesManagementData { get; set; }
-        public virtual ICollection<ReadingHeaders> ReadingHeaders { get; set; }
-        public virtual Patients User { get; set; }
+        public Patients User { get; set; }
+        public DeviceData DeviceData { get; set; }
+        public DiabetesManagementData DiabetesManagementData { get; set; }
+        public ICollection<ReadingHeaders> ReadingHeaders { get; set; }
     }
 }

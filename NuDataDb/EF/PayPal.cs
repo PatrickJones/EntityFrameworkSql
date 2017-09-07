@@ -18,6 +18,6 @@ namespace NuDataDb.EF
         public string SourceIp { get; set; }
         public int PaymentId { get; set; }
 
-        public virtual Payments PayPalNavigation { get; set; }
+        public Payments PayPalNavigation { get; set; }
     }
 }

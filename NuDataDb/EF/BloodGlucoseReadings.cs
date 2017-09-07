@@ -10,10 +10,10 @@ namespace NuDataDb.EF
         public string Units { get; set; }
         public string Value { get; set; }
         public Guid UserId { get; set; }
-        public bool Active { get; set; }
+        public bool? Active { get; set; }
         public Guid ReadingKeyId { get; set; }
-        public bool IsCgmdata { get; set; }
+        public bool? IsCgmdata { get; set; }
 
-        public virtual ReadingHeaders ReadingKey { get; set; }
+        public ReadingHeaders ReadingKey { get; set; }
     }
 }

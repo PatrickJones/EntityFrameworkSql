@@ -9,7 +9,8 @@ namespace NuDataDb.EF
         public string Name { get; set; }
         public byte[] Photo { get; set; }
         public Guid UserId { get; set; }
+        public bool? IsClinical { get; set; }
 
-        public virtual Patients User { get; set; }
+        public Patients User { get; set; }
     }
 }

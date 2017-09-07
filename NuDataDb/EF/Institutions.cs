@@ -8,6 +8,7 @@ namespace NuDataDb.EF
         public Institutions()
         {
             Clinicians = new HashSet<Clinicians>();
+            InstitutionAddresses = new HashSet<InstitutionAddresses>();
             PatientsInstitutions = new HashSet<PatientsInstitutions>();
             Subscriptions = new HashSet<Subscriptions>();
         }
@@ -27,8 +28,9 @@ namespace NuDataDb.EF
         public int Licenses { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
-        public virtual ICollection<Clinicians> Clinicians { get; set; }
-        public virtual ICollection<PatientsInstitutions> PatientsInstitutions { get; set; }
-        public virtual ICollection<Subscriptions> Subscriptions { get; set; }
+        public ICollection<Clinicians> Clinicians { get; set; }
+        public ICollection<InstitutionAddresses> InstitutionAddresses { get; set; }
+        public ICollection<PatientsInstitutions> PatientsInstitutions { get; set; }
+        public ICollection<Subscriptions> Subscriptions { get; set; }
     }
 }

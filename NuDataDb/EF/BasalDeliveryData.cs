@@ -12,6 +12,6 @@ namespace NuDataDb.EF
         public string Description { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual BasalDeliveries BasalDelivery { get; set; }
+        public BasalDeliveries BasalDelivery { get; set; }
     }
 }

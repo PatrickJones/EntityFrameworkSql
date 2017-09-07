@@ -13,6 +13,6 @@ namespace NuDataDb.EF
         public int CompanyId { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
-        public virtual InsuranceProviders Company { get; set; }
+        public InsuranceProviders Company { get; set; }
     }
 }

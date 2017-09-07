@@ -14,6 +14,6 @@ namespace NuDataDb.EF
         public Guid ModifiedUserId { get; set; }
         public Guid UserId { get; set; }
 
-        public virtual PatientDevices Dmdata { get; set; }
+        public PatientDevices Dmdata { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace NuDataDb.EF
         public string DataSet { get; set; }
         public DateTime LastUpdate { get; set; }
 
-        public virtual PatientDevices DataSetNavigation { get; set; }
+        public PatientDevices DataSetNavigation { get; set; }
     }
 }

@@ -21,12 +21,12 @@ namespace NuDataDb.EF
         public Guid ReadingKeyId { get; set; }
         public Guid UserId { get; set; }
 
-        public virtual Bgtargets Bgtargets { get; set; }
-        public virtual BolusCarbs BolusCarbs { get; set; }
-        public virtual ICollection<BolusDeliveryData> BolusDeliveryData { get; set; }
-        public virtual CorrectionFactors CorrectionFactors { get; set; }
-        public virtual InsulinCarbRatio InsulinCarbRatio { get; set; }
-        public virtual InsulinCorrections InsulinCorrections { get; set; }
-        public virtual ReadingHeaders ReadingKey { get; set; }
+        public ReadingHeaders ReadingKey { get; set; }
+        public Bgtargets Bgtargets { get; set; }
+        public BolusCarbs BolusCarbs { get; set; }
+        public CorrectionFactors CorrectionFactors { get; set; }
+        public InsulinCarbRatio InsulinCarbRatio { get; set; }
+        public InsulinCorrections InsulinCorrections { get; set; }
+        public ICollection<BolusDeliveryData> BolusDeliveryData { get; set; }
     }
 }

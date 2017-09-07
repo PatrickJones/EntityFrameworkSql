@@ -31,15 +31,15 @@ namespace NuDataDb.EF
         public Guid InstitutionId { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
-        public virtual ICollection<CareSettings> CareSettings { get; set; }
-        public virtual ICollection<PatientAddresses> PatientAddresses { get; set; }
-        public virtual ICollection<PatientDevices> PatientDevices { get; set; }
-        public virtual ICollection<PatientMedications> PatientMedications { get; set; }
-        public virtual ICollection<PatientPhoneNumbers> PatientPhoneNumbers { get; set; }
-        public virtual ICollection<PatientPhotos> PatientPhotos { get; set; }
-        public virtual ICollection<PatientsInstitutions> PatientsInstitutions { get; set; }
-        public virtual ICollection<PatientsInsurancePlans> PatientsInsurancePlans { get; set; }
-        public virtual ICollection<Subscriptions> Subscriptions { get; set; }
-        public virtual Users User { get; set; }
+        public Users User { get; set; }
+        public ICollection<CareSettings> CareSettings { get; set; }
+        public ICollection<PatientAddresses> PatientAddresses { get; set; }
+        public ICollection<PatientDevices> PatientDevices { get; set; }
+        public ICollection<PatientMedications> PatientMedications { get; set; }
+        public ICollection<PatientPhoneNumbers> PatientPhoneNumbers { get; set; }
+        public ICollection<PatientPhotos> PatientPhotos { get; set; }
+        public ICollection<PatientsInstitutions> PatientsInstitutions { get; set; }
+        public ICollection<PatientsInsurancePlans> PatientsInsurancePlans { get; set; }
+        public ICollection<Subscriptions> Subscriptions { get; set; }
     }
 }

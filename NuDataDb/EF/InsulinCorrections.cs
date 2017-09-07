@@ -10,6 +10,6 @@ namespace NuDataDb.EF
         public DateTime Date { get; set; }
         public int InsulinCorrectionAbove { get; set; }
 
-        public virtual BolusDeliveries Correction { get; set; }
+        public BolusDeliveries Correction { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NuDataDb.EF
 {
-    public partial class InsuranceAddresses
+    public partial class InstitutionAddresses
     {
         public int AddressId { get; set; }
         public string Street1 { get; set; }
@@ -14,9 +14,9 @@ namespace NuDataDb.EF
         public string State { get; set; }
         public string Zip { get; set; }
         public string Country { get; set; }
-        public int CompanyId { get; set; }
+        public Guid InstitutionId { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
-        public InsuranceProviders Company { get; set; }
+        public Institutions Institution { get; set; }
     }
 }

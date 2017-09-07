@@ -26,7 +26,7 @@ namespace NuDataDb.EF
         public Guid UserId { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
-        public virtual ICollection<PatientsInsurancePlans> PatientsInsurancePlans { get; set; }
-        public virtual InsuranceProviders Company { get; set; }
+        public InsuranceProviders Company { get; set; }
+        public ICollection<PatientsInsurancePlans> PatientsInsurancePlans { get; set; }
     }
 }

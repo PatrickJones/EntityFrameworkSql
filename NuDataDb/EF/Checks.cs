@@ -12,6 +12,6 @@ namespace NuDataDb.EF
         public DateTime CheckDateRecieved { get; set; }
         public decimal CheckAmount { get; set; }
 
-        public virtual Payments Check { get; set; }
+        public Payments Check { get; set; }
     }
 }

@@ -14,8 +14,8 @@ namespace NuDataDb.EF
         public int UserType { get; set; }
         public DateTime CreationDate { get; set; }
 
-        public virtual Clinicians Clinicians { get; set; }
-        public virtual Patients Patients { get; set; }
-        public virtual ICollection<UserAuthentications> UserAuthentications { get; set; }
+        public Clinicians Clinicians { get; set; }
+        public Patients Patients { get; set; }
+        public ICollection<UserAuthentications> UserAuthentications { get; set; }
     }
 }

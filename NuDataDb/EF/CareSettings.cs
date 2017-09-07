@@ -21,8 +21,8 @@ namespace NuDataDb.EF
         public DateTime DateModified { get; set; }
         public Guid LastUpdatedByUser { get; set; }
 
-        public virtual ICollection<DailyTimeSlots> DailyTimeSlots { get; set; }
-        public virtual ICollection<DiabetesControlTypes> DiabetesControlTypes { get; set; }
-        public virtual Patients User { get; set; }
+        public Patients User { get; set; }
+        public ICollection<DailyTimeSlots> DailyTimeSlots { get; set; }
+        public ICollection<DiabetesControlTypes> DiabetesControlTypes { get; set; }
     }
 }
