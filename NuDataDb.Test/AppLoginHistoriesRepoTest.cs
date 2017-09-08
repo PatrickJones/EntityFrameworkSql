@@ -19,11 +19,10 @@ namespace NuDataDb.Test
 
         protected override void SetContextData()
         {
-            itrtr32 = FakeCollection.OrderBy(o => o.HistoryId).Select(s => s.HistoryId).LastOrDefault();
+            itrtr32 = 1;
             repo = new AppLoginHistoriesRepo(testCtx);
 
             var b = new Faker<AppLoginHistories>()
-                .RuleFor(r => r.HistoryId, f => itrtr32++)
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.LoginDate, f => DateTime.Now)
                 .RuleFor(r => r.ApplicationId, f => f.Random.Uuid());
@@ -31,6 +30,8 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.HistoryId).ToList();
             foreach (var item in bs)
             {
+                item.HistoryId = itrtr32;
+
                 if (!FakeCollection.Any(a => a.HistoryId == item.HistoryId))
                 {
                     FakeCollection.Add(item);
@@ -41,6 +42,8 @@ namespace NuDataDb.Test
                 {
                     testCtx.AppLoginHistories.Add(item);
                 }
+
+                itrtr32++;
             }
             
             int added = testCtx.SaveChanges();
