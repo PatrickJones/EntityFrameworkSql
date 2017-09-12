@@ -6,16 +6,24 @@ using System.Linq;
 using NuDataDb.EF;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
+using NuDataDb.EFMetersDb;
 
 namespace NuDataDb.Repositories
 {
-    public abstract class BaseRepo<T> : IRepository<T>, IDisposable where T : class
+    public abstract class BaseRepo<T, C> : IRepository<T>, IDisposable where T : class where C : DbContext
     {
-        internal NuMedicsGlobalContext ctx;
+        private C dctx;
+        public C ctx { get { return (C)dctx; } }
 
         protected BaseRepo(NuMedicsGlobalContext dbContext)
         {
-            this.ctx = dbContext;
+            this.dctx = dbContext as C;
+        }
+
+        protected BaseRepo(MeterDevicesDbContext dbContext)
+        {
+            this.dctx = dbContext as C;
         }
 
         public virtual void Delete(int id)
