@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NuDataDb.Repositories
 {
-    public class PasswordHistoriesRepo : BaseRepo<PasswordHistories>
+    public class PasswordHistoriesRepo : BaseRepo<PasswordHistories, NuMedicsGlobalContext>
     {
         public PasswordHistoriesRepo(NuMedicsGlobalContext dbContext) : base(dbContext)
         {

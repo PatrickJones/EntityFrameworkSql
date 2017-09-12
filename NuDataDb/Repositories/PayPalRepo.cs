@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NuDataDb.Repositories
 {
-    public class PayPalRepo : BaseRepo<PayPal>
+    public class PayPalRepo : BaseRepo<PayPal, NuMedicsGlobalContext>
     {
         public PayPalRepo(NuMedicsGlobalContext dbContext) : base(dbContext)
         {

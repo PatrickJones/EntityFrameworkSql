@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NuDataDb.Repositories
 {
-    public class DatabaseInfoRepo : BaseRepo<DatabaseInfo>
+    public class DatabaseInfoRepo : BaseRepo<DatabaseInfo, NuMedicsGlobalContext>
     {
         public DatabaseInfoRepo(NuMedicsGlobalContext dbContext) : base(dbContext)
         {

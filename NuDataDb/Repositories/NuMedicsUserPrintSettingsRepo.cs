@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NuDataDb.Repositories
 {
-    public class NuMedicsUserPrintSettingsRepo : BaseRepo<NuMedicsUserPrintSettings>
+    public class NuMedicsUserPrintSettingsRepo : BaseRepo<NuMedicsUserPrintSettings, NuMedicsGlobalContext>
     {
         public NuMedicsUserPrintSettingsRepo(NuMedicsGlobalContext dbContext) : base(dbContext)
         {

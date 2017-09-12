@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NuDataDb.Repositories
 {
-    public class DataShareRequestLogRepo : BaseRepo<DataShareRequestLog>
+    public class DataShareRequestLogRepo : BaseRepo<DataShareRequestLog, NuMedicsGlobalContext>
     {
         public DataShareRequestLogRepo(NuMedicsGlobalContext dbContext) : base(dbContext)
         {

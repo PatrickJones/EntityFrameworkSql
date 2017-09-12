@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NuDataDb.Repositories
 {
-    public class CGMRemindersRepo : BaseRepo<Cgmreminders>
+    public class CGMRemindersRepo : BaseRepo<Cgmreminders, NuMedicsGlobalContext>
     {
         public CGMRemindersRepo(NuMedicsGlobalContext dbContext) : base(dbContext)
         {
