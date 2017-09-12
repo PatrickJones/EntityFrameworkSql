@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class CorrectionFactorsnRepoTest : BaseUnitTest<CorrectionFactors>
+    public class CorrectionFactorsnRepoTest : BaseUnitTest<NuMedicsGlobalContext,CorrectionFactors>
     {
         protected CorrectionFactorsRepo repo;
 

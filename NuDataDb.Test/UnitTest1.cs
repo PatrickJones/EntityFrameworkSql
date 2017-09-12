@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace NuDataDb.Test
 {
     //[TestClass]
-    public class UnitTest1 : BaseUnitTest<AppSettings>
+    public class UnitTest1 : BaseUnitTest<NuMedicsGlobalContext,AppSettings>
     {
         //List<AppSettings> FakeAppSettings = new List<AppSettings>();
         //NuMedicsGlobalContext ctx;

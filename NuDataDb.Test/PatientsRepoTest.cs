@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class PatientsnRepoTest : BaseUnitTest<Patients>
+    public class PatientsnRepoTest : BaseUnitTest<NuMedicsGlobalContext,Patients>
     {
         protected PatientsRepo repo;
 

@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class DataShareRequestLognRepoTest : BaseUnitTest<DataShareRequestLog>
+    public class DataShareRequestLognRepoTest : BaseUnitTest<NuMedicsGlobalContext,DataShareRequestLog>
     {
         protected DataShareRequestLogRepo repo;
 

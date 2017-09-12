@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class BasalDeliveryDatanRepoTest : BaseUnitTest<BasalDeliveryData>
+    public class BasalDeliveryDatanRepoTest : BaseUnitTest<NuMedicsGlobalContext,BasalDeliveryData>
     {
         //Int64 itrtr64 = 0;
         //int itrtr32 = 0;

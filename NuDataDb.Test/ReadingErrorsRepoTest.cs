@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class ReadingErrorsnRepoTest : BaseUnitTest<ReadingErrors>
+    public class ReadingErrorsnRepoTest : BaseUnitTest<NuMedicsGlobalContext,ReadingErrors>
     {
         protected ReadingErrorsRepo repo;
 

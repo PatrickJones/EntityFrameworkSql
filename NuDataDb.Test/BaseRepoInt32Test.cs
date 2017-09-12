@@ -12,7 +12,7 @@ namespace NuDataDb.Test
     // Only testing the GET and DELETE operations that take a integer key overload
     // Full tests are in the 'BaseRepoGuidTest' class
     [TestClass]
-    public class BaseRepoInt32Test : BaseUnitTest<AppSettings>
+    public class BaseRepoInt32Test : BaseUnitTest<NuMedicsGlobalContext,AppSettings>
     {
         protected AppSettingsRepo repo;
 

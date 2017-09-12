@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class PasswordHistoriesnRepoTest : BaseUnitTest<PasswordHistories>
+    public class PasswordHistoriesnRepoTest : BaseUnitTest<NuMedicsGlobalContext,PasswordHistories>
     {
         protected PasswordHistoriesRepo repo;
 

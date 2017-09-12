@@ -15,9 +15,15 @@ namespace NuDataDb.EFMetersDb
         public virtual DbSet<Meters> Meters { get; set; }
         public virtual DbSet<MigrationHistory> MigrationHistory { get; set; }
 
+        // can only have a single option per instance.
+        private bool UseDefaultBuilder { get; set; } = true;
+
+        public MeterDevicesDbContext(DbContextOptions<MeterDevicesDbContext> options) : base(options) { UseDefaultBuilder = false; }
+        public MeterDevicesDbContext() { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            if (UseDefaultBuilder)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(@"Server=STAGESERVER\SQLDEV2014;Database=MeterDevicesDb;User=nuweb;Password=P@ssw0rd;Trusted_Connection=True;MultipleActiveResultSets=true");

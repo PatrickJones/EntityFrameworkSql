@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class CGMRemindersnRepoTest : BaseUnitTest<Cgmreminders>
+    public class CGMRemindersnRepoTest : BaseUnitTest<NuMedicsGlobalContext,Cgmreminders>
     {
         protected CGMRemindersRepo repo;
 

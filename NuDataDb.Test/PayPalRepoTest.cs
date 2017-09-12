@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class PayPalnRepoTest : BaseUnitTest<PayPal>
+    public class PayPalnRepoTest : BaseUnitTest<NuMedicsGlobalContext,PayPal>
     {
         protected PayPalRepo repo;
 

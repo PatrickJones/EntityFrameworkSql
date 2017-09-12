@@ -11,7 +11,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class AppLoginHistoriesnRepoTest : BaseUnitTest<AppLoginHistories>
+    public class AppLoginHistoriesnRepoTest : BaseUnitTest<NuMedicsGlobalContext,AppLoginHistories>
     {
         int itrtr32 = 0;
 
