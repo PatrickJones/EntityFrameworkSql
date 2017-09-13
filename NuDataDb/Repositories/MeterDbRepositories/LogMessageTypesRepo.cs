@@ -8,7 +8,7 @@ namespace NuDataDb.Repositories.MeterDbRepositories
 {
     public class LogMessageTypesRepo : BaseRepo<LogMessageTypes, MeterDevicesDbContext>
     {
-        protected LogMessageTypesRepo(MeterDevicesDbContext dbContext) : base(dbContext)
+        public LogMessageTypesRepo(MeterDevicesDbContext dbContext) : base(dbContext)
         {
         }
 
