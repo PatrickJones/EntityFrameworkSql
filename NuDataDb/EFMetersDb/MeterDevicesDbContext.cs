@@ -95,8 +95,6 @@ namespace NuDataDb.EFMetersDb
                 entity.HasIndex(e => e.MeterId)
                     .HasName("IX_Meter_Id");
 
-                entity.Property(e => e.Instruction).HasColumnType("nvarchar");
-
                 entity.Property(e => e.MeterId).HasColumnName("Meter_Id");
 
                 entity.HasOne(d => d.Meter)

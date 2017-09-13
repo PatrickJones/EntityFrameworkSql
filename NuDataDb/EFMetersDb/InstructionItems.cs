@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace NuDataDb.EFMetersDb
 {
@@ -7,6 +8,7 @@ namespace NuDataDb.EFMetersDb
     {
         public int Id { get; set; }
         public int StepNumber { get; set; }
+        [StringLength(4000)]
         public string Instruction { get; set; }
         public int MeterId { get; set; }
 
