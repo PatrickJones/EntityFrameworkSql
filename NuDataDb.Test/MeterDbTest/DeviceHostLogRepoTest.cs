@@ -67,7 +67,7 @@ namespace NuDataDb.Test.MeterDbTest
         }
 
         [TestMethod]
-        public void DeleteAppUserSettingIdNotExist()
+        public void DeleteDeviceHostLogIdNotExist()
         {
             var currentCnt = testCtx.DeviceHostLog.Count();
 
