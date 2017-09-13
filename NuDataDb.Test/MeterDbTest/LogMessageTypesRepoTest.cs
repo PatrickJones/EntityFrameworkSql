@@ -46,7 +46,6 @@ namespace NuDataDb.Test.MeterDbTest
             Assert.IsNull(single);
         }
 
-
         [TestMethod]
         public void DeleteLogMessageTypes()
         {

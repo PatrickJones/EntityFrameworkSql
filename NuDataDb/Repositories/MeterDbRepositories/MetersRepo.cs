@@ -8,7 +8,7 @@ namespace NuDataDb.Repositories.MeterDbRepositories
 {
     public class MetersRepo : BaseRepo<Meters, MeterDevicesDbContext>
     {
-        protected MetersRepo(MeterDevicesDbContext dbContext) : base(dbContext)
+        public MetersRepo(MeterDevicesDbContext dbContext) : base(dbContext)
         {
         }
 
