@@ -128,6 +128,8 @@ namespace NuDataDb.EF
                 entity.Property(e => e.SupportEmail).HasMaxLength(150);
 
                 entity.Property(e => e.SupportNumber).HasMaxLength(50);
+
+                entity.Property(e => e.ApplicationOwner).IsRequired().HasDefaultValue("NuMedics").HasMaxLength(250);
             });
 
             modelBuilder.Entity<AppLoginHistories>(entity =>

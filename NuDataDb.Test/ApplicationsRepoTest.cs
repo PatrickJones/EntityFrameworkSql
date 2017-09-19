@@ -41,6 +41,7 @@ namespace NuDataDb.Test
 
             Assert.AreEqual(fakeApp.ApplicationId, single.ApplicationId);
             Assert.AreEqual(fakeApp.ApplicationName, single.ApplicationName);
+            Assert.AreEqual(fakeApp.ApplicationOwner, single.ApplicationOwner);
         }
 
         [TestMethod]
