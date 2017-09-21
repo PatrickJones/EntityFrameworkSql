@@ -92,6 +92,12 @@ namespace NuDataDb.EF
             UseDefaultBuilder = false;
         }
 
+
+        public NuMedicsGlobalContext(DbContextOptions<NuMedicsGlobalContext> options) : base(options)
+        {
+            UseDefaultBuilder = false;
+        }
+
         public NuMedicsGlobalContext(IConfiguration configuration)
         {
             Configuration = configuration;
