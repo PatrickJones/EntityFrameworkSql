@@ -89,9 +89,9 @@ namespace NuDataDb.EF
             //UseDefaultBuilder = false;
         }
 
-        public NuMedicsGlobalContext()
-        {
-        }
+        //public NuMedicsGlobalContext()
+        //{
+        //}
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {

@@ -19,7 +19,7 @@ namespace NuDataDb.EFMetersDb
         //private bool UseDefaultBuilder { get; set; } = true;
 
         public MeterDevicesDbContext(DbContextOptions<MeterDevicesDbContext> options) : base(options) {}
-        public MeterDevicesDbContext() {}
+        //public MeterDevicesDbContext() {}
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
