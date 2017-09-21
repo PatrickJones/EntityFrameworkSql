@@ -38,7 +38,7 @@ namespace NuDataDb.Test
             if (typeof(C).Equals(typeof(NuMedicsGlobalContext)))
             {
                 var nbuilder = new DbContextOptionsBuilder<NuMedicsGlobalContext>().UseInMemoryDatabase(DbName);
-                var con = new NuMedicsGlobalContext(nbuilder.Options);
+                var con = new NuMedicsGlobalContext(null, nbuilder.Options);
                 test_Ctx = con as C;
             }
 
