@@ -81,23 +81,16 @@ namespace NuDataDb.EF
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<UserTypes> UserTypes { get; set; }
 
-        public IConfiguration Configuration { get; }
-
         // can only have a single option per instance.
-        private bool UseDefaultBuilder { get; set; } = true;
+        //private bool UseDefaultBuilder { get; set; } = true;
 
-        public NuMedicsGlobalContext(IConfiguration configuration, DbContextOptions<NuMedicsGlobalContext> options) : base(options)
+        public NuMedicsGlobalContext(DbContextOptions<NuMedicsGlobalContext> options) : base(options)
         {
-            Configuration = configuration;
-            if (Configuration == null)
-            {
-                UseDefaultBuilder = false;
-            }
+            //UseDefaultBuilder = false;
         }
 
-        public NuMedicsGlobalContext(IConfiguration configuration)
+        public NuMedicsGlobalContext()
         {
-            Configuration = configuration;
         }
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
