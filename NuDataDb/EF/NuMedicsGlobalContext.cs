@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace NuDataDb.EF
 {
@@ -81,12 +82,15 @@ namespace NuDataDb.EF
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<UserTypes> UserTypes { get; set; }
 
+        public readonly string ConnectionStr = String.Empty;
+
         // can only have a single option per instance.
         //private bool UseDefaultBuilder { get; set; } = true;
 
         public NuMedicsGlobalContext(DbContextOptions<NuMedicsGlobalContext> options) : base(options)
         {
             //UseDefaultBuilder = false;
+            ConnectionStr = options.FindExtension<SqlServerOptionsExtension>().ConnectionString;
         }
 
         //public NuMedicsGlobalContext()
