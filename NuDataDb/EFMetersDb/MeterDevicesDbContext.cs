@@ -23,7 +23,10 @@ namespace NuDataDb.EFMetersDb
 
         public MeterDevicesDbContext(DbContextOptions<MeterDevicesDbContext> options) : base(options)
         {
-            ConnectionStr = options.FindExtension<SqlServerOptionsExtension>().ConnectionString;
+            if (options.FindExtension<SqlServerOptionsExtension>() != null)
+            {
+                ConnectionStr = options.FindExtension<SqlServerOptionsExtension>().ConnectionString;
+            }
         }
         //public MeterDevicesDbContext() {}
 

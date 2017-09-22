@@ -90,7 +90,10 @@ namespace NuDataDb.EF
         public NuMedicsGlobalContext(DbContextOptions<NuMedicsGlobalContext> options) : base(options)
         {
             //UseDefaultBuilder = false;
-            ConnectionStr = options.FindExtension<SqlServerOptionsExtension>().ConnectionString;
+            if (options.FindExtension<SqlServerOptionsExtension>() != null)
+            {
+                ConnectionStr = options.FindExtension<SqlServerOptionsExtension>().ConnectionString;
+            }
         }
 
         //public NuMedicsGlobalContext()
