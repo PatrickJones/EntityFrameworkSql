@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using NuDataDb.EFMetersDb;
+using NuDataDb.EFNuEmails;
+using NuDataDb.EFGlobalStandards;
+using NuDataDb.EFMigrationHistory;
 
 namespace NuDataDb.Repositories
 {
@@ -22,6 +25,21 @@ namespace NuDataDb.Repositories
         }
 
         protected BaseRepo(MeterDevicesDbContext dbContext)
+        {
+            this.dctx = dbContext as C;
+        }
+
+        protected BaseRepo(NuEmailsContext dbContext)
+        {
+            this.dctx = dbContext as C;
+        }
+
+        protected BaseRepo(GlobalStandardsContext dbContext)
+        {
+            this.dctx = dbContext as C;
+        }
+
+        protected BaseRepo(MigrationHistoryContext dbContext)
         {
             this.dctx = dbContext as C;
         }
