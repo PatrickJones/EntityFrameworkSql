@@ -126,7 +126,7 @@ namespace NuDataDb.EFGlobalStandards
 
             modelBuilder.Entity<Gender>(entity =>
             {
-                entity.Property(e => e.Gender1)
+                entity.Property(e => e.GenderName)
                     .IsRequired()
                     .HasColumnName("Gender")
                     .HasMaxLength(50);
