@@ -1568,6 +1568,59 @@ namespace NuDataDb.EF
                     .IsRequired()
                     .HasMaxLength(50);
             });
+
+            modelBuilder.Entity<EmailUsernameView>(entity =>
+            {
+                entity.HasKey(e => e.UserId);
+
+                entity.Property(e => e.UserId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreationDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ClinicianEmail)
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.PatientEmail)
+                    .HasMaxLength(150);
+            });
+
+            modelBuilder.Entity<PatientListView>(entity =>
+            {
+                entity.HasKey(e => e.UserId);
+
+                entity.Property(e => e.UserId).ValueGeneratedNever();
+
+                entity.HasKey(e => e.InstitutionId);
+
+                entity.Property(e => e.InstitutionId).ValueGeneratedNever();
+
+                entity.Property(e => e.DateofBirth).HasColumnType("datetime");
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.InstitutionName)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.Firstname)
+                    .IsRequired()
+                    .HasMaxLength(80);
+
+                entity.Property(e => e.Lastname)
+                    .IsRequired()
+                    .HasMaxLength(80);
+
+                entity.Property(e => e.Middlename).HasMaxLength(80);
+
+                entity.Property(e => e.MRID)
+                    .HasMaxLength(150);
+            });
         }
     }
 }
