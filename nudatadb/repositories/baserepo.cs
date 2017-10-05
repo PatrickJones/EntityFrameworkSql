@@ -155,6 +155,11 @@ namespace NuDataDb.Repositories
         {
             try
             {
+                if (ctx.Entry<T>(entity).State != EntityState.Modified)
+                {
+                    ctx.Entry<T>(entity).State = EntityState.Modified;
+                }
+
                 ctx.Update<T>(entity);
             }
             catch (Exception e)
