@@ -148,17 +148,14 @@ namespace NuDataDb.Repositories
             {
                 throw new Exception("Error saving changes to database.", e);
             }
-            
         }
 
         public virtual void Update(T entity)
         {
             try
             {
-                if (ctx.Entry<T>(entity).State != EntityState.Modified)
-                {
-                    ctx.Entry<T>(entity).State = EntityState.Modified;
-                }
+                ctx.Remove(entity);
+                ctx.SaveChanges();
 
                 ctx.Update<T>(entity);
             }
@@ -167,7 +164,6 @@ namespace NuDataDb.Repositories
                 var ser = JsonConvert.SerializeObject(entity);
                 throw new Exception($"Error updating {typeof(T)} entity on context. /n/r{ser}", e);
             }
-            
         }
 
         #region IDisposable Support
