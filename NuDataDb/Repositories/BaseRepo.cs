@@ -155,8 +155,6 @@ namespace NuDataDb.Repositories
             try
             {
                 ctx.Remove(entity);
-                ctx.SaveChanges();
-
                 ctx.Update<T>(entity);
             }
             catch (Exception e)
