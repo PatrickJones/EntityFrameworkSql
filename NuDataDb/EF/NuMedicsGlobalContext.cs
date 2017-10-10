@@ -1590,10 +1590,6 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.UserId).ValueGeneratedNever();
 
-                entity.HasKey(e => e.InstitutionId);
-
-                entity.Property(e => e.InstitutionId).ValueGeneratedNever();
-
                 entity.Property(e => e.DateofBirth).HasColumnType("datetime");
 
                 entity.Property(e => e.Username)
