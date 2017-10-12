@@ -40,5 +40,50 @@ namespace NuDataDb.Repositories
                 throw new Exception($"Error deleting {typeof(Institutions)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
+
+        public int InstitutionLowCount(Guid institutionId, int historyInDays)
+        {
+            try
+            {
+                return ctx.Institutions
+                    .Where(w => w.InstitutionId == institutionId)
+                    .Select(s => NuMedicsGlobalContext.InstitutionBloodGlucoseLowCount(institutionId, historyInDays))
+                    .FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error retrieving institution low BG count from database. /n/r InstitutionId Id: {institutionId}", e);
+            }
+        }
+
+        public int InstitutionHighCount(Guid institutionId, int historyInDays)
+        {
+            try
+            {
+                return ctx.Institutions
+                    .Where(w => w.InstitutionId == institutionId)
+                    .Select(s => NuMedicsGlobalContext.InstitutionBloodGlucoseHighCount(institutionId, historyInDays))
+                    .FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error retrieving institution high BG count from database. /n/r InstitutionId Id: {institutionId}", e);
+            }
+        }
+
+        public int InstitutionOnTargetCount(Guid institutionId, int historyInDays)
+        {
+            try
+            {
+                return ctx.Institutions
+                    .Where(w => w.InstitutionId == institutionId)
+                    .Select(s => NuMedicsGlobalContext.InstitutionBloodGlucoseOnTargetCount(institutionId, historyInDays))
+                    .FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error retrieving institution on target BG count from database. /n/r InstitutionId Id: {institutionId}", e);
+            }
+        }
     }
 }

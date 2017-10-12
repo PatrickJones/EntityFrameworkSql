@@ -84,6 +84,24 @@ namespace NuDataDb.EF
 
         public readonly string ConnectionStr = String.Empty;
 
+        [DbFunction]
+        public static int InstitutionBloodGlucoseLowCount(Guid institutionId, int historyInDays)
+        {
+            throw new Exception();
+        }
+
+        [DbFunction]
+        public static int InstitutionBloodGlucoseOnTargetCount(Guid institutionId, int historyInDays)
+        {
+            throw new Exception();
+        }
+
+        [DbFunction]
+        public static int InstitutionBloodGlucoseHighCount(Guid InstitutionId, int Days)
+        {
+            throw new Exception();
+        }
+
         // can only have a single option per instance.
         //private bool UseDefaultBuilder { get; set; } = true;
 
