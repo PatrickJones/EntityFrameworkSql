@@ -84,19 +84,19 @@ namespace NuDataDb.EF
 
         public readonly string ConnectionStr = String.Empty;
 
-        [DbFunction]
+        [DbFunction(FunctionName = "InstitutionBloodGlucoseLowCount", Schema = "dbo")]
         public static int InstitutionBloodGlucoseLowCount(Guid institutionId, int historyInDays)
         {
             throw new Exception();
         }
 
-        [DbFunction]
+        [DbFunction(FunctionName = "InstitutionBloodGlucoseOnTargetCount", Schema = "dbo")]
         public static int InstitutionBloodGlucoseOnTargetCount(Guid institutionId, int historyInDays)
         {
             throw new Exception();
         }
 
-        [DbFunction]
+        [DbFunction(FunctionName = "InstitutionBloodGlucoseHighCount", Schema = "dbo")]
         public static int InstitutionBloodGlucoseHighCount(Guid InstitutionId, int Days)
         {
             throw new Exception();
