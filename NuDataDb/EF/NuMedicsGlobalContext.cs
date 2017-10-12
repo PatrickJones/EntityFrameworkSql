@@ -85,19 +85,37 @@ namespace NuDataDb.EF
         public readonly string ConnectionStr = String.Empty;
 
         [DbFunction(FunctionName = "InstitutionBloodGlucoseLowCount", Schema = "dbo")]
-        public static int InstitutionBloodGlucoseLowCount(Guid institutionId, int historyInDays)
+        public static int InstitutionBloodGlucoseLowCount(Guid InstitutionId, int Days)
         {
             throw new Exception();
         }
 
         [DbFunction(FunctionName = "InstitutionBloodGlucoseOnTargetCount", Schema = "dbo")]
-        public static int InstitutionBloodGlucoseOnTargetCount(Guid institutionId, int historyInDays)
+        public static int InstitutionBloodGlucoseOnTargetCount(Guid InstitutionId, int Days)
         {
             throw new Exception();
         }
 
         [DbFunction(FunctionName = "InstitutionBloodGlucoseHighCount", Schema = "dbo")]
         public static int InstitutionBloodGlucoseHighCount(Guid InstitutionId, int Days)
+        {
+            throw new Exception();
+        }
+        
+        [DbFunction(FunctionName = "InstitutionBloodGlucoseLowAverageFN", Schema = "dbo")]
+        public static int InstitutionBloodGlucoseLowAverageFN(Guid InstitutionId, int Days)
+        {
+            throw new Exception();
+        }
+
+        [DbFunction(FunctionName = "InstitutionBloodGlucoseOnTargetAverageFN", Schema = "dbo")]
+        public static int InstitutionBloodGlucoseOnTargetAverageFN(Guid InstitutionId, int Days)
+        {
+            throw new Exception();
+        }
+
+        [DbFunction(FunctionName = "InstitutionBloodGlucoseHighAverageFN", Schema = "dbo")]
+        public static int InstitutionBloodGlucoseHighAverageFN(Guid InstitutionId, int Days)
         {
             throw new Exception();
         }

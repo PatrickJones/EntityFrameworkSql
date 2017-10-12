@@ -85,5 +85,50 @@ namespace NuDataDb.Repositories
                 throw new Exception($"Error retrieving institution on target BG count from database. /n/r InstitutionId Id: {institutionId}", e);
             }
         }
+        //====================================
+        public int InstitutionLowAverage(Guid institutionId, int historyInDays)
+        {
+            try
+            {
+                return ctx.Institutions
+                    .Where(w => w.InstitutionId == institutionId)
+                    .Select(s => NuMedicsGlobalContext.InstitutionBloodGlucoseLowAverageFN(institutionId, historyInDays))
+                    .FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error retrieving institution low BG count from database. /n/r InstitutionId Id: {institutionId}", e);
+            }
+        }
+
+        public int InstitutionHighAverage(Guid institutionId, int historyInDays)
+        {
+            try
+            {
+                return ctx.Institutions
+                    .Where(w => w.InstitutionId == institutionId)
+                    .Select(s => NuMedicsGlobalContext.InstitutionBloodGlucoseHighAverageFN(institutionId, historyInDays))
+                    .FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error retrieving institution high BG count from database. /n/r InstitutionId Id: {institutionId}", e);
+            }
+        }
+
+        public int InstitutionOnTargetAverage(Guid institutionId, int historyInDays)
+        {
+            try
+            {
+                return ctx.Institutions
+                    .Where(w => w.InstitutionId == institutionId)
+                    .Select(s => NuMedicsGlobalContext.InstitutionBloodGlucoseOnTargetAverageFN(institutionId, historyInDays))
+                    .FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error retrieving institution on target BG count from database. /n/r InstitutionId Id: {institutionId}", e);
+            }
+        }
     }
 }
