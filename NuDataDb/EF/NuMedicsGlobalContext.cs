@@ -754,15 +754,11 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.InstitutionId).ValueGeneratedNever();
 
-                entity.Property(e => e.City).HasMaxLength(250);
-
                 entity.Property(e => e.ContactEmail).HasMaxLength(150);
 
                 entity.Property(e => e.ContactFirstname).HasMaxLength(150);
 
                 entity.Property(e => e.ContactLastname).HasMaxLength(150);
-
-                entity.Property(e => e.Country).HasMaxLength(250);
 
                 entity.Property(e => e.LegacySiteId).HasDefaultValueSql("((0))");
 
@@ -771,12 +767,6 @@ namespace NuDataDb.EF
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(250);
-
-                entity.Property(e => e.State).HasMaxLength(250);
-
-                entity.Property(e => e.Street).HasMaxLength(250);
-
-                entity.Property(e => e.Zip).HasMaxLength(50);
             });
 
             modelBuilder.Entity<InsulinBrands>(entity =>

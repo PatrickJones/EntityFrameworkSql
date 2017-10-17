@@ -15,11 +15,6 @@ namespace NuDataDb.EF
 
         public Guid InstitutionId { get; set; }
         public string Name { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Zip { get; set; }
-        public string Country { get; set; }
         public string ContactFirstname { get; set; }
         public string ContactLastname { get; set; }
         public string ContactEmail { get; set; }
