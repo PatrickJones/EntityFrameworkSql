@@ -1643,6 +1643,49 @@ namespace NuDataDb.EF
                 entity.Property(e => e.MRID)
                     .HasMaxLength(150);
             });
+
+            modelBuilder.Entity<SubscriptionsView>(entity =>
+            {
+                entity.HasKey(e => e.SubscriptionId);
+
+                entity.Property(e => e.SubscriptionId).ValueGeneratedNever();
+
+                entity.Property(e => e.SubscriptionDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ExpirationDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CheckDateRecieved).HasColumnType("datetime");
+
+                entity.Property(e => e.PayPalPaymentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UserId).IsRequired();
+
+                entity.Property(e => e.SubscriptionType).IsRequired();
+
+                entity.Property(e => e.IsTrial).IsRequired();
+
+                entity.Property(e => e.ApplicationId).IsRequired();
+
+                entity.Property(e => e.UserType).IsRequired();
+
+                entity.Property(e => e.InstitutionId).IsRequired();
+
+                entity.Property(e => e.PaymentMethod).IsRequired();
+
+                entity.Property(e => e.PaymentId).IsRequired();
+
+                entity.Property(e => e.CheckId).IsRequired();
+
+                entity.Property(e => e.CheckStatus).IsRequired();
+
+                entity.Property(e => e.CheckNumber).IsRequired().HasMaxLength(50);
+
+                entity.Property(e => e.CheckCode).IsRequired();
+
+                entity.Property(e => e.CheckAmount).IsRequired();
+
+                entity.Property(e => e.SubscriptionType).IsRequired();
+            });
         }
     }
 }
