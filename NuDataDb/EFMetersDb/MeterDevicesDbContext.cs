@@ -51,6 +51,8 @@ namespace NuDataDb.EFMetersDb
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.InstallDate).HasColumnType("datetime");
+
                 entity.Property(e => e.IpAddress).HasMaxLength(50);
 
                 entity.Property(e => e.IsInstitution).HasDefaultValueSql("((0))");

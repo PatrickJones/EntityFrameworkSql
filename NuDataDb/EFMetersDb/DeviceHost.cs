@@ -12,6 +12,7 @@ namespace NuDataDb.EFMetersDb
 
         public Guid DeviceHostId { get; set; }
         public DateTime InstallDate { get; set; }
+        public DateTime UnInstallDate { get; set; }
         public int SiteId { get; set; }
         public int Status { get; set; }
         public string Macaddress { get; set; }
