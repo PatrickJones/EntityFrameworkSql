@@ -23,13 +23,13 @@ namespace NuDataDb.Test
 
             var b = new Faker<ProgramTimeSlots>()
                 //.RuleFor(r => r.BasalSlotId, f => itrtr32++)
-                .RuleFor(r => r.BasalValue, f => f.Random.Float())
+                .RuleFor(r => r.Value, f => f.Random.Float())
                 .RuleFor(r => r.StartTime, f => DateTime.Now - new DateTime(2017, 3, 5))
                 .RuleFor(r => r.StopTime, f => DateTime.Now - new DateTime(2017, 5, 3))
                 .RuleFor(r => r.PumpProgramId, f => f.Random.Int())
                 .RuleFor(r => r.DateSet, f => DateTime.Now);
 
-            var bs = b.Generate(3).OrderBy(o => o.BasalSlotId).ToList();
+            var bs = b.Generate(3).OrderBy(o => o.SlotId).ToList();
             FakeCollection.AddRange(bs);
 
             testCtx.BasalProgramTimeSlots.AddRange(bs);
@@ -40,10 +40,10 @@ namespace NuDataDb.Test
         public void GetSingleBasalProgramTimeSlots()
         {
             var fakeApp = FakeCollection.First();
-            var single = repo.GetSingle(fakeApp.BasalSlotId);
+            var single = repo.GetSingle(fakeApp.SlotId);
 
-            Assert.AreEqual(fakeApp.BasalSlotId, single.BasalSlotId);
-            Assert.AreEqual(fakeApp.BasalValue, single.BasalValue);
+            Assert.AreEqual(fakeApp.SlotId, single.SlotId);
+            Assert.AreEqual(fakeApp.Value, single.Value);
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace NuDataDb.Test
             var currentCnt = testCtx.BasalProgramTimeSlots.Count();
 
             var entity = testCtx.BasalProgramTimeSlots.First();
-            repo.Delete(entity.BasalSlotId);
+            repo.Delete(entity.SlotId);
             repo.Save();
 
             Assert.IsTrue(testCtx.BasalProgramTimeSlots.Count() == --currentCnt);
