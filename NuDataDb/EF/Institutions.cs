@@ -22,6 +22,7 @@ namespace NuDataDb.EF
         public int LegacySiteId { get; set; }
         public int Licenses { get; set; }
         public Guid LastUpdatedByUser { get; set; }
+        public bool HasCliniProNet { get; set; }
 
         public ICollection<Clinicians> Clinicians { get; set; }
         public ICollection<InstitutionAddresses> InstitutionAddresses { get; set; }

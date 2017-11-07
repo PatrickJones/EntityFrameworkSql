@@ -10,18 +10,18 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class BasalProgramTimeSlotsnRepoTest : BaseUnitTest<NuMedicsGlobalContext,BasalProgramTimeSlots>
+    public class BasalProgramTimeSlotsnRepoTest : BaseUnitTest<NuMedicsGlobalContext,ProgramTimeSlots>
     {
         //Int64 itrtr64 = 0;
         //int itrtr32 = 0;
 
-        protected BasalProgramTimeSlotsRepo repo;
+        protected ProgramTimeSlotsRepo repo;
 
         protected override void SetContextData()
         {
-            repo = new BasalProgramTimeSlotsRepo(testCtx);
+            repo = new ProgramTimeSlotsRepo(testCtx);
 
-            var b = new Faker<BasalProgramTimeSlots>()
+            var b = new Faker<ProgramTimeSlots>()
                 //.RuleFor(r => r.BasalSlotId, f => itrtr32++)
                 .RuleFor(r => r.BasalValue, f => f.Random.Float())
                 .RuleFor(r => r.StartTime, f => DateTime.Now - new DateTime(2017, 3, 5))

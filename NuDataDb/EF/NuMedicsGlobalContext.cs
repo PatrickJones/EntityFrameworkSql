@@ -14,13 +14,12 @@ namespace NuDataDb.EF
         public virtual DbSet<AppUserSettings> AppUserSettings { get; set; }
         public virtual DbSet<BasalDeliveries> BasalDeliveries { get; set; }
         public virtual DbSet<BasalDeliveryData> BasalDeliveryData { get; set; }
-        public virtual DbSet<BasalProgramTimeSlots> BasalProgramTimeSlots { get; set; }
+        public virtual DbSet<ProgramTimeSlots> BasalProgramTimeSlots { get; set; }
         public virtual DbSet<Bgtargets> Bgtargets { get; set; }
         public virtual DbSet<BloodGlucoseReadings> BloodGlucoseReadings { get; set; }
         public virtual DbSet<BolusCarbs> BolusCarbs { get; set; }
         public virtual DbSet<BolusDeliveries> BolusDeliveries { get; set; }
         public virtual DbSet<BolusDeliveryData> BolusDeliveryData { get; set; }
-        public virtual DbSet<BolusProgramTimeSlots> BolusProgramTimeSlots { get; set; }
         public virtual DbSet<CareSettings> CareSettings { get; set; }
         public virtual DbSet<Cgmreminders> Cgmreminders { get; set; }
         public virtual DbSet<Cgmsessions> Cgmsessions { get; set; }
@@ -66,6 +65,7 @@ namespace NuDataDb.EF
         public virtual DbSet<PayPal> PayPal { get; set; }
         public virtual DbSet<PhysiologicalReadings> PhysiologicalReadings { get; set; }
         public virtual DbSet<PumpPrograms> PumpPrograms { get; set; }
+        public virtual DbSet<PumpProgramTypes> PumpProgramTypes { get; set; }
         public virtual DbSet<Pumps> Pumps { get; set; }
         public virtual DbSet<PumpSettings> PumpSettings { get; set; }
         public virtual DbSet<ReadingErrors> ReadingErrors { get; set; }
@@ -278,9 +278,9 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_BasalDeliveryData_BasalDeliveries");
             });
 
-            modelBuilder.Entity<BasalProgramTimeSlots>(entity =>
+            modelBuilder.Entity<ProgramTimeSlots>(entity =>
             {
-                entity.HasKey(e => e.BasalSlotId);
+                entity.HasKey(e => e.SlotId);
 
                 entity.Property(e => e.DateSet).HasColumnType("datetime");
 
@@ -289,7 +289,7 @@ namespace NuDataDb.EF
                 entity.Property(e => e.StopTime).HasColumnType("time(2)");
 
                 entity.HasOne(d => d.PumpProgram)
-                    .WithMany(p => p.BasalProgramTimeSlots)
+                    .WithMany(p => p.ProgramTimeSlots)
                     .HasForeignKey(d => d.PumpProgramId)
                     .HasConstraintName("FK_PumpProgramTimeSlots_PumpPrograms");
             });
@@ -403,23 +403,6 @@ namespace NuDataDb.EF
                     .WithMany(p => p.BolusDeliveryData)
                     .HasForeignKey(d => d.BolusDeliveryId)
                     .HasConstraintName("FK_BolusDeliveryData_BolusDelivery");
-            });
-
-            modelBuilder.Entity<BolusProgramTimeSlots>(entity =>
-            {
-                entity.HasKey(e => e.BolusSlotId)
-                    .ForSqlServerIsClustered(false);
-
-                entity.Property(e => e.DateSet).HasColumnType("datetime");
-
-                entity.Property(e => e.StartTime).HasColumnType("time(2)");
-
-                entity.Property(e => e.StopTime).HasColumnType("time(2)");
-
-                entity.HasOne(d => d.PumpProgram)
-                    .WithMany(p => p.BolusProgramTimeSlots)
-                    .HasForeignKey(d => d.PumpProgramId)
-                    .HasConstraintName("FK_BolusProgramTimeSlots_PumpPrograms");
             });
 
             modelBuilder.Entity<CareSettings>(entity =>
@@ -759,6 +742,8 @@ namespace NuDataDb.EF
                 entity.Property(e => e.ContactFirstname).HasMaxLength(150);
 
                 entity.Property(e => e.ContactLastname).HasMaxLength(150);
+
+                entity.Property(e => e.HasCliniProNet).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.LegacySiteId).HasDefaultValueSql("((0))");
 
@@ -1283,6 +1268,15 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_PhysiologicalReadings_ReadingHeaders1");
             });
 
+            modelBuilder.Entity<PumpProgramTypes>(entity =>
+            {
+                entity.HasKey(e => e.TypeId);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(150);
+            });
+
             modelBuilder.Entity<PumpPrograms>(entity =>
             {
                 entity.HasKey(e => e.PumpProgramId)
@@ -1299,6 +1293,10 @@ namespace NuDataDb.EF
                 entity.Property(e => e.Source).HasMaxLength(50);
 
                 entity.Property(e => e.Valid).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.IsEnabled).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ProgramTypeId).HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.PumpKey)
                     .WithMany(p => p.PumpPrograms)

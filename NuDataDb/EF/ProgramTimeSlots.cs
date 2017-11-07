@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace NuDataDb.EF
 {
-    public partial class BolusProgramTimeSlots
+    public partial class ProgramTimeSlots
     {
-        public int BolusSlotId { get; set; }
-        public double BolusValue { get; set; }
+        public int SlotId { get; set; }
+        public double Value { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan StopTime { get; set; }
         public int PumpProgramId { get; set; }

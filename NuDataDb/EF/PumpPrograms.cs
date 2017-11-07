@@ -7,8 +7,7 @@ namespace NuDataDb.EF
     {
         public PumpPrograms()
         {
-            BasalProgramTimeSlots = new HashSet<BasalProgramTimeSlots>();
-            BolusProgramTimeSlots = new HashSet<BolusProgramTimeSlots>();
+            ProgramTimeSlots = new HashSet<ProgramTimeSlots>();
         }
 
         public int PumpProgramId { get; set; }
@@ -19,9 +18,10 @@ namespace NuDataDb.EF
         public bool? Valid { get; set; }
         public int NumOfSegments { get; set; }
         public Guid PumpKeyId { get; set; }
+        public bool IsEnabled { get; set; }
+        public int ProgramTypeId { get; set; }
 
         public Pumps PumpKey { get; set; }
-        public ICollection<BasalProgramTimeSlots> BasalProgramTimeSlots { get; set; }
-        public ICollection<BolusProgramTimeSlots> BolusProgramTimeSlots { get; set; }
+        public ICollection<ProgramTimeSlots> ProgramTimeSlots { get; set; }
     }
 }
