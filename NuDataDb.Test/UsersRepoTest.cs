@@ -20,7 +20,6 @@ namespace NuDataDb.Test
 
             var b = new Faker<Users>()
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
-                .RuleFor(r => r.UserType, f => f.Random.Int())
                 .RuleFor(r => r.CreationDate, f => new DateTime(f.Random.Long(
                     DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
@@ -40,7 +39,6 @@ namespace NuDataDb.Test
             var single = repo.GetSingle(fakeApp.UserId);
 
             Assert.AreEqual(fakeApp.UserId, single.UserId);
-            Assert.AreEqual(fakeApp.UserType, single.UserType);
             Assert.AreEqual(fakeApp.CreationDate, single.CreationDate);
         }
 
