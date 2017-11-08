@@ -19,7 +19,6 @@ namespace NuDataDb.EF
         }
 
         public Guid UserId { get; set; }
-        public string Mrid { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Middlename { get; set; }

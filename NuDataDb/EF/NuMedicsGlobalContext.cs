@@ -12,6 +12,7 @@ namespace NuDataDb.EF
         public virtual DbSet<AppLoginHistories> AppLoginHistories { get; set; }
         public virtual DbSet<AppSettings> AppSettings { get; set; }
         public virtual DbSet<AppUserSettings> AppUserSettings { get; set; }
+        public virtual DbSet<AssignedUserTypes> AssignedUserTypes { get; set; }
         public virtual DbSet<BasalDeliveries> BasalDeliveries { get; set; }
         public virtual DbSet<BasalDeliveryData> BasalDeliveryData { get; set; }
         public virtual DbSet<ProgramTimeSlots> BasalProgramTimeSlots { get; set; }
@@ -48,6 +49,7 @@ namespace NuDataDb.EF
         public virtual DbSet<InsurancePlans> InsurancePlans { get; set; }
         public virtual DbSet<InsuranceProviders> InsuranceProviders { get; set; }
         public virtual DbSet<LinkTypes> LinkTypes { get; set; }
+        public virtual DbSet<MedicalRecordIdentifiers> MedicalRecordIdentifiers { get; set; }
         public virtual DbSet<NuMedicsUserPrintSettings> NuMedicsUserPrintSettings { get; set; }
         public virtual DbSet<NutritionReadings> NutritionReadings { get; set; }
         public virtual DbSet<PasswordHistories> PasswordHistories { get; set; }
@@ -234,6 +236,17 @@ namespace NuDataDb.EF
                     .HasForeignKey(d => d.AppicationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AppUserSettings_Applications");
+            });
+
+            modelBuilder.Entity<AssignedUserTypes>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AssignedUserTypes)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AssignedUserTypes_Users");
             });
 
             modelBuilder.Entity<BasalDeliveries>(entity =>
@@ -927,6 +940,22 @@ namespace NuDataDb.EF
                     .HasMaxLength(150);
             });
 
+            modelBuilder.Entity<MedicalRecordIdentifiers>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.MRID)
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.PatientUserId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Institution)
+                    .WithMany(p => p.MedicalRecordIdentifiers)
+                    .HasForeignKey(d => d.InstitutionId)
+                    .HasConstraintName("FK_MedicalRecordIdentifiers_Institutions");
+            });
+
+
             modelBuilder.Entity<NuMedicsUserPrintSettings>(entity =>
             {
                 entity.HasKey(e => e.PrintSettingId);
@@ -1127,10 +1156,6 @@ namespace NuDataDb.EF
                     .HasMaxLength(80);
 
                 entity.Property(e => e.Middlename).HasMaxLength(80);
-
-                entity.Property(e => e.Mrid)
-                    .HasColumnName("MRID")
-                    .HasMaxLength(150);
 
                 entity.Property(e => e.Race).HasMaxLength(20);
 

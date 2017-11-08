@@ -11,6 +11,7 @@ namespace NuDataDb.EF
             InstitutionAddresses = new HashSet<InstitutionAddresses>();
             PatientsInstitutions = new HashSet<PatientsInstitutions>();
             Subscriptions = new HashSet<Subscriptions>();
+            MedicalRecordIdentifiers = new HashSet<MedicalRecordIdentifiers>();
         }
 
         public Guid InstitutionId { get; set; }
@@ -26,6 +27,7 @@ namespace NuDataDb.EF
 
         public ICollection<Clinicians> Clinicians { get; set; }
         public ICollection<InstitutionAddresses> InstitutionAddresses { get; set; }
+        public ICollection<MedicalRecordIdentifiers> MedicalRecordIdentifiers { get; set; }
         public ICollection<PatientsInstitutions> PatientsInstitutions { get; set; }
         public ICollection<Subscriptions> Subscriptions { get; set; }
     }
