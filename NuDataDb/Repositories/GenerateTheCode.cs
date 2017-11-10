@@ -60,10 +60,10 @@ namespace NuDataDb.Repositories
             },
             new ToGenerate
             {
-                TableName = "BasalProgramTimeSlots",
+                TableName = "ProgramTimeSlots",
                 isGuid = false,
                 isLong = false,
-                KeyField = "BasalSlotId"
+                KeyField = "SlotId"
             },
             new ToGenerate
             {

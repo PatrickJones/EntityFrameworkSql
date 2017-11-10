@@ -16,7 +16,7 @@ namespace NuDataDb.Repositories
         {
             try
             {
-                return ctx.BasalProgramTimeSlots.FirstOrDefault(f => f.SlotId == id);
+                return ctx.ProgramTimeSlots.FirstOrDefault(f => f.SlotId == id);
             }
             catch (Exception e)
             {
@@ -28,7 +28,7 @@ namespace NuDataDb.Repositories
         {
             try
             {
-                var del = ctx.BasalProgramTimeSlots.FirstOrDefault(f => f.SlotId == id);
+                var del = ctx.ProgramTimeSlots.FirstOrDefault(f => f.SlotId == id);
                 if (del != null)
                 {
                     ctx.Remove(del);

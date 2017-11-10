@@ -10,7 +10,7 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class BasalProgramTimeSlotsnRepoTest : BaseUnitTest<NuMedicsGlobalContext,ProgramTimeSlots>
+    public class ProgramTimeSlotsRepoTest : BaseUnitTest<NuMedicsGlobalContext,ProgramTimeSlots>
     {
         //Int64 itrtr64 = 0;
         //int itrtr32 = 0;
@@ -32,12 +32,12 @@ namespace NuDataDb.Test
             var bs = b.Generate(3).OrderBy(o => o.SlotId).ToList();
             FakeCollection.AddRange(bs);
 
-            testCtx.BasalProgramTimeSlots.AddRange(bs);
+            testCtx.ProgramTimeSlots.AddRange(bs);
             int added = testCtx.SaveChanges();
         }
 
         [TestMethod]
-        public void GetSingleBasalProgramTimeSlots()
+        public void GetSingleProgramTimeSlots()
         {
             var fakeApp = FakeCollection.First();
             var single = repo.GetSingle(fakeApp.SlotId);
@@ -56,15 +56,15 @@ namespace NuDataDb.Test
         }
 
         [TestMethod]
-        public void DeleteBasalProgramTimeSlots()
+        public void DeleteProgramTimeSlots()
         {
-            var currentCnt = testCtx.BasalProgramTimeSlots.Count();
+            var currentCnt = testCtx.ProgramTimeSlots.Count();
 
-            var entity = testCtx.BasalProgramTimeSlots.First();
+            var entity = testCtx.ProgramTimeSlots.First();
             repo.Delete(entity.SlotId);
             repo.Save();
 
-            Assert.IsTrue(testCtx.BasalProgramTimeSlots.Count() == --currentCnt);
+            Assert.IsTrue(testCtx.ProgramTimeSlots.Count() == --currentCnt);
         }
 
         [TestMethod]

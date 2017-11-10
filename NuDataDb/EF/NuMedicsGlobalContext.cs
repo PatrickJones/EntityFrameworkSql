@@ -15,7 +15,7 @@ namespace NuDataDb.EF
         public virtual DbSet<AssignedUserTypes> AssignedUserTypes { get; set; }
         public virtual DbSet<BasalDeliveries> BasalDeliveries { get; set; }
         public virtual DbSet<BasalDeliveryData> BasalDeliveryData { get; set; }
-        public virtual DbSet<ProgramTimeSlots> BasalProgramTimeSlots { get; set; }
+        public virtual DbSet<ProgramTimeSlots> ProgramTimeSlots { get; set; }
         public virtual DbSet<Bgtargets> Bgtargets { get; set; }
         public virtual DbSet<BloodGlucoseReadings> BloodGlucoseReadings { get; set; }
         public virtual DbSet<BolusCarbs> BolusCarbs { get; set; }
