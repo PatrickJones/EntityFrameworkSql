@@ -10,37 +10,35 @@ using System.Text;
 namespace NuDataDb.Test
 {
     [TestClass]
-    public class AssignedUserTypesRepoTest : BaseUnitTest<NuMedicsGlobalContext, AssignedUserTypes>
+    public class PumpProgramTypesRepoTest : BaseUnitTest<NuMedicsGlobalContext, PumpProgramTypes>
     {
-        protected AssignedUserTypesRepo repo;
+        protected PumpProgramTypesRepo repo;
 
         protected override void SetContextData()
         {
-            repo = new AssignedUserTypesRepo(testCtx);
+            repo = new PumpProgramTypesRepo(testCtx);
 
-            var b = new Faker<AssignedUserTypes>()
-                .RuleFor(r => r.UserType, f => f.PickRandom<int>(1, 2, 3))
-                .RuleFor(r => r.UserId, f => f.Random.Uuid());
+            var b = new Faker<PumpProgramTypes>()
+                .RuleFor(r => r.Name, f => f.Lorem.Letter(50));
 
             var bs = b.Generate(3).ToList();
             FakeCollection.AddRange(bs);
 
-            testCtx.AssignedUserTypes.AddRange(bs);
+            testCtx.PumpProgramTypes.AddRange(bs);
             int added = testCtx.SaveChanges();
         }
 
         [TestMethod]
-        public void GetSingleAssignedUserType()
+        public void GetSinglePumpProgramType()
         {
             var fakeApp = FakeCollection.First();
-            var single = repo.GetSingle(fakeApp.Id);
+            var single = repo.GetSingle(fakeApp.TypeId);
 
-            Assert.AreEqual(fakeApp.Id, single.Id);
-            Assert.AreEqual(fakeApp.UserType, single.UserType);
-            Assert.AreEqual(fakeApp.UserId, single.UserId);
+            Assert.AreEqual(fakeApp.TypeId, single.TypeId);
+            Assert.AreEqual(fakeApp.Name, single.Name);
 
         }
-        
+
         [TestMethod]
         public void GetSingleIdNotExist()
         {
@@ -51,15 +49,15 @@ namespace NuDataDb.Test
         }
 
         [TestMethod]
-        public void DeleteAssignedUserType()
+        public void DeletePumpProgramType()
         {
-            var currentCnt = testCtx.AssignedUserTypes.Count();
+            var currentCnt = testCtx.PumpProgramTypes.Count();
 
-            var entity = testCtx.AssignedUserTypes.First();
-            repo.Delete(entity.Id);
+            var entity = testCtx.PumpProgramTypes.First();
+            repo.Delete(entity.TypeId);
             repo.Save();
 
-            Assert.IsTrue(testCtx.AssignedUserTypes.Count() == --currentCnt);
+            Assert.IsTrue(testCtx.PumpProgramTypes.Count() == --currentCnt);
         }
 
         [TestMethod]
@@ -67,12 +65,13 @@ namespace NuDataDb.Test
         {
             var currentCnt = testCtx.AppSettings.Count();
 
-            var fakeId = new int();
+            var fakeId = 888;
             repo.Delete(fakeId);
             repo.Save();
 
             Assert.IsTrue(testCtx.AppSettings.Count() == currentCnt);
         }
+
 
     }
 }
