@@ -20,13 +20,35 @@ namespace NuDataDb.Test
 
             var b = new Faker<MedicalRecordIdentifiers>()
                 .RuleFor(r => r.PatientUserId, f => f.Random.Uuid())
+                .RuleFor(r => r.MRID, f => f.Random.Word().Substring(0,3))
+                .RuleFor(r => r.InstitutionId, f => f.Random.Uuid());
+
+            var c = new Faker<MedicalRecordIdentifiers>()
+                .RuleFor(r => r.PatientUserId, f => f.Random.Uuid())
                 .RuleFor(r => r.InstitutionId, f => f.Random.Uuid());
 
             var bs = b.Generate(3).ToList();
+            var cs = c.Generate(1).ToList();
             FakeCollection.AddRange(bs);
+            FakeCollection.AddRange(cs);
 
             testCtx.MedicalRecordIdentifiers.AddRange(bs);
+            testCtx.MedicalRecordIdentifiers.AddRange(cs);
             int added = testCtx.SaveChanges();
+        }
+
+        [TestMethod]
+        public void GetSingleEmptyMedicalRecordIdentifier()
+        {
+            var fakeApp = FakeCollection.Where(w => String.IsNullOrEmpty(w.MRID)).First();
+            var single = repo.GetSingle(fakeApp.Id);
+
+            Assert.AreEqual(fakeApp.Id, single.Id);
+            Assert.AreEqual(fakeApp.PatientUserId, single.PatientUserId);
+            Assert.IsTrue(String.IsNullOrEmpty(fakeApp.MRID));
+            Assert.IsTrue(String.IsNullOrEmpty(single.MRID));
+            Assert.AreEqual(fakeApp.InstitutionId, single.InstitutionId);
+
         }
 
         [TestMethod]
@@ -37,6 +59,7 @@ namespace NuDataDb.Test
 
             Assert.AreEqual(fakeApp.Id, single.Id);
             Assert.AreEqual(fakeApp.PatientUserId, single.PatientUserId);
+            Assert.AreEqual(fakeApp.MRID, single.MRID);
             Assert.AreEqual(fakeApp.InstitutionId, single.InstitutionId);
 
         }
