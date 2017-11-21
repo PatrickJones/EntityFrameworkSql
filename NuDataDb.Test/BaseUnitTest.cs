@@ -13,7 +13,7 @@ namespace NuDataDb.Test
     public abstract class BaseUnitTest<C,T> where C : DbContext where T : class
     {
         private C test_Ctx;
-        protected List<T> FakeCollection = new List<T>();
+        internal List<T> FakeCollection = new List<T>();
         protected string DbName { get; set; }
         public C testCtx { get { return (C)test_Ctx; } }
 
