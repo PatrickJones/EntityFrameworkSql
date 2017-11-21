@@ -37,5 +37,22 @@ namespace NuDataDb.Test
             int added = testCtx.SaveChanges();
         }
 
+        [TestMethod]
+        public void GetSinglePatientListView()
+        {
+            var fakeApp = FakeCollection.First();
+            var single = testCtx.Set<PatientListView>().FirstOrDefault(f => f.UserId == fakeApp.UserId);
+
+            Assert.AreEqual(fakeApp.InstitutionId, single.InstitutionId);
+            Assert.AreEqual(fakeApp.UserId, single.UserId);
+            Assert.AreEqual(fakeApp.Username, single.Username);
+            Assert.AreEqual(fakeApp.InstitutionName, single.InstitutionName);
+            Assert.AreEqual(fakeApp.Firstname, single.Firstname);
+            Assert.AreEqual(fakeApp.Lastname, single.Lastname);
+            Assert.AreEqual(fakeApp.Middlename, single.Middlename);
+            Assert.AreEqual(fakeApp.Email, single.Email);
+            Assert.AreEqual(fakeApp.DateofBirth, single.DateofBirth);
+            Assert.AreEqual(fakeApp.MRID, single.MRID);
+        }
     }
 }

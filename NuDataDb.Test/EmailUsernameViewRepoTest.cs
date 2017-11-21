@@ -50,6 +50,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(single.UserId != Guid.Empty);
             Assert.AreEqual(fakeApp.UserId, single.UserId);
             Assert.AreEqual(fakeApp.UserType, single.UserType);
+            Assert.AreEqual(fakeApp.CreationDate, single.CreationDate);
             Assert.IsTrue(String.IsNullOrEmpty(single.PatientEmail));
             Assert.IsFalse(String.IsNullOrEmpty(single.ClinicianEmail));
             Assert.AreEqual(fakeApp.ClinicianEmail, single.ClinicianEmail);
@@ -64,6 +65,7 @@ namespace NuDataDb.Test
             Assert.IsTrue(single.UserId != Guid.Empty);
             Assert.AreEqual(fakeApp.UserId, single.UserId);
             Assert.AreEqual(fakeApp.UserType, single.UserType);
+            Assert.AreEqual(fakeApp.CreationDate, single.CreationDate);
             Assert.IsFalse(String.IsNullOrEmpty(single.PatientEmail));
             Assert.AreEqual(fakeApp.PatientEmail, single.PatientEmail);
             Assert.IsTrue(String.IsNullOrEmpty(single.ClinicianEmail));
