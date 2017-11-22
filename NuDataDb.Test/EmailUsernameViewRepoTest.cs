@@ -43,8 +43,8 @@ namespace NuDataDb.Test
         [TestMethod]
         public void GetSingleClinicianEmailUsernameView()
         {
-            var fakeApp = FakeCollection.First();
-            var single = testCtx.Set<EmailUsernameView>().FirstOrDefault(f => f.UserId == fakeApp.UserId && f.UserType == 1);
+            var fakeApp = FakeCollection.First(d => d.UserType == 1);
+            var single = testCtx.Set<EmailUsernameView>().FirstOrDefault(f => f.UserId == fakeApp.UserId);
 
 
             Assert.IsTrue(single.UserId != Guid.Empty);
@@ -60,7 +60,7 @@ namespace NuDataDb.Test
         public void GetSinglePatientEmailUsernameView()
         {
             var fakeApp = FakeCollection.First(d => d.UserType == 2);
-            var single = testCtx.Set<EmailUsernameView>().FirstOrDefault(f => f.UserId == fakeApp.UserId && f.UserType == 2);
+            var single = testCtx.Set<EmailUsernameView>().FirstOrDefault(f => f.UserId == fakeApp.UserId);
 
             Assert.IsTrue(single.UserId != Guid.Empty);
             Assert.AreEqual(fakeApp.UserId, single.UserId);
