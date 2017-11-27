@@ -33,7 +33,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.PaymentId, f => f.Random.Int())
                 .RuleFor(r => r.CheckId, f => f.Random.Int())
                 .RuleFor(r => r.CheckStatus, f => f.Random.Int(1, 5))
-                .RuleFor(r => r.CheckNumber, f => f.Random.Word().Substring(0, 3))
+                .RuleFor(r => r.CheckNumber, f => f.Random.Word().Take(3).ToString())
                 .RuleFor(r => r.CheckCode, f => f.Random.Long())
                 .RuleFor(r => r.CheckDateRecieved, f => f.Date.Past())
                 .RuleFor(r => r.CheckAmount, f => f.Finance.Amount());
@@ -59,7 +59,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.CheckAmount, f => 0)
                 .RuleFor(r => r.PayPalId, f => f.Random.Int())
                 .RuleFor(r => r.PayPalPaymentDate, f => f.Date.Past())
-                .RuleFor(r => r.PayPalPaymentStatus, f => f.Random.Word().Substring(0, 3))
+                .RuleFor(r => r.PayPalPaymentStatus, f => f.Random.Word().Take(3).ToString())
                 .RuleFor(r => r.PayPalPayment, f => f.Finance.Amount());
 
             //Clinician
@@ -77,7 +77,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.PaymentId, f => f.Random.Int())
                 .RuleFor(r => r.CheckId, f => f.Random.Int())
                 .RuleFor(r => r.CheckStatus, f => f.Random.Int(1, 5))
-                .RuleFor(r => r.CheckNumber, f => f.Random.Word().Substring(0, 3))
+                .RuleFor(r => r.CheckNumber, f => f.Random.Word().Take(3).ToString())
                 .RuleFor(r => r.CheckCode, f => 0)
                 .RuleFor(r => r.CheckDateRecieved, f => f.Date.Past())
                 .RuleFor(r => r.CheckAmount, f => f.Finance.Amount());

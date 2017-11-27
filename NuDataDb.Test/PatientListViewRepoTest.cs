@@ -21,14 +21,14 @@ namespace NuDataDb.Test
             var b = new Faker<PatientListView>()
                 .RuleFor(r => r.InstitutionId, f => f.Random.Uuid())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid())
-                .RuleFor(r => r.Username, f => f.Random.Word().Substring(0, 3))
-                .RuleFor(r => r.InstitutionName, f => f.Random.Word().Substring(0, 3))
-                .RuleFor(r => r.Firstname, f => f.Random.Word().Substring(0, 3))
-                .RuleFor(r => r.Lastname, f => f.Random.Word().Substring(0, 3))
-                .RuleFor(r => r.Middlename, f => f.Random.Word().Substring(0, 3))
+                .RuleFor(r => r.Username, f => f.Random.Word().Take(3).ToString())
+                .RuleFor(r => r.InstitutionName, f => f.Random.Word().Take(3).ToString())
+                .RuleFor(r => r.Firstname, f => f.Random.Word().Take(3).ToString())
+                .RuleFor(r => r.Lastname, f => f.Random.Word().Take(3).ToString())
+                .RuleFor(r => r.Middlename, f => f.Random.Word().Take(3).ToString())
                 .RuleFor(r => r.Email, f => f.Internet.ExampleEmail())
                 .RuleFor(r => r.DateofBirth, f => f.Date.Past())
-                .RuleFor(r => r.MRID, f => f.Random.Word().Substring(0, 3));
+                .RuleFor(r => r.MRID, f => f.Random.Word().Take(3).ToString());
 
             var bs = b.Generate(3).ToList();
             FakeCollection.AddRange(bs);
