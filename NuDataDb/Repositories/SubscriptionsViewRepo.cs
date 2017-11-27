@@ -9,7 +9,7 @@ namespace NuDataDb.Repositories
 {
     public class SubscriptionsViewRepo : BaseRepo<SubscriptionsView, NuMedicsGlobalContext>
     {
-        protected SubscriptionsViewRepo(NuMedicsGlobalContext dbContext) : base(dbContext)
+        public SubscriptionsViewRepo(NuMedicsGlobalContext dbContext) : base(dbContext)
         {
         }
 

@@ -66,13 +66,13 @@ namespace NuDataDb.Test
         [TestMethod]
         public void DeleteAppUserSettingIdNotExist()
         {
-            var currentCnt = testCtx.AppSettings.Count();
+            var currentCnt = testCtx.AppUserSettings.Count();
 
             var fakeId = 679;
             repo.Delete(fakeId);
             repo.Save();
 
-            Assert.IsTrue(testCtx.AppSettings.Count() == currentCnt);
+            Assert.IsTrue(testCtx.AppUserSettings.Count() == currentCnt);
         }
     }
 }
