@@ -8,6 +8,8 @@ namespace NuDataDb.EF
 {
     public partial class NuMedicsGlobalContext : DbContext
     {
+        public virtual DbSet<ActivityReadings> ActivityReadings { get; set; }
+        public virtual DbSet<ActivityTypes> ActivityTypes { get; set; }
         public virtual DbSet<Applications> Applications { get; set; }
         public virtual DbSet<AppLoginHistories> AppLoginHistories { get; set; }
         public virtual DbSet<AppSettings> AppSettings { get; set; }
@@ -21,6 +23,8 @@ namespace NuDataDb.EF
         public virtual DbSet<BolusCarbs> BolusCarbs { get; set; }
         public virtual DbSet<BolusDeliveries> BolusDeliveries { get; set; }
         public virtual DbSet<BolusDeliveryData> BolusDeliveryData { get; set; }
+        public virtual DbSet<CardiacReadings> CardiacReadings { get; set; }
+        public virtual DbSet<CareTargets> CareTargets { get; set; }
         public virtual DbSet<CareSettings> CareSettings { get; set; }
         public virtual DbSet<Cgmreminders> Cgmreminders { get; set; }
         public virtual DbSet<Cgmsessions> Cgmsessions { get; set; }
@@ -75,6 +79,10 @@ namespace NuDataDb.EF
         public virtual DbSet<ReadingEventTypes> ReadingEventTypes { get; set; }
         public virtual DbSet<ReadingHeaders> ReadingHeaders { get; set; }
         public virtual DbSet<SharedAreas> SharedAreas { get; set; }
+        public virtual DbSet<SleepData> SleepData { get; set; }
+        public virtual DbSet<SleepPatternLevels> SleepPatternLevels { get; set; }
+        public virtual DbSet<SleepReadings> SleepReadings { get; set; }
+        public virtual DbSet<SleepStageLevels> SleepStageLevels { get; set; }
         public virtual DbSet<Subscriptions> Subscriptions { get; set; }
         public virtual DbSet<SubscriptionType> SubscriptionType { get; set; }
         public virtual DbSet<TensReadings> TensReadings { get; set; }
@@ -149,6 +157,31 @@ namespace NuDataDb.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ActivityReadings>(entity =>
+            {
+                entity.HasKey(e => e.ActivityReadingId)
+                    .ForSqlServerIsClustered(false);
+
+                entity.Property(e => e.ActivityDate).HasColumnType("datetime");
+
+                entity.Property(e => e.StartTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.ReadingKey)
+                    .WithMany(p => p.ActivityReadings)
+                    .HasForeignKey(d => d.ReadingKeyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ActivityReadings_ReadingHeaders1");
+            });
+
+            modelBuilder.Entity<ActivityTypes>(entity =>
+            {
+                entity.HasKey(e => e.ActivityId);
+
+                entity.Property(e => e.Activity)
+                    .IsRequired()
+                    .HasMaxLength(250);
+            });
+
             modelBuilder.Entity<Applications>(entity =>
             {
                 entity.HasKey(e => e.ApplicationId)
@@ -418,6 +451,22 @@ namespace NuDataDb.EF
                     .HasConstraintName("FK_BolusDeliveryData_BolusDelivery");
             });
 
+            modelBuilder.Entity<CardiacReadings>(entity =>
+            {
+                entity.HasKey(e => e.CardiacReadingId)
+                    .ForSqlServerIsClustered(false);
+
+                entity.Property(e => e.StartTime).HasColumnType("datetime");
+
+                entity.Property(e => e.StopTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.ReadingKey)
+                    .WithMany(p => p.CardiacReadings)
+                    .HasForeignKey(d => d.ReadingKeyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardiacReadings_ReadingHeaders1");
+            });
+
             modelBuilder.Entity<CareSettings>(entity =>
             {
                 entity.Property(e => e.DateModified).HasColumnType("datetime");
@@ -433,6 +482,17 @@ namespace NuDataDb.EF
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CareSettings_Patients1");
+            });
+
+            modelBuilder.Entity<CareTargets>(entity =>
+            {
+                entity.HasKey(e => e.CareTargetId);
+
+                entity.HasOne(d => d.CareSettings)
+                    .WithMany(p => p.CareTargets)
+                    .HasForeignKey(d => d.CareSettingsId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CareTargets_CareSettings");
             });
 
             modelBuilder.Entity<Cgmreminders>(entity =>
@@ -1481,6 +1541,56 @@ namespace NuDataDb.EF
                     .HasForeignKey(d => d.RequestId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SharedAreas_DataShareRequestLog");
+            });
+
+            modelBuilder.Entity<SleepStageLevels>(entity =>
+            {
+                entity.HasKey(e => e.StageId);
+
+                entity.Property(e => e.Stage)
+                    .IsRequired()
+                    .HasMaxLength(150);
+            });
+
+            modelBuilder.Entity<SleepPatternLevels>(entity =>
+            {
+                entity.HasKey(e => e.PatternId);
+
+                entity.Property(e => e.Pattern)
+                    .IsRequired()
+                    .HasMaxLength(150);
+            });
+
+            modelBuilder.Entity<SleepData>(entity =>
+            {
+                entity.HasKey(e => e.SleepDataId)
+                    .ForSqlServerIsClustered(false);
+
+                entity.Property(e => e.SleepDateTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.SleepReading)
+                    .WithMany(p => p.SleepData)
+                    .HasForeignKey(d => d.SleepReadingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SleepData_SleepReadings");
+            });
+
+            modelBuilder.Entity<SleepReadings>(entity =>
+            {
+                entity.HasKey(e => e.SleepReadingId)
+                    .ForSqlServerIsClustered(false);
+
+                entity.Property(e => e.IsMainSleep).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.StartTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Efficiency).HasMaxLength(50);
+
+                entity.HasOne(d => d.ReadingKey)
+                    .WithMany(p => p.SleepReadings)
+                    .HasForeignKey(d => d.ReadingKeyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SleepReadings_ReadingHeaders1");
             });
 
             modelBuilder.Entity<Subscriptions>(entity =>
