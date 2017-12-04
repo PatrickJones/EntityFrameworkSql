@@ -14,6 +14,6 @@ namespace NuDataDb.EF
         public Guid ReadingKeyId { get; set; }
         public bool? IsCgmdata { get; set; }
 
-        public ReadingHeaders ReadingKey { get; set; }
+        public ReadingHeaders ReadingHeader { get; set; }
     }
 }

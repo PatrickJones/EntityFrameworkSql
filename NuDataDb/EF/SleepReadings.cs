@@ -23,7 +23,7 @@ namespace NuDataDb.EF
         public Guid ReadingKeyId { get; set; }
         public Guid UserId { get; set; }
 
-        public ReadingHeaders ReadingKey { get; set; }
+        public ReadingHeaders ReadingHeader { get; set; }
 
         public ICollection<SleepData> SleepData { get; set; }
     }

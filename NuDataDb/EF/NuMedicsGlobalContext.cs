@@ -166,7 +166,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.StartTime).HasColumnType("datetime");
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.ActivityReadings)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -293,7 +293,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.StartDateTime).HasColumnType("datetime");
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.BasalDeliveries)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -379,7 +379,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.Value).HasMaxLength(50);
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.BloodGlucoseReadings)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -421,7 +421,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.Type).HasMaxLength(50);
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.BolusDeliveries)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -460,7 +460,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.StopTime).HasColumnType("datetime");
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.CardiacReadings)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -514,7 +514,7 @@ namespace NuDataDb.EF
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.Cgmreminders)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -538,7 +538,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.TimeInSeconds).HasDefaultValueSql("((0))");
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.Cgmsessions)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -699,7 +699,7 @@ namespace NuDataDb.EF
                     .IsRequired()
                     .HasMaxLength(150);
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.DeviceSettings)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1042,7 +1042,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.ReadingDateTime).HasColumnType("datetime");
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.NutritionReadings)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1346,7 +1346,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.PhysiologicalReadings)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1457,7 +1457,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.ReadingErrors)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1481,7 +1481,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.StopTime).HasColumnType("datetime");
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.ReadingEvents)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1586,7 +1586,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.Efficiency).HasMaxLength(50);
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.SleepReadings)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1635,7 +1635,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.StartTime).HasMaxLength(50);
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.TensReadings)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1668,7 +1668,7 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.Valid).HasDefaultValueSql("((0))");
 
-                entity.HasOne(d => d.ReadingKey)
+                entity.HasOne(d => d.ReadingHeader)
                     .WithMany(p => p.TotalDailyInsulinDeliveries)
                     .HasForeignKey(d => d.ReadingKeyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)

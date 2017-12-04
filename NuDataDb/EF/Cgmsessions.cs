@@ -12,6 +12,6 @@ namespace NuDataDb.EF
         public DateTime Date { get; set; }
         public long CgmsessionId { get; set; }
 
-        public ReadingHeaders ReadingKey { get; set; }
+        public ReadingHeaders ReadingHeader { get; set; }
     }
 }

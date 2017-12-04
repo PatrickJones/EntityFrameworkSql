@@ -14,6 +14,6 @@ namespace NuDataDb.EF
         public Guid UserId { get; set; }
         public Guid ReadingKeyId { get; set; }
 
-        public ReadingHeaders ReadingKey { get; set; }
+        public ReadingHeaders ReadingHeader { get; set; }
     }
 }
