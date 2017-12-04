@@ -19,6 +19,7 @@ namespace NuDataDb.EF
             PhysiologicalReadings = new HashSet<PhysiologicalReadings>();
             ReadingErrors = new HashSet<ReadingErrors>();
             ReadingEvents = new HashSet<ReadingEvents>();
+            SleepReadings = new HashSet<SleepReadings>();
             TensReadings = new HashSet<TensReadings>();
             TotalDailyInsulinDeliveries = new HashSet<TotalDailyInsulinDeliveries>();
         }
@@ -48,6 +49,7 @@ namespace NuDataDb.EF
         public ICollection<PhysiologicalReadings> PhysiologicalReadings { get; set; }
         public ICollection<ReadingErrors> ReadingErrors { get; set; }
         public ICollection<ReadingEvents> ReadingEvents { get; set; }
+        public ICollection<SleepReadings> SleepReadings { get; set; }
         public ICollection<TensReadings> TensReadings { get; set; }
         public ICollection<TotalDailyInsulinDeliveries> TotalDailyInsulinDeliveries { get; set; }
     }
