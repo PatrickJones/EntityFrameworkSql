@@ -48,10 +48,7 @@ namespace NuDataDb.EF
         public virtual DbSet<InsulinCorrections> InsulinCorrections { get; set; }
         public virtual DbSet<InsulinMethods> InsulinMethods { get; set; }
         public virtual DbSet<InsulinTypes> InsulinTypes { get; set; }
-        public virtual DbSet<InsuranceAddresses> InsuranceAddresses { get; set; }
-        public virtual DbSet<InsuranceContacts> InsuranceContacts { get; set; }
-        public virtual DbSet<InsurancePlans> InsurancePlans { get; set; }
-        public virtual DbSet<InsuranceProviders> InsuranceProviders { get; set; }
+        public virtual DbSet<PatientInsurance> PatientInsurance { get; set; }
         public virtual DbSet<LinkTypes> LinkTypes { get; set; }
         public virtual DbSet<MedicalRecordIdentifiers> MedicalRecordIdentifiers { get; set; }
         public virtual DbSet<NuMedicsUserPrintSettings> NuMedicsUserPrintSettings { get; set; }
@@ -65,7 +62,6 @@ namespace NuDataDb.EF
         public virtual DbSet<PatientPhotos> PatientPhotos { get; set; }
         public virtual DbSet<Patients> Patients { get; set; }
         public virtual DbSet<PatientsInstitutions> PatientsInstitutions { get; set; }
-        public virtual DbSet<PatientsInsurancePlans> PatientsInsurancePlans { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethod { get; set; }
         public virtual DbSet<Payments> Payments { get; set; }
         public virtual DbSet<PayPal> PayPal { get; set; }
@@ -892,103 +888,23 @@ namespace NuDataDb.EF
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<InsuranceAddresses>(entity =>
+            modelBuilder.Entity<PatientInsurance>(entity =>
             {
-                entity.HasKey(e => e.AddressId);
-
-                entity.Property(e => e.City)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.Country)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.County).HasMaxLength(250);
-
-                entity.Property(e => e.State)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.Street1)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.Street2).HasMaxLength(250);
-
-                entity.Property(e => e.Street3).HasMaxLength(250);
-
-                entity.Property(e => e.Zip)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.HasOne(d => d.Company)
-                    .WithMany(p => p.InsuranceAddresses)
-                    .HasForeignKey(d => d.CompanyId)
-                    .HasConstraintName("FK_InsuranceAddresses_InsuranceProviders");
-            });
-
-            modelBuilder.Entity<InsuranceContacts>(entity =>
-            {
-                entity.HasKey(e => e.ContactId);
-
-                entity.Property(e => e.Email).HasMaxLength(80);
-
-                entity.Property(e => e.FullName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Phone).HasMaxLength(50);
-
-                entity.Property(e => e.Title).HasMaxLength(50);
-
-                entity.HasOne(d => d.Company)
-                    .WithMany(p => p.InsuranceContacts)
-                    .HasForeignKey(d => d.CompanyId)
-                    .HasConstraintName("FK_InsuranceContacts_InsuranceProviders");
-            });
-
-            modelBuilder.Entity<InsurancePlans>(entity =>
-            {
-                entity.HasKey(e => e.PlanId);
-
-                entity.Property(e => e.CoPay).HasColumnType("money");
-
-                entity.Property(e => e.EffectiveDate).HasColumnType("datetime");
+                entity.HasKey(e => e.PatientInsuranceId);
 
                 entity.Property(e => e.GroupIdentifier).HasMaxLength(150);
 
-                entity.Property(e => e.GroupName).HasMaxLength(150);
-
-                entity.Property(e => e.InActiveDate).HasColumnType("datetime");
+                entity.Property(e => e.ProviderName).HasMaxLength(550);
 
                 entity.Property(e => e.PlanIdentifier).HasMaxLength(150);
 
-                entity.Property(e => e.PlanName)
-                    .IsRequired()
-                    .HasMaxLength(150);
-
-                entity.Property(e => e.PlanType).HasMaxLength(150);
-
                 entity.Property(e => e.PolicyNumber).HasMaxLength(150);
 
-                entity.Property(e => e.Purchaser).HasMaxLength(150);
-
-                entity.HasOne(d => d.Company)
-                    .WithMany(p => p.InsurancePlans)
-                    .HasForeignKey(d => d.CompanyId)
-                    .HasConstraintName("FK_InsurancePlans_InsuranceProviders");
-            });
-
-            modelBuilder.Entity<InsuranceProviders>(entity =>
-            {
-                entity.HasKey(e => e.CompanyId);
-
-                entity.Property(e => e.InActiveDate).HasColumnType("datetime");
-
-                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.Name).HasMaxLength(250);
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.PatientInsurance)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PatientInsurance_Patients");
             });
 
             modelBuilder.Entity<LinkTypes>(entity =>
@@ -1243,23 +1159,6 @@ namespace NuDataDb.EF
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Patients_Institutions_Patients");
-            });
-
-            modelBuilder.Entity<PatientsInsurancePlans>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.PlanId });
-
-                entity.ToTable("Patients_InsurancePlans");
-
-                entity.HasOne(d => d.Plan)
-                    .WithMany(p => p.PatientsInsurancePlans)
-                    .HasForeignKey(d => d.PlanId)
-                    .HasConstraintName("FK_Patients_InsurancePlans_InsurancePlans");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.PatientsInsurancePlans)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_Patients_InsurancePlans_Patients");
             });
 
             modelBuilder.Entity<PaymentMethod>(entity =>
