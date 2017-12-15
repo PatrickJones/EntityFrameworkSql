@@ -133,6 +133,8 @@ namespace NuDataDb.EFMetersDb
                 entity.Property(e => e.MeterPid).HasColumnName("MeterPID");
 
                 entity.Property(e => e.MeterVid).HasColumnName("MeterVID");
+
+                entity.Property(e => e.IsPump).HasDefaultValueSql("((0))");
             });
 
             modelBuilder.Entity<MigrationHistory>(entity =>
