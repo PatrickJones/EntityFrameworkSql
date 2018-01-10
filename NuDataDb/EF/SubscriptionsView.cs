@@ -23,9 +23,9 @@ namespace NuDataDb.EF
         public long CheckCode { get; set; }
         public DateTime CheckDateRecieved { get; set; }
         public decimal CheckAmount { get; set; }
-        public int PayPalId { get; set; }
-        public DateTime PayPalPaymentDate { get; set; }
+        public int? PayPalId { get; set; }
+        public DateTime? PayPalPaymentDate { get; set; }
         public string PayPalPaymentStatus { get; set; }
-        public decimal PayPalPayment { get; set; }
+        public decimal? PayPalPayment { get; set; }
     }
 }
