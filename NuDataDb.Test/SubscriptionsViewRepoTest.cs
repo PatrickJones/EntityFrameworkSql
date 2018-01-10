@@ -168,7 +168,7 @@ namespace NuDataDb.Test
         [TestMethod]
         public void GetSinglePatientCheckSubscriptionView()
         {
-            var fakeApp = FakeCollection.First(t => t.PayPalId == 0 && t.UserType == 1);
+            var fakeApp = FakeCollection.First(t => t.PayPalId == null && t.UserType == 1);
             var single = testCtx.Set<SubscriptionsView>().FirstOrDefault(f => f.SubscriptionId == fakeApp.SubscriptionId);
 
             Assert.AreEqual(fakeApp.SubscriptionId, single.SubscriptionId);
@@ -190,10 +190,11 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CheckCode, single.CheckCode);
             Assert.AreEqual(fakeApp.CheckDateRecieved, single.CheckDateRecieved);
             Assert.AreEqual(fakeApp.CheckAmount, single.CheckAmount);
-            Assert.AreEqual(single.PayPalId, 0);
-            Assert.IsTrue(single.PayPalPaymentDate < new DateTime(1800, 1, 1));
+            Assert.IsNull(single.PayPalId);
+            Assert.IsNull(single.PayPalPaymentDate);
             Assert.IsNull(single.PayPalPaymentStatus);
-            Assert.AreEqual(single.PayPalPayment, 0);
+            Assert.IsNull(single.PayPalPayment);
+
         }
 
         [TestMethod]
@@ -259,16 +260,16 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CheckCode, single.CheckCode);
             Assert.AreEqual(fakeApp.CheckDateRecieved, single.CheckDateRecieved);
             Assert.AreEqual(fakeApp.CheckAmount, single.CheckAmount);
-            Assert.AreEqual(single.PayPalId, 0);
-            Assert.IsTrue(single.PayPalPaymentDate < new DateTime(1800, 1, 1));
+            Assert.IsNull(single.PayPalId);
+            Assert.IsNull(single.PayPalPaymentDate);
             Assert.IsNull(single.PayPalPaymentStatus);
-            Assert.AreEqual(single.PayPalPayment, 0);
+            Assert.IsNull(single.PayPalPayment);
         }
 
         [TestMethod]
         public void GetSinglePatientTrialSubscriptionView()
         {
-            var fakeApp = FakeCollection.First(t => t.CheckId == 0 && t.PayPalId == 0);
+            var fakeApp = FakeCollection.First(t => t.CheckId == 0 && t.PayPalId == null);
             var single = testCtx.Set<SubscriptionsView>().FirstOrDefault(f => f.SubscriptionId == fakeApp.SubscriptionId);
 
             Assert.AreEqual(fakeApp.SubscriptionId, single.SubscriptionId);
@@ -299,10 +300,11 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CheckDateRecieved, single.CheckDateRecieved);
             Assert.IsTrue(single.CheckAmount == 0);
             Assert.AreEqual(fakeApp.CheckAmount, single.CheckAmount);
-            Assert.AreEqual(single.PayPalId, 0);
-            Assert.IsTrue(single.PayPalPaymentDate < new DateTime(1800, 1, 1));
+            Assert.IsNull(single.PayPalId);
+            Assert.IsNull(single.PayPalPaymentDate);
             Assert.IsNull(single.PayPalPaymentStatus);
-            Assert.AreEqual(single.PayPalPayment, 0);
+            Assert.IsNull(single.PayPalPayment);
+
         }
 
         [TestMethod]
@@ -339,10 +341,11 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CheckDateRecieved, single.CheckDateRecieved);
             Assert.IsTrue(single.CheckAmount == 0);
             Assert.AreEqual(fakeApp.CheckAmount, single.CheckAmount);
-            Assert.AreEqual(single.PayPalId, 0);
-            Assert.IsTrue(single.PayPalPaymentDate < new DateTime(1800, 1, 1));
+            Assert.IsNull(single.PayPalId);
+            Assert.IsNull(single.PayPalPaymentDate);
             Assert.IsNull(single.PayPalPaymentStatus);
-            Assert.AreEqual(single.PayPalPayment, 0);
+            Assert.IsNull(single.PayPalPayment);
+
         }
 
         [TestMethod]
@@ -378,10 +381,11 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.CheckDateRecieved, single.CheckDateRecieved);
             Assert.IsTrue(single.CheckAmount == 0);
             Assert.AreEqual(fakeApp.CheckAmount, single.CheckAmount);
-            Assert.AreEqual(single.PayPalId, 0);
-            Assert.IsTrue(single.PayPalPaymentDate < new DateTime(1800, 1, 1));
+            Assert.IsNull(single.PayPalId);
+            Assert.IsNull(single.PayPalPaymentDate);
             Assert.IsNull(single.PayPalPaymentStatus);
-            Assert.AreEqual(single.PayPalPayment, 0);
-            }
+            Assert.IsNull(single.PayPalPayment);
+
         }
+    }
     }
