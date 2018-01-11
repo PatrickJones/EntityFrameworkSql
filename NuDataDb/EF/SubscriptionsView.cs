@@ -15,8 +15,8 @@ namespace NuDataDb.EF
         public Guid ApplicationId { get; set; }
         public int UserType { get; set; }
         public Guid InstitutionId { get; set; }
-        public int PaymentMethod { get; set; }
-        public int PaymentId { get; set; }
+        public int? PaymentMethod { get; set; }
+        public int? PaymentId { get; set; }
         public int? CheckId { get; set; }
         public int? CheckStatus { get; set; }
         public string CheckNumber { get; set; }
