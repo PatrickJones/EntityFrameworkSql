@@ -17,12 +17,12 @@ namespace NuDataDb.EF
         public Guid InstitutionId { get; set; }
         public int PaymentMethod { get; set; }
         public int PaymentId { get; set; }
-        public int CheckId { get; set; }
-        public int CheckStatus { get; set; }
+        public int? CheckId { get; set; }
+        public int? CheckStatus { get; set; }
         public string CheckNumber { get; set; }
-        public long CheckCode { get; set; }
-        public DateTime CheckDateRecieved { get; set; }
-        public decimal CheckAmount { get; set; }
+        public long? CheckCode { get; set; }
+        public DateTime? CheckDateRecieved { get; set; }
+        public decimal? CheckAmount { get; set; }
         public int? PayPalId { get; set; }
         public DateTime? PayPalPaymentDate { get; set; }
         public string PayPalPaymentStatus { get; set; }
