@@ -24,6 +24,7 @@ namespace NuDataDb.Test
                     DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)))
                 .RuleFor(r => r.TimeInSeconds, f => f.Random.Int())
                 .RuleFor(r => r.IsActive, f => f.Random.Bool())
+                .RuleFor(r => r.UserId, f => f.Random.Uuid())
                 .RuleFor(r => r.Date, f => new DateTime(f.Random.Long(
                     DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks)));
 
