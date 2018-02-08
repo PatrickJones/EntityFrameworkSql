@@ -469,6 +469,10 @@ namespace NuDataDb.EF
 
                 entity.Property(e => e.DiabetesManagementType).HasMaxLength(150);
 
+                entity.Property(e => e.PrimaryBloodGlucoseDevice).HasMaxLength(150);
+
+                entity.Property(e => e.SecondaryBloodGlucoseDevice).HasMaxLength(150);
+
                 entity.Property(e => e.HyperglycemicLevel).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.HypoglycemicLevel).HasDefaultValueSql("((0))");
