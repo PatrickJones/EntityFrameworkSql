@@ -1068,6 +1068,8 @@ namespace NuDataDb.EF
                     .IsRequired()
                     .HasMaxLength(250);
 
+                entity.Property(e => e.DosageDescription).HasMaxLength(80);
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.PatientMedications)
                     .HasForeignKey(d => d.UserId)

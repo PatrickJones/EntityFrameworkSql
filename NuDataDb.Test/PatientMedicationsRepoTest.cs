@@ -22,7 +22,7 @@ namespace NuDataDb.Test
                 .RuleFor(r => r.DosageTakenDaily, f => f.Random.Int(1,4))
                 .RuleFor(r => r.HourlyDosageInterval, f => f.Random.Int(1, 4))
                 .RuleFor(r => r.LastUpdated, f => f.Date.Past())
-                .RuleFor(r => r.MedicationId, f => f.Random.Long())
+                .RuleFor(r => r.DosageDescription, f => f.Lorem.Word())
                 .RuleFor(r => r.Name, f => f.Lorem.Word())
                 .RuleFor(r => r.UserId, f => f.Random.Uuid());
 
@@ -42,7 +42,7 @@ namespace NuDataDb.Test
             Assert.AreEqual(fakeApp.DosageTakenDaily, single.DosageTakenDaily);
             Assert.AreEqual(fakeApp.HourlyDosageInterval, single.HourlyDosageInterval);
             Assert.AreEqual(fakeApp.LastUpdated, single.LastUpdated);
-            Assert.AreEqual(fakeApp.MedicationId, single.MedicationId);
+            Assert.AreEqual(fakeApp.DosageDescription, single.DosageDescription);
             Assert.AreEqual(fakeApp.Name, single.Name);
             Assert.AreEqual(fakeApp.UserId, single.UserId);
             Assert.AreEqual(fakeApp.PatientMedicationId, single.PatientMedicationId);
