@@ -25,6 +25,7 @@ namespace NuDataDb.EFMetersDb
         public string MeterClass { get; set; }
         public string Corporation { get; set; }
         public bool IsPump { get; set; }
+        public bool IsFitness { get; set; }
 
         public ICollection<InstructionItems> InstructionItems { get; set; }
     }
