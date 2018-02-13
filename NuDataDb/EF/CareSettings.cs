@@ -8,6 +8,7 @@ namespace NuDataDb.EF
         public CareSettings()
         {
             CareTargets = new HashSet<CareTargets>();
+            DailyFitness = new HashSet<DailyFitness>();
             DailyTimeSlots = new HashSet<DailyTimeSlots>();
             DiabetesControlTypes = new HashSet<DiabetesControlTypes>();
         }
@@ -26,6 +27,7 @@ namespace NuDataDb.EF
         public Guid LastUpdatedByUser { get; set; }
 
         public Patients User { get; set; }
+        public ICollection<DailyFitness> DailyFitness { get; set; }
         public ICollection<DailyTimeSlots> DailyTimeSlots { get; set; }
         public ICollection<CareTargets> CareTargets { get; set; }
         public ICollection<DiabetesControlTypes> DiabetesControlTypes { get; set; }

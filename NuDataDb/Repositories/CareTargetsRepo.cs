@@ -20,7 +20,7 @@ namespace NuDataDb.Repositories
             }
             catch (Exception e)
             {
-                throw new Exception($"Error getting {typeof(CareSettings)} entity from database. /n/r Entity Id: {id}", e); ;
+                throw new Exception($"Error getting {typeof(CareSettings)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
 
@@ -37,7 +37,7 @@ namespace NuDataDb.Repositories
             }
             catch (Exception e)
             {
-                throw new Exception($"Error deleting {typeof(CareSettings)} entity from database. /n/r Entity Id: {id}", e); ;
+                throw new Exception($"Error deleting {typeof(CareSettings)} entity from database. /n/r Entity Id: {id}", e);
             }
         }
     }

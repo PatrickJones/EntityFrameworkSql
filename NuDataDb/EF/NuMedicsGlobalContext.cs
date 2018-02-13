@@ -32,6 +32,7 @@ namespace NuDataDb.EF
         public virtual DbSet<CheckStatus> CheckStatus { get; set; }
         public virtual DbSet<Clinicians> Clinicians { get; set; }
         public virtual DbSet<CorrectionFactors> CorrectionFactors { get; set; }
+        public virtual DbSet<DailyFitness> DailyFitness { get; set; }
         public virtual DbSet<DailyTimeSlots> DailyTimeSlots { get; set; }
         public virtual DbSet<DatabaseInfo> DatabaseInfo { get; set; }
         public virtual DbSet<DataShareCategories> DataShareCategories { get; set; }
@@ -628,6 +629,30 @@ namespace NuDataDb.EF
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CorrectionFactors_BolusDelivery");
             });
+
+            modelBuilder.Entity<DailyFitness>(entity =>
+            {
+                entity.HasKey(e => e.DailyFitnessId);
+
+                entity.Property(e => e.ActivityName)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.ActivityStart)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ActivityStop)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.CareSettings)
+                    .WithMany(p => p.DailyFitness)
+                    .HasForeignKey(d => d.CareSettingsId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DailyFitness_CareSettings");
+            });
+
 
             modelBuilder.Entity<DailyTimeSlots>(entity =>
             {
