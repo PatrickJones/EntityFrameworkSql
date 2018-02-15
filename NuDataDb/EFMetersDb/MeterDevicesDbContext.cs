@@ -137,6 +137,8 @@ namespace NuDataDb.EFMetersDb
                 entity.Property(e => e.IsPump).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.IsFitness).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Trademark).HasMaxLength(250);
             });
 
             modelBuilder.Entity<MigrationHistory>(entity =>
